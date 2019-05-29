@@ -7,6 +7,9 @@ CITY_DICT = {
 
 
 def city_map(my_city):
+	"""At the moment, source DB does not contain FR city names. However,
+	certain cities require translation e.g. 'NCR'.
+	"""
 	if my_city in CITY_DICT:
 		return CITY_DICT[my_city]
 	else:
