@@ -70,7 +70,7 @@ try:
     run_mysql(load_data)
     run_mysql(create_index)
 except Exception as e:
-    print('We\'re having tremendous problems with:', e)
+    print('We\'re having tremendous problems with: {0}'.format(e))
 else:
     print('1/1: Data pushed to MySQL.')
 finally:
