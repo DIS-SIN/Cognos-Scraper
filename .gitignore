@@ -1,0 +1,11 @@
+# Files
+environ_vars.txt
+deeplinks.py
+directories.py
+nlp-key.json
+
+# Directories
+**/__pycache__/
+**/.ipynb_checkpoints/
+pickles/
+processed/

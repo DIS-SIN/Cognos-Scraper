@@ -1,0 +1,79 @@
+import os
+import re
+import pandas as pd
+from comments_scraper.config import directories
+from comments_scraper.mappings.city_map import city_map
+
+### IMPORT RAW DATA ###
+# Files exported by Cognos have .xls extension but are tab-separated and
+# encoded with UTF-16 Little Endian
+# 'object' datatype in Pandas is synonymous with 'str'
+os.chdir(directories.DOWNLOADS_DIR)
+comments = pd.read_csv('Comments.xls', sep='\t', index_col=False, encoding='utf_16_le',
+                       dtype={'survey_id': 'object'}, keep_default_na=False)
+
+print('1/4: Data imported.')
+
+# Remove junk values '#NAME?' and '#VALUE!' found in dataset
+# Likely created by someone munging data in Excel years ago
+junk_pattern = re.compile(pattern=r'\#NAME\?|\#VALUE\!')
+comments['text_answer'] = comments['text_answer'].astype(str).str.replace(pat=junk_pattern, repl='', regex=True)
+
+# Ensure column 'course_code' is uppercase
+comments['course_code'] = comments['course_code'].astype(str).str.upper()
+
+# Remove whitespace from column 'fiscal_year'
+comments['fiscal_year'] = comments['fiscal_year'].astype(str).str.strip()
+
+# Limit entries in column 'learner_classif' to 80 characters
+# A very small number of learners put a lengthy description instead of their classification
+comments['learner_classif'] = comments['learner_classif'].astype(str).str.slice(0, 80)
+
+print('2/4: Data cleaned.')
+
+# Create new column 'offering_city_fr' as certain cities require translation e.g. 'NCR'
+comments['offering_city_fr'] = comments['offering_city_en'].map(city_map)
+
+### IMPORT MAPPINGS ###
+
+# Import mapping to overwrite column 'short_question'
+os.chdir(directories.MAPPINGS_DIR)
+short_question_map = pd.read_csv('short_question_map.csv', sep=',',
+                                 index_col=0, squeeze=True, encoding='utf-8')
+
+# Import mapping for new column 'text_answer_fr'
+os.chdir(directories.MAPPINGS_DIR)
+text_answer_map = pd.read_csv('text_answer_map.csv', sep=',',
+                              index_col=0, squeeze=True, encoding='utf-8')
+
+# Import mapping for column 'overall_satisfaction'
+os.chdir(directories.DOWNLOADS_DIR)
+overall_sat_map = pd.read_csv('Overall Satisfaction.xls', sep='\t', index_col=0,
+                              squeeze=True, encoding='utf_16_le')
+
+# Overwrite 'short_question' column
+comments['short_question'] = comments['short_question'].map(short_question_map)
+
+# Check if column properly mapped
+# Unknown values would be assgined value 'np.nan', which has dtype 'float'
+# Therefore, check all values have dtype 'str'
+assert(all([isinstance(short_question, str) for short_question in comments['short_question'].unique()]))
+
+# Create new column 'text_answer_fr'
+# Only applies to questions with pre-defined answers like 'Yes' and 'No'
+# Free text entries not translated, therefore leave as empty string
+comments['text_answer_fr'] = comments['text_answer'].map(text_answer_map).fillna('')
+
+# Create new column 'overall_satisfaction'
+# Rarely, a learner will have left a comment without indicating overall satisfaction
+# Assign these comments value '\N' (null integer in MySQL)
+comments['overall_satisfaction'] = comments['survey_id'].map(overall_sat_map).fillna('\\N')
+
+print('3/4: New columns created.')
+
+# Export results as CSV
+os.chdir(directories.PROCESSED_DIR)
+comments.to_csv('comments_processed.csv', sep=',', encoding='utf-8', index=False,
+                quotechar='"', line_terminator='\r\n')
+
+print('4/4: Data exported.')
