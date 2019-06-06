@@ -1,5 +1,4 @@
 import os
-import re
 import pandas as pd
 from comments_scraper.config import directories
 from comments_scraper.mappings.city_map import city_map
@@ -13,11 +12,6 @@ comments = pd.read_csv('Comments.xls', sep='\t', index_col=False, encoding='utf_
                        dtype={'survey_id': 'object'}, keep_default_na=False)
 
 print('1/4: Data imported.')
-
-# Remove junk values '#NAME?' and '#VALUE!' found in dataset
-# Likely created by someone munging data in Excel years ago
-junk_pattern = re.compile(pattern=r'\#NAME\?|\#VALUE\!')
-comments['text_answer'] = comments['text_answer'].astype(str).str.replace(pat=junk_pattern, repl='', regex=True)
 
 # Ensure column 'course_code' is uppercase
 comments['course_code'] = comments['course_code'].astype(str).str.upper()
@@ -51,17 +45,19 @@ os.chdir(directories.DOWNLOADS_DIR)
 overall_sat_map = pd.read_csv('Overall Satisfaction.xls', sep='\t', index_col=0,
                               squeeze=True, encoding='utf_16_le')
 
-# Overwrite 'short_question' column
-comments['short_question'] = comments['short_question'].map(short_question_map)
+# Create new column 'short_question'
+# Stores re-mapped questions e.g. 'Issue Description' and its variants all mapped to
+# 'Comment - Technical'
+comments['short_question'] = comments['original_question'].map(short_question_map)
 
-# Check if column properly mapped
+# Check if column 'short_question' properly mapped
 # Unknown values would be assgined value 'np.nan', which has dtype 'float'
 # Therefore, check all values have dtype 'str'
 assert(all([isinstance(short_question, str) for short_question in comments['short_question'].unique()]))
 
 # Create new column 'text_answer_fr'
 # Only applies to questions with pre-defined answers like 'Yes' and 'No'
-# Free text entries not translated, therefore leave as empty string
+# Free text entries not translated, therefore left as empty string
 comments['text_answer_fr'] = comments['text_answer'].map(text_answer_map).fillna('')
 
 # Create new column 'overall_satisfaction'
