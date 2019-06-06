@@ -3,6 +3,7 @@ environ_vars.txt
 deeplinks.py
 directories.py
 nlp-key.json
+TODO.txt
 
 # Directories
 **/__pycache__/
