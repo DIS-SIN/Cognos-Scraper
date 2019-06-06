@@ -64,12 +64,12 @@ print('3/7: Logged in to Cognos.')
 
 # Download comments
 browser.get(deeplinks.COMMENTS_URL)
-check_file_exists('Comments.xls')
+assert(check_file_exists('Comments.xls'))
 print('4/7: Comments downloaded.')
 
 # Download overall satisfaction
 browser.get(deeplinks.OVERALL_SATISFACTION_URL)
-check_file_exists('Overall Satisfaction.xls')
+assert(check_file_exists('Overall Satisfaction.xls'))
 print('5/7: Overall satisfaction downloaded.')
 
 # Logout
