@@ -1,14 +1,10 @@
 """Download raw data (comments and their associated overall satisfaction scores)
 as CSVs from Cognos.
 """
-
 import glob
 import os
 import time
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from comments_scraper.config import deeplinks, directories
 
 # Cognos login
