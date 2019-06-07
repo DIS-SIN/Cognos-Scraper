@@ -18,8 +18,8 @@ print('1/5: Data imported.')
 
 # Load pickle for memoization
 os.chdir(directories.PICKLE_DIR)
-with open('memo.pickle', 'rb') as f:
-    memo_dict = pickle.load(f)
+with open('sentiment_dict.pickle', 'rb') as f:
+    sentiment_dict = pickle.load(f)
 
 print('2/5: Pickle imported.')
 
@@ -31,35 +31,32 @@ ctr = 0
 # New comments passed to API
 api_ctr = 0
 
-def get_sentiment_score(survey_id, short_question, text_answer, overall_satisfaction):
+def get_sentiment_score(survey_id, original_question, short_question, text_answer, overall_satisfaction):
     """Pass text to API, return its sentiment score, and memoize results."""
     global ctr
     global api_ctr
     ctr += 1
     # Print ctr every 1000 comments
     if ctr % 1_000 == 0:
-        print('Finished {0} comments!'.format(ctr))
+        print('Finished {0} comments.'.format(ctr))
     
     if short_question in IGNORE_LIST:
         result = '\\N' # i.e. NULL for MySQL
         # No need to memoize as no expensive computation performed
         return result
     
-    # Use composite key of survey_id.short_question.first 20 chars of text_answer
-    # Part of text_answer required as certain old values of short_question
-    # map to same new short_question
-    pkey = '{0}.{1}.{2}'.format(survey_id, short_question, text_answer[0:20])
+    # Use composite key of survey_id.original_question
+    pkey = '{0}.{1}'.format(survey_id, original_question)
     
     # If already processed, returned memoized result to save compute
-    if pkey in memo_dict:
-        return memo_dict[pkey]
+    if pkey in sentiment_dict:
+        return sentiment_dict[pkey]
     
     # Otherwise, pass to API
     api_ctr += 1
-    # Print api_ctr every 100 comments
+    # API has limit of 500 queries / min
     if api_ctr % 500 == 0:
-        print('{0} new comments passed to API.'.format(api_ctr))
-        # API has limit of 500 queries / min
+        print('ML\'d {0} new comments.'.format(api_ctr))
         time.sleep(60)
     try:
         document = language.types.Document(content=text_answer,
@@ -70,14 +67,13 @@ def get_sentiment_score(survey_id, short_question, text_answer, overall_satisfac
         result = int(round(Decimal(str((sentiment.score * 2) + 3))))
     # Comments occasionally so badly written the API can't identify the language
     except Exception as e:
-        print('Error {0} occurred on sample {1}'.format(e, ctr))
         # Default to overall_satisfaction
         result = float(overall_satisfaction)
     # Memoize and return result
-    memo_dict[pkey] = result
+    sentiment_dict[pkey] = result
     return result
 
-api_results = df.apply(lambda x: get_sentiment_score(x['survey_id'], x['short_question'], x['text_answer'], x['overall_satisfaction']),
+api_results = df.apply(lambda x: get_sentiment_score(x['survey_id'], x['original_question'], x['short_question'], x['text_answer'], x['overall_satisfaction']),
                        axis=1,               # Apply to each row
                        raw=False,            # Pass each cell individually as not using NumPy
                        result_type='expand') # Return DataFrame rather than Series of tuples
@@ -86,10 +82,10 @@ df['stars'] = api_results
 
 print('3/5: New column created.')
 
-# Export memo_dict to pickle for future re-use
+# Export sentiment_dict to pickle for future re-use
 os.chdir(directories.PICKLE_DIR)
-with open('memo.pickle', 'wb') as f:
-    pickle.dump(memo_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
+with open('sentiment_dict.pickle', 'wb') as f:
+    pickle.dump(sentiment_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 print('4/5: Pickle exported.')
 
