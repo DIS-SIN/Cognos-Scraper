@@ -43,12 +43,14 @@ create_table = """
 		quarter VARCHAR(5),
 		learner_classif VARCHAR(80),
 		offering_city_en VARCHAR(60),
-		short_question VARCHAR(60),
+		original_question VARCHAR(60),
 		text_answer TEXT,
 		offering_city_fr VARCHAR(60),
+		short_question VARCHAR(60),
 		text_answer_fr VARCHAR(90),
 		overall_satisfaction TINYINT,
-		stars TINYINT
+		stars TINYINT,
+		PRIMARY KEY(survey_id, original_question)
 	);
 """
 
