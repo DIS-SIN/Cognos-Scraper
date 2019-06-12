@@ -1,2 +1,1 @@
-ADMIN_EMAIL = '...@canada.ca'
-LOCAL_DB    = False
+LOCAL_DB = False

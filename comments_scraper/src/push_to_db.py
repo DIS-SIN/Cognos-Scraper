@@ -1,7 +1,7 @@
 import os
 import mysql.connector
-from comments_scraper.config import directories
-from comments_scraper.config.preferences import LOCAL_DB
+from config import directories
+from config.preferences import LOCAL_DB
 
 # Global var in which to store DB connection
 db = None

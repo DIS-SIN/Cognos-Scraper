@@ -4,7 +4,7 @@ import pickle
 import time
 from google.cloud import language
 import pandas as pd
-from comments_scraper.config import directories
+from config import directories
 
 # Ignore questions that aren't free text
 IGNORE_LIST = ['GCcampus Tools Used', 'OL Available', 'Prep', 'Reason to Participate', 'Technical Issues']

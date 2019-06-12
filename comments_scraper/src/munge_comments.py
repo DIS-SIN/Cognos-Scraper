@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from comments_scraper.config import directories
+from config import directories
 from comments_scraper.mappings.city_map import city_map
 
 ### IMPORT RAW DATA ###

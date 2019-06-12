@@ -5,7 +5,7 @@ import glob
 import os
 import time
 from selenium import webdriver
-from comments_scraper.config import deeplinks, directories
+from config import deeplinks, directories
 
 # Cognos login
 USERNAME = os.environ.get('COGNOS_USERNAME')
