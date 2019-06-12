@@ -1,45 +1,14 @@
 """Download raw data (comments and their associated overall satisfaction scores)
 as CSVs from Cognos.
 """
-import glob
 import os
-import time
 from selenium import webdriver
 from config import deeplinks, directories
+from config.utils import check_file_exists, delete_files_of_this_ilk
 
 # Cognos login
 USERNAME = os.environ.get('COGNOS_USERNAME')
 PASSWORD = os.environ.get('COGNOS_PASSWORD')
-
-
-def send_email(filename):
-	"""On error, send email to project admin."""
-	print('We\'re having tremendous problems with {0}.'.format(filename))
-
-
-def check_file_exists(filename):
-	"""Check every 5 seconds if file exists in current working directory; send
-	email on error.
-	"""
-	ctr = 0
-	while not os.path.isfile(filename):
-		if ctr == 60:
-			send_email(filename)
-			return False
-		time.sleep(5)
-		ctr += 1
-	return True
-
-
-def delete_files_of_this_ilk(ilk):
-	"""Delete 'Comments.xls', 'Comments (1).xls', etc. from current working directory."""
-	files = glob.glob('{0}*.xls'.format(ilk))
-	for file in files:
-		try:
-			os.remove(file)
-		except FileNotFoundError:
-			pass
-
 
 # Delete previous raw data downloads
 os.chdir(directories.DOWNLOADS_DIR)
@@ -60,11 +29,13 @@ print('3/7: Logged in to Cognos.')
 
 # Download comments
 browser.get(deeplinks.COMMENTS_URL)
+os.chdir(directories.DOWNLOADS_DIR)
 assert(check_file_exists('Comments.xls'))
 print('4/7: Comments downloaded.')
 
 # Download overall satisfaction
 browser.get(deeplinks.OVERALL_SATISFACTION_URL)
+os.chdir(directories.DOWNLOADS_DIR)
 assert(check_file_exists('Overall Satisfaction.xls'))
 print('5/7: Overall satisfaction downloaded.')
 
