@@ -4,7 +4,7 @@ import pickle
 import time
 from google.cloud import language
 import pandas as pd
-from config import directories
+from comments_scraper.config import directories
 
 # Ignore questions that aren't free text
 IGNORE_LIST = ['GCcampus Tools Used', 'OL Available', 'Prep', 'Reason to Participate', 'Technical Issues']
@@ -80,7 +80,7 @@ api_results = df.apply(lambda x: get_sentiment_score(x['survey_id'], x['original
 
 df['stars'] = api_results
 
-print('3/5: New column created.')
+print('3/5: New column created; {0} new comments ML\'d.'.format(api_ctr))
 
 # Export sentiment_dict to pickle for future re-use
 os.chdir(directories.PICKLE_DIR)
@@ -92,10 +92,6 @@ print('4/5: Pickle exported.')
 # Export results as CSV
 os.chdir(directories.PROCESSED_DIR)
 df.to_csv('comments_processed_ML.csv', sep=',', encoding='utf-8', index=False,
-          quotechar='"', line_terminator='\r\n')
-
-# Also export to directory accessible by MySQL
-df.to_csv('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Data\\csps_dashboards\\comments_processed_ML.csv', sep=',', encoding='utf-8', index=False,
           quotechar='"', line_terminator='\r\n')
 
 print('5/5: Data exported.')

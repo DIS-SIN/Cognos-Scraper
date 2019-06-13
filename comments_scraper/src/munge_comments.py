@@ -1,13 +1,14 @@
 import os
 import pandas as pd
-from config import directories
+from comments_scraper.config import directories
 from comments_scraper.mappings.city_map import city_map
+from config import shared_directories
 
 ### IMPORT RAW DATA ###
 # Files exported by Cognos have .xls extension but are tab-separated and
 # encoded with UTF-16 Little Endian
 # 'object' datatype in Pandas is synonymous with 'str'
-os.chdir(directories.DOWNLOADS_DIR)
+os.chdir(shared_directories.DOWNLOADS_DIR)
 comments = pd.read_csv('Comments.xls', sep='\t', index_col=False, encoding='utf_16_le',
                        dtype={'survey_id': 'object'}, keep_default_na=False)
 
@@ -41,7 +42,7 @@ text_answer_map = pd.read_csv('text_answer_map.csv', sep=',',
                               index_col=0, squeeze=True, encoding='utf-8')
 
 # Import mapping for column 'overall_satisfaction'
-os.chdir(directories.DOWNLOADS_DIR)
+os.chdir(shared_directories.DOWNLOADS_DIR)
 overall_sat_map = pd.read_csv('Overall Satisfaction.xls', sep='\t', index_col=0,
                               squeeze=True, encoding='utf_16_le')
 

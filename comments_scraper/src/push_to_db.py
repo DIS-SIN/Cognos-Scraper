@@ -1,11 +1,13 @@
 import os
 import mysql.connector
-from config import directories
+from comments_scraper.config.directories import PROCESSED_DIR
 from config.preferences import LOCAL_DB
 
 # Global var in which to store DB connection
 db = None
 
+# MySQL requires paths with forward slashes
+PROCESSED_DIR = PROCESSED_DIR.replace('\\', '/')
 
 def get_db(local):
 	global db
@@ -61,7 +63,7 @@ load_data = """
 	TERMINATED BY ','
 	LINES TERMINATED BY '\r\n'
 	IGNORE 1 LINES;
-""".format(directories.PROCESSED_DIR_MYSQL)
+""".format(PROCESSED_DIR)
 
 create_index = """
 	CREATE INDEX idx_cc_sq ON comments(course_code, short_question);
