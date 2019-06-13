@@ -1,37 +1,12 @@
-import os
-import mysql.connector
 from comments_scraper.config.directories import PROCESSED_DIR
-from config.preferences import LOCAL_DB
+from utils.db import get_db, run_mysql
 
-# Global var in which to store DB connection
-db = None
+# Store DB connection in global var to avoid reconnecting after each query
+cnx = get_db()
+print('1/6: Connected to DB.')
 
 # MySQL requires paths with forward slashes
 PROCESSED_DIR = PROCESSED_DIR.replace('\\', '/')
-
-def get_db(local):
-	global db
-	if db is None:
-		if local:
-			db = mysql.connector.connect(host='localhost',
-										 user='admin',
-										 password=os.environ.get('DB_PASSWORD'),
-										 database=os.environ.get('DB_DATABASE_NAME'))
-		else:
-			db = mysql.connector.connect(host=os.environ.get('DB_HOST'),
-										 user=os.environ.get('DB_USER'),
-										 password=os.environ.get('DB_PASSWORD'),
-										 database=os.environ.get('DB_DATABASE_NAME'))
-	return db
-
-
-def run_mysql(query, args=None):
-	"""Run commands via connection in global var 'db'."""
-	cnx = get_db(LOCAL_DB)
-	cursor = cnx.cursor()
-	cursor.execute(query, args)
-	cnx.commit()
-	cursor.close()
 
 drop_existing_table = """
 	DROP TABLE IF EXISTS comments;
@@ -70,16 +45,16 @@ create_index = """
 """
 
 try:
-	run_mysql(drop_existing_table)
-	print('1/4: Dropped existing table.')
-	run_mysql(create_table)
-	print('2/4: Created new table.')
-	run_mysql(load_data)
-	print('3/4: Data loaded.')
-	run_mysql(create_index)
-	print('4/4: Index created.')
+	run_mysql(cnx, drop_existing_table)
+	print('2/6: Dropped existing table.')
+	run_mysql(cnx, create_table)
+	print('3/6: Created new table.')
+	run_mysql(cnx, load_data)
+	print('4/6: Data loaded.')
+	run_mysql(cnx, create_index)
+	print('5/6: Index created.')
 except Exception as e:
 	print('We\'re having tremendous problems with: {0}'.format(e))
 finally:
-	db.close()
-	print('Connection closed.')
+	cnx.close()
+	print('6/6: Connection closed.')
