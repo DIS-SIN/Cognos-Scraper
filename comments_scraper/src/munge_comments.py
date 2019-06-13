@@ -54,7 +54,7 @@ comments['short_question'] = comments['original_question'].map(short_question_ma
 # Check if column 'short_question' properly mapped
 # Unknown values would be assgined value 'np.nan', which has dtype 'float'
 # Therefore, check all values have dtype 'str'
-assert(all([isinstance(short_question, str) for short_question in comments['short_question'].unique()]))
+assert all([isinstance(short_question, str) for short_question in comments['short_question'].unique()]), 'Mapping short_question failed'
 
 # Create new column 'text_answer_fr'
 # Only applies to questions with pre-defined answers like 'Yes' and 'No'

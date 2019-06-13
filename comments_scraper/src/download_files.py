@@ -10,6 +10,8 @@ from utils.file_system import check_file_exists, delete_files_of_this_ilk
 # Cognos login
 USERNAME = os.environ.get('COGNOS_USERNAME')
 PASSWORD = os.environ.get('COGNOS_PASSWORD')
+assert USERNAME is not None, 'Missing USERNAME'
+assert PASSWORD is not None, 'Missing PASSWORD'
 
 # Delete previous raw data downloads
 os.chdir(shared_directories.DOWNLOADS_DIR)
@@ -31,13 +33,13 @@ print('3/7: Logged in to Cognos.')
 # Download comments
 browser.get(deeplinks.COMMENTS_URL)
 os.chdir(shared_directories.DOWNLOADS_DIR)
-assert(check_file_exists('Comments.xls'))
+assert check_file_exists('Comments.xls'), 'Comments download unsuccessful'
 print('4/7: Comments downloaded.')
 
 # Download overall satisfaction
 browser.get(deeplinks.OVERALL_SATISFACTION_URL)
 os.chdir(shared_directories.DOWNLOADS_DIR)
-assert(check_file_exists('Overall Satisfaction.xls'))
+assert check_file_exists('Overall Satisfaction.xls'), 'Overall Satisfaction download unsuccessful'
 print('5/7: Overall satisfaction downloaded.')
 
 # Logout
