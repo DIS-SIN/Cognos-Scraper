@@ -92,7 +92,7 @@ regs['offering_lng'] = regs.apply(lambda x: get_lat_lng(x['offering_city'], x['o
 regs['learner_lat'] = regs.apply(lambda x: get_lat_lng(x['learner_city'], x['learner_province'])['lat'], axis=1)
 regs['learner_lng'] = regs.apply(lambda x: get_lat_lng(x['learner_city'], x['learner_province'])['lng'], axis=1)
 
-print('3/5: New column created; {0} new cities geocoded.'.format(api_ctr))
+print('3/5: New columns created; {0} new cities geocoded.'.format(api_ctr))
 
 # Export geo_dict to pickle for future re-use
 os.chdir(directories.PICKLE_DIR)
