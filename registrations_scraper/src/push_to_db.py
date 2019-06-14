@@ -1,3 +1,4 @@
+from time import time
 from registrations_scraper.config.directories import PROCESSED_DIR
 from utils.db import get_db, run_mysql
 
@@ -60,80 +61,80 @@ load_data = """
 	end_date = STR_TO_DATE(@temp_end_date, '%d/%m/%Y %T');
 """.format(PROCESSED_DIR)
 
-create_indices = """
+indices = [
 	# Index for selection page
-	CREATE INDEX idx_cc_cten ON lsr_this_year(course_code, course_title_en);
-	CREATE INDEX idx_cc_ctfr ON lsr_this_year(course_code, course_title_fr);
-	CREATE INDEX idx_cten_cc ON lsr_this_year(course_title_en, course_code);
+	'CREATE INDEX idx_cc_cten ON lsr_this_year(course_code, course_title_en);',
+	'CREATE INDEX idx_cc_ctfr ON lsr_this_year(course_code, course_title_fr);',
+	'CREATE INDEX idx_cten_cc ON lsr_this_year(course_title_en, course_code);',
 
 	# Index for open, delivered, cancelled offerings
-	CREATE INDEX idx_cc_os_oid ON lsr_this_year(course_code, offering_status, offering_id);
+	'CREATE INDEX idx_cc_os_oid ON lsr_this_year(course_code, offering_status, offering_id);',
 
 	# Index for client requests
-	CREATE INDEX idx_cc_cl_os_oid ON lsr_this_year(course_code, client, offering_status, offering_id);
+	'CREATE INDEX idx_cc_cl_os_oid ON lsr_this_year(course_code, client, offering_status, offering_id);',
 
 	# Index for confirmed regs
-	CREATE INDEX idx_cc_rs ON lsr_this_year(course_code, reg_status);
+	'CREATE INDEX idx_cc_rs ON lsr_this_year(course_code, reg_status);',
 
 	# Index for total no-shows
-	CREATE INDEX idx_cc_ns ON lsr_this_year(course_code, no_show);
+	'CREATE INDEX idx_cc_ns ON lsr_this_year(course_code, no_show);',
 
 	# Index for combo no-shows and registrations per month
-	CREATE INDEX idx_cc_mnen_rs_ns ON lsr_this_year(course_code, month_en, reg_status, no_show);
-	CREATE INDEX idx_cc_mnfr_rs_ns ON lsr_this_year(course_code, month_fr, reg_status, no_show);
+	'CREATE INDEX idx_cc_mnen_rs_ns ON lsr_this_year(course_code, month_en, reg_status, no_show);',
+	'CREATE INDEX idx_cc_mnfr_rs_ns ON lsr_this_year(course_code, month_fr, reg_status, no_show);',
 
 	# Index for class OfferingLocations
-	CREATE INDEX idx_cc_os_oren_open_oc_oid ON lsr_this_year(course_code, offering_status, offering_region_en, offering_province_en, offering_city, offering_id);
-	CREATE INDEX idx_cc_os_orfr_opfr_oc_oid ON lsr_this_year(course_code, offering_status, offering_region_fr, offering_province_fr, offering_city, offering_id);
+	'CREATE INDEX idx_cc_os_oren_open_oc_oid ON lsr_this_year(course_code, offering_status, offering_region_en, offering_province_en, offering_city, offering_id);',
+	'CREATE INDEX idx_cc_os_orfr_opfr_oc_oid ON lsr_this_year(course_code, offering_status, offering_region_fr, offering_province_fr, offering_city, offering_id);',
 
 	# Index for offerings per language
-	CREATE INDEX idx_cc_os_ol_oid ON lsr_this_year(course_code, offering_status, offering_language, offering_id);
+	'CREATE INDEX idx_cc_os_ol_oid ON lsr_this_year(course_code, offering_status, offering_language, offering_id);',
 
 	# Index for offerings cancelled
 	# None needed, already runs in 0.0s
 
 	# Index for offerings cancelled global
-	CREATE INDEX idx_bt_os_oid ON lsr_this_year(business_type, offering_status, offering_id);
+	'CREATE INDEX idx_bt_os_oid ON lsr_this_year(business_type, offering_status, offering_id);',
 
 	# Index for top 5 departments
-	CREATE INDEX idx_cc_rs_bdnen ON lsr_this_year(course_code, reg_status, billing_dept_name_en);
-	CREATE INDEX idx_cc_rs_bdnfr ON lsr_this_year(course_code, reg_status, billing_dept_name_fr);
+	'CREATE INDEX idx_cc_rs_bdnen ON lsr_this_year(course_code, reg_status, billing_dept_name_en);',
+	'CREATE INDEX idx_cc_rs_bdnfr ON lsr_this_year(course_code, reg_status, billing_dept_name_fr);',
 
 	# Index for top 5 classifications
-	CREATE INDEX idx_cc_rs_lc ON lsr_this_year(course_code, reg_status, learner_classif);
+	'CREATE INDEX idx_cc_rs_lc ON lsr_this_year(course_code, reg_status, learner_classif);',
 
 	# Index for average class size
-	CREATE INDEX idx_cc_rs_oid ON lsr_this_year(course_code, reg_status, offering_id);
+	'CREATE INDEX idx_cc_rs_oid ON lsr_this_year(course_code, reg_status, offering_id);',
 
 	# Index for average class size global
-	CREATE INDEX idx_rs_bt_oid ON lsr_this_year(reg_status, business_type, offering_id);
+	'CREATE INDEX idx_rs_bt_oid ON lsr_this_year(reg_status, business_type, offering_id);',
 
 	# Index for average no-shows
 	# None needed, already runs in 0.0s
 
 	# Index for average no-shows global
-	CREATE INDEX idx_ns ON lsr_this_year(no_show);
+	'CREATE INDEX idx_ns ON lsr_this_year(no_show);',
 
 	# Index for offering city counts
-	CREATE INDEX idx_cc_os_oc_olat_olng_oid ON lsr_this_year(course_code, offering_status, offering_city, offering_lat, offering_lng, offering_id);
+	'CREATE INDEX idx_cc_os_oc_olat_olng_oid ON lsr_this_year(course_code, offering_status, offering_city, offering_lat, offering_lng, offering_id);',
 
 	# Index for learner city counts
-	CREATE INDEX idx_cc_rs_lc_llat_llng_lid ON lsr_this_year(course_code, reg_status, learner_city, learner_lat, learner_lng, learner_id);
+	'CREATE INDEX idx_cc_rs_lc_llat_llng_lid ON lsr_this_year(course_code, reg_status, learner_city, learner_lat, learner_lng, learner_id);',
 
 	# Index for regs per month
-	CREATE INDEX idx_cc_rs_mnen ON lsr_this_year(course_code, reg_status, month_en);
-	CREATE INDEX idx_cc_rs_mnfr ON lsr_this_year(course_code, reg_status, month_fr);
+	'CREATE INDEX idx_cc_rs_mnen ON lsr_this_year(course_code, reg_status, month_en);',
+	'CREATE INDEX idx_cc_rs_mnfr ON lsr_this_year(course_code, reg_status, month_fr);',
 
 	# Index for REGISTHOR: learner_city and learner_province
-	CREATE INDEX idx_lc_lp ON lsr_this_year(learner_city, learner_province);
+	'CREATE INDEX idx_lc_lp ON lsr_this_year(learner_city, learner_province);',
 
 	# Index for REGISTHOR: learner_classif
-	CREATE INDEX idx_lclassif ON lsr_this_year(learner_classif);
+	'CREATE INDEX idx_lclassif ON lsr_this_year(learner_classif);',
 
 	# Index for REGISTHOR: billing_dept_name
-	CREATE INDEX idx_bdnen ON lsr_this_year(billing_dept_name_en);
-	CREATE INDEX idx_bdnfr ON lsr_this_year(billing_dept_name_fr);
-"""
+	'CREATE INDEX idx_bdnen ON lsr_this_year(billing_dept_name_en);',
+	'CREATE INDEX idx_bdnfr ON lsr_this_year(billing_dept_name_fr);'
+]
 
 try:
 	run_mysql(cnx, drop_existing_table)
@@ -142,8 +143,9 @@ try:
 	print('3/6: Created new table.')
 	run_mysql(cnx, load_data)
 	print('4/6: Data loaded.')
-	run_mysql(cnx, create_indices)
-	print('5/6: Index created.')
+	for index in indices:
+		run_mysql(cnx, index)
+	print('5/6: Indices created.')
 except Exception as e:
 	print('We\'re having tremendous problems with: {0}'.format(e))
 finally:
