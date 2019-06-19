@@ -11,6 +11,7 @@ from config import shared_directories
 os.chdir(shared_directories.DOWNLOADS_DIR)
 comments = pd.read_csv('Comments.xls', sep='\t', index_col=False, encoding='utf_16_le',
                        dtype={'survey_id': 'object'}, keep_default_na=False)
+assert comments.shape[0] > 0, 'Unable to load comments: Null report'
 
 print('1/4: Data imported.')
 
@@ -35,16 +36,19 @@ comments['offering_city_fr'] = comments['offering_city_en'].map(city_map)
 os.chdir(directories.MAPPINGS_DIR)
 short_question_map = pd.read_csv('short_question_map.csv', sep=',',
                                  index_col=0, squeeze=True, encoding='utf-8')
+assert short_question_map.shape[0] > 0, 'Unable to load short_question_map'
 
 # Import mapping for new column 'text_answer_fr'
 os.chdir(directories.MAPPINGS_DIR)
 text_answer_map = pd.read_csv('text_answer_map.csv', sep=',',
                               index_col=0, squeeze=True, encoding='utf-8')
+assert text_answer_map.shape[0] > 0, 'Unable to load text_answer_map'
 
 # Import mapping for column 'overall_satisfaction'
 os.chdir(shared_directories.DOWNLOADS_DIR)
 overall_sat_map = pd.read_csv('Overall Satisfaction.xls', sep='\t', index_col=0,
                               squeeze=True, encoding='utf_16_le')
+assert overall_sat_map.shape[0] > 0, 'Unable to load overall_sat_map'
 
 # Create new column 'short_question'
 # Stores re-mapped questions e.g. 'Issue Description' and its variants all mapped to

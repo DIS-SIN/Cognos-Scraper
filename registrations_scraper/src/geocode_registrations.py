@@ -18,6 +18,7 @@ assert API_KEY is not None, 'Missing API_KEY'
 os.chdir(shared_directories.DOWNLOADS_DIR)
 regs = pd.read_csv('LSR Mini.xls', sep='\t', index_col=False, encoding='utf_16_le',
                    keep_default_na=False)
+assert regs.shape[0] > 0, 'Unable to load registrations: Null report'
 
 print('1/5: Data imported.')
 

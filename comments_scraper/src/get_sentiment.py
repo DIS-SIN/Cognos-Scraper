@@ -13,6 +13,7 @@ IGNORE_LIST = ['GCcampus Tools Used', 'OL Available', 'Prep', 'Reason to Partici
 os.chdir(directories.PROCESSED_DIR)
 df = pd.read_csv('comments_processed.csv', sep=',', index_col=False,
                  encoding='utf-8', dtype={'survey_id': 'object'}, keep_default_na=False)
+assert df.shape[0] > 0, 'Unable to load comments: Null report'
 
 print('1/5: Data imported.')
 
