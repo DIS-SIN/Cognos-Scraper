@@ -1,5 +1,6 @@
 """Geocode offering and learner locations with the Google Geocoding API."""
 import json
+import logging
 import os
 import pickle
 import requests
@@ -8,9 +9,14 @@ import pandas as pd
 from config import shared_directories
 from registrations_scraper.config import directories
 
-# Replace with environ var
-API_KEY = os.environ.get('GOOGLE_GEOCODING_KEY')
-assert API_KEY is not None, 'Missing API_KEY'
+# Instantiate logger
+logger = logging.getLogger(__name__)
+
+# Check if credentials stored in environ vars
+API_KEY = os.environ.get('GOOGLE_GEOCODING_KEY', None)
+if API_KEY is None:
+    logger.critical('Failure: Missing Google NLP API credentials.')
+    exit()
 
 ### IMPORT RAW DATA ###
 # Files exported by Cognos have .xls extension but are tab-separated and
@@ -19,16 +25,18 @@ assert API_KEY is not None, 'Missing API_KEY'
 os.chdir(shared_directories.DOWNLOADS_DIR)
 regs = pd.read_csv('LSR Mini.xls', sep='\t', index_col=False, encoding='utf_16_le',
                    keep_default_na=False)
-assert regs.shape[0] > 0, 'Unable to load registrations: Null report'
+if not regs.shape[0] > 0:
+    logger.critical('Failure: LSR Mini.xls is empty.')
+    exit()
 
-print('1/5: Data imported.')
+logger.info('1/5: Data imported.')
 
 # Load pickle for memoization
 os.chdir(directories.PICKLE_DIR)
 with open('geo_dict.pickle', 'rb') as f:
     geo_dict = pickle.load(f)
 
-print('2/5: Pickle imported.')
+logger.info('2/5: Pickle imported.')
 
 # New cities passed to API
 api_ctr = 0
@@ -69,12 +77,12 @@ def get_lat_lng(city, prov):
     if geo_request.status_code == 200:
         geo_response = json.loads(geo_request.text)
     else:
-        raise Exception('Request error with city {0}: {1}'.format(lookup_city, geo_request.status_code))
+        logger.warning('Request error with city {0}: {1}'.format(lookup_city, geo_request.status_code))
     
     # Check if API response status is 'OK'
     api_status = geo_response['status']
     if api_status != 'OK':
-        raise Exception('API error with city {0}: {1}'.format(lookup_city, api_status))
+        logger.warning('API error with city {0}: {1}'.format(lookup_city, api_status))
     
     # Parse results and memoize
     lat = geo_response['results'][0]['geometry']['location']['lat']
@@ -83,6 +91,7 @@ def get_lat_lng(city, prov):
     geo_dict[memo_city] = results
     global api_ctr
     api_ctr += 1
+    logger.info('New city geocoded: {0} at {1}, {2}.'.format(lookup_city, lat, lng))
     
     return results
 
@@ -94,18 +103,18 @@ regs['offering_lng'] = regs.apply(lambda x: get_lat_lng(x['offering_city'], x['o
 regs['learner_lat'] = regs.apply(lambda x: get_lat_lng(x['learner_city'], x['learner_province'])['lat'], axis=1)
 regs['learner_lng'] = regs.apply(lambda x: get_lat_lng(x['learner_city'], x['learner_province'])['lng'], axis=1)
 
-print('3/5: New columns created; {0} new cities geocoded.'.format(api_ctr))
+logger.info('3/5: New columns created.')
 
 # Export geo_dict to pickle for future re-use
 os.chdir(directories.PICKLE_DIR)
 with open('geo_dict.pickle', 'wb') as f:
     pickle.dump(geo_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-print('4/5: Pickle exported.')
+logger.info('4/5: Pickle exported.')
 
 # Export results as CSV
 os.chdir(directories.PROCESSED_DIR)
 regs.to_csv('lsr_processed.csv', sep=',', encoding='utf-8', index=False,
             quotechar='"', line_terminator='\r\n')
 
-print('5/5: Data exported.')
+logger.info('5/5: Data exported.')

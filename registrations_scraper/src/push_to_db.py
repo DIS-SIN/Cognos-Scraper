@@ -1,11 +1,14 @@
 """Push processed extract to cloud DB."""
-from time import time
+import logging
 from registrations_scraper.config.directories import PROCESSED_DIR
 from utils.db import get_db, run_mysql
 
+# Instantiate logger
+logger = logging.getLogger(__name__)
+
 # Store DB connection in global var to avoid reconnecting after each query
 cnx = get_db()
-print('1/6: Connected to DB.')
+logger.info('1/6: Connected to DB.')
 
 # MySQL requires paths with forward slashes
 PROCESSED_DIR = PROCESSED_DIR.replace('\\', '/')
@@ -139,16 +142,16 @@ indices = [
 
 try:
 	run_mysql(cnx, drop_existing_table)
-	print('2/6: Dropped existing table.')
+	logger.info('2/6: Dropped existing table.')
 	run_mysql(cnx, create_table)
-	print('3/6: Created new table.')
+	logger.info('3/6: Created new table.')
 	run_mysql(cnx, load_data)
-	print('4/6: Data loaded.')
+	logger.info('4/6: Data loaded.')
 	for index in indices:
 		run_mysql(cnx, index)
-	print('5/6: Indices created.')
+	logger.info('5/6: Indices created.')
 except Exception as e:
-	print('We\'re having tremendous problems with: {0}'.format(e))
+	logger.critical('Failure!', exc_info=True)
 finally:
 	cnx.close()
-	print('6/6: Connection closed.')
+	logger.info('6/6: Connection closed.')
