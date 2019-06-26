@@ -1,48 +1,58 @@
 """Download LSR (i.e. registrations) as CSV from Cognos."""
+import logging
 import os
 from pyvirtualdisplay import Display
 from selenium import webdriver
 from config import shared_directories
 from utils.file_system import check_file_exists, delete_files_of_this_ilk
 
+# Instantiate logger
+logger = logging.getLogger(__name__)
+
 # Cognos login
-USERNAME = os.environ.get('COGNOS_USERNAME')
-PASSWORD = os.environ.get('COGNOS_PASSWORD')
-assert USERNAME is not None, 'Missing USERNAME'
-assert PASSWORD is not None, 'Missing PASSWORD'
+USERNAME = os.environ.get('COGNOS_USERNAME', None)
+PASSWORD = os.environ.get('COGNOS_PASSWORD', None)
+if USERNAME is None:
+	logger.critical('Failure: Missing environ var USERNAME.')
+	exit()
+if PASSWORD is None:
+	logger.critical('Failure: Missing environ var PASSWORD.')
+	exit()
 
 # Delete previous raw data downloads
 os.chdir(shared_directories.DOWNLOADS_DIR)
 delete_files_of_this_ilk('LSR Mini')
-print('1/7: Previous files deleted.')
+logger.info('1/7: Previous files deleted.')
 
 # Open virtual viewport
 display = Display(visible=0, size=(1920, 1080))
 display.start()
-print('2/7: Virtual viewport opened.')
+logger.info('2/7: Virtual viewport opened.')
 
 # Open controlled browser
 browser = webdriver.Chrome()
-print('3/7: Browser opened.')
+logger.info('3/7: Browser opened.')
 
 # Navigate to Cognos and login
 browser.get(os.environ.get('LOGIN_URL'))
 browser.find_element_by_id('CAMUsername').send_keys(USERNAME)
 browser.find_element_by_id('CAMPassword').send_keys(PASSWORD)
 browser.find_element_by_id('cmdOK').click()
-print('4/7: Logged in to Cognos.')
+logger.info('4/7: Logged in to Cognos.')
 
 # Download LSR
 browser.get(os.environ.get('LSR_URL'))
 os.chdir(shared_directories.DOWNLOADS_DIR)
-assert check_file_exists('LSR Mini.xls'), 'LSR download unsuccessful'
-print('5/7: LSR downloaded.')
+if not check_file_exists('LSR Mini.xls'):
+	logger.critical('Failure: LSR download unsuccessful.')
+	exit()
+logger.info('5/7: LSR downloaded.')
 
 # Logout
 browser.find_elements_by_css_selector('#_NS_logOnOff td')[0].click()
-print('6/7: Logged out of Cognos.')
+logger.info('6/7: Logged out of Cognos.')
 
 # End app
 browser.quit()
 display.stop()
-print('7/7: App ended.')
+logger.info('7/7: App ended.')
