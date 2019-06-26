@@ -1,5 +1,6 @@
 # Files
 environ_vars.txt
+*.log
 nlp-key.json
 TODO.txt
 
