@@ -3,10 +3,21 @@ import mysql.connector
 
 def get_db():
 	"""Connect to remote MySQL DB."""
-	db = mysql.connector.connect(host=os.environ.get('DB_HOST'),
-								 user=os.environ.get('DB_USER'),
-								 password=os.environ.get('DB_PASSWORD'),
-								 database=os.environ.get('DB_DATABASE_NAME'))
+	import logging
+	# Instantiate logger
+	logger = logging.getLogger(__name__)
+	# Check if credentials stored in environ vars
+	HOST = os.environ.get('DB_HOST', None)
+	USER = os.environ.get('DB_USER', None)
+	PASSWORD = os.environ.get('DB_PASSWORD', None)
+	DATABASE = os.environ.get('DB_DATABASE_NAME', None)
+	if HOST is None or USER is None or PASSWORD is None or DATABASE is None:
+		logger.critical('Failure: Missing database credentials.')
+		exit()
+	db = mysql.connector.connect(host=HOST,
+								 user=USER,
+								 password=PASSWORD,
+								 database=DATABASE)
 	return db
 
 
