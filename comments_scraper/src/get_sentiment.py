@@ -45,7 +45,7 @@ def get_sentiment_score(survey_id, original_question, short_question, text_answe
     global api_ctr
     ctr += 1
     # Log ctr every 1000 comments
-    if ctr % 1_000 == 0:
+    if ctr % 10_000 == 0:
         logger.info('Finished {0} comments.'.format(ctr))
     
     if short_question in IGNORE_LIST:
