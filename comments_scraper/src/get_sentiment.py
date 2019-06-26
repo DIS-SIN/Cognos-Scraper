@@ -44,7 +44,7 @@ def get_sentiment_score(survey_id, original_question, short_question, text_answe
     global ctr
     global api_ctr
     ctr += 1
-    # Print ctr every 1000 comments
+    # Log ctr every 1000 comments
     if ctr % 1_000 == 0:
         logger.info('Finished {0} comments.'.format(ctr))
     
