@@ -27,3 +27,12 @@ def run_mysql(cnx, query, args=None):
 	cursor.execute(query, args)
 	cnx.commit()
 	cursor.close()
+
+
+def query_mysql(cnx, query, args=None, dict_=False):
+	"""Run query and return results."""
+	cursor = cnx.cursor(dictionary=dict_)
+	cursor.execute(query, args)
+	results = cursor.fetchall()
+	cursor.close()
+	return results

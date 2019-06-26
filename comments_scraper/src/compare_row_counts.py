@@ -4,7 +4,7 @@ or equal to current DB row count(s).
 import logging
 import pandas as pd
 from config import shared_directories
-from utils.db import get_db, run_mysql
+from utils.db import get_db, query_mysql
 
 # Instantiate logger
 logger = logging.getLogger(__name__)
@@ -17,7 +17,8 @@ logger.info('1/5: Connected to DB.')
 count_comments = """SELECT COUNT(*)	FROM comments;"""
 
 try:
-	db_row_count = run_mysql(cnx, count_comments)
+	results = query_mysql(cnx, count_comments)
+	db_row_count = results[0][0]
 	logger.info('2/5: Queried DB for row count: {0} rows.'.format(db_row_count))
 except Exception:
 	logger.critical('Failure!', exc_info=True)
