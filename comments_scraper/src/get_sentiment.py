@@ -17,7 +17,9 @@ IGNORE_LIST = ['GCcampus Tools Used', 'OL Available', 'Prep', 'Reason to Partici
 os.chdir(directories.PROCESSED_DIR)
 df = pd.read_csv('comments_processed.csv', sep=',', index_col=False,
                  encoding='utf-8', dtype={'survey_id': 'object'}, keep_default_na=False)
-assert df.shape[0] > 0, 'Unable to load comments: Null report'
+if not df.shape[0] > 0:
+	logger.critical('Failure: comments_processed.csv is empty.'
+	exit()
 
 logger.info('1/5: Data imported.')
 
@@ -71,7 +73,7 @@ def get_sentiment_score(survey_id, original_question, short_question, text_answe
         # Cast to Decimal then back to int to prevent floating point rounding errors
         result = int(round(Decimal(str((sentiment.score * 2) + 3))))
     # Comments occasionally so badly written the API can't identify the language
-    except Exception as e:
+    except Exception:
         # Default to overall_satisfaction
         result = float(overall_satisfaction)
     # Memoize and return result

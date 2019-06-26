@@ -57,8 +57,8 @@ try:
 	logger.info('4/6: Data loaded.')
 	run_mysql(cnx, create_index)
 	logger.info('5/6: Index created.')
-except Exception as e:
-	logger.info('We\'re having tremendous problems with: {0}'.format(e), exc_info=True)
+except Exception:
+	logger.critical('Failure!', exc_info=True)
 finally:
 	cnx.close()
 	logger.info('6/6: Connection closed.')

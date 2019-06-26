@@ -15,7 +15,9 @@ logger = logging.getLogger(__name__)
 os.chdir(shared_directories.DOWNLOADS_DIR)
 comments = pd.read_csv('Comments.xls', sep='\t', index_col=False, encoding='utf_16_le',
                        dtype={'survey_id': 'object'}, keep_default_na=False)
-assert comments.shape[0] > 0, 'Unable to load comments: Null report'
+if not comments.shape[0] > 0:
+	logger.critical('Failure: Comments.xls is empty.')
+	exit()
 
 logger.info('1/4: Data imported.')
 
@@ -40,19 +42,25 @@ comments['offering_city_fr'] = comments['offering_city_en'].map(city_map)
 os.chdir(directories.MAPPINGS_DIR)
 short_question_map = pd.read_csv('short_question_map.csv', sep=',',
                                  index_col=0, squeeze=True, encoding='utf-8')
-assert short_question_map.shape[0] > 0, 'Unable to load short_question_map'
+if not short_question_map.shape[0] > 0:
+	logger.critical('Failure: short_question_map.csv is empty.')
+	exit()
 
 # Import mapping for new column 'text_answer_fr'
 os.chdir(directories.MAPPINGS_DIR)
 text_answer_map = pd.read_csv('text_answer_map.csv', sep=',',
                               index_col=0, squeeze=True, encoding='utf-8')
-assert text_answer_map.shape[0] > 0, 'Unable to load text_answer_map'
+if not text_answer_map.shape[0] > 0:
+	logger.critical('Failure: text_answer_map.csv is empty.')
+	exit()
 
 # Import mapping for column 'overall_satisfaction'
 os.chdir(shared_directories.DOWNLOADS_DIR)
 overall_sat_map = pd.read_csv('Overall Satisfaction.xls', sep='\t', index_col=0,
                               squeeze=True, encoding='utf_16_le')
-assert overall_sat_map.shape[0] > 0, 'Unable to load overall_sat_map'
+if not overall_sat_map.shape[0] > 0:
+	logger.critical('Failure: overall_sat_map.csv is empty.')
+	exit()
 
 # Create new column 'short_question'
 # Stores re-mapped questions e.g. 'Issue Description' and its variants all mapped to
@@ -62,7 +70,9 @@ comments['short_question'] = comments['original_question'].map(short_question_ma
 # Check if column 'short_question' properly mapped
 # Unknown values would be assgined value 'np.nan', which has dtype 'float'
 # Therefore, check all values have dtype 'str'
-assert all([isinstance(short_question, str) for short_question in comments['short_question'].unique()]), 'Mapping short_question failed'
+if not all([isinstance(short_question, str) for short_question in comments['short_question'].unique()]):
+	logger.critical('Failure: Unknown values in field original_question')
+	exit()
 
 # Create new column 'text_answer_fr'
 # Only applies to questions with pre-defined answers like 'Yes' and 'No'
