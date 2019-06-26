@@ -39,7 +39,10 @@ with open('geo_dict.pickle', 'rb') as f:
 logger.info('2/5: Pickle imported.')
 
 # New cities passed to API
-api_ctr = 0
+new_ctr = 0
+
+# New cities that failed to geocode/json
+fail_ctr = 0
 
 
 def _get_memo_name(city, prov):
@@ -56,6 +59,10 @@ def get_lat_lng(city, prov):
     """
     Get a city's latitude and longitude from the Google Maps Geocoding API and memoize.
     """
+	global fail_ctr
+	global geo_dict
+	global new_ctr
+	
     # Format city name for memoization
     memo_city = _get_memo_name(city, prov)
     
@@ -63,7 +70,6 @@ def get_lat_lng(city, prov):
     lookup_city = _get_lookup_name(city, prov)
     
     # Memoization
-    global geo_dict
     if memo_city in geo_dict:
         return geo_dict[memo_city]
     
@@ -78,19 +84,24 @@ def get_lat_lng(city, prov):
         geo_response = json.loads(geo_request.text)
     else:
         logger.warning('Request error with city {0}: {1}'.format(lookup_city, geo_request.status_code))
+		fail_ctr += 1
+		if fail_ctr >= 3:
+			exit()
     
     # Check if API response status is 'OK'
     api_status = geo_response['status']
     if api_status != 'OK':
         logger.warning('API error with city {0}: {1}'.format(lookup_city, api_status))
+		fail_ctr += 1
+		if fail_ctr >= 3:
+			exit()
     
     # Parse results and memoize
     lat = geo_response['results'][0]['geometry']['location']['lat']
     lng = geo_response['results'][0]['geometry']['location']['lng']
     results = {'lat': lat, 'lng': lng}
     geo_dict[memo_city] = results
-    global api_ctr
-    api_ctr += 1
+    new_ctr += 1
     logger.info('New city geocoded: {0} at {1}, {2}.'.format(lookup_city, lat, lng))
     
     return results
