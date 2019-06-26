@@ -6,6 +6,7 @@ import os
 def main():
 	# Comments scraper
 	from comments_scraper.src import download_files
+	from comments_scraper.src import compare_row_counts
 	from comments_scraper.src import munge_comments
 	from comments_scraper.src import get_sentiment
 	from comments_scraper.src import push_to_db
@@ -27,8 +28,8 @@ def check_for_pickles():
 
 def check_for_processed_dirs():
 	"""Check if dirs into which outputs will be saved are present."""
-	check_comments_processed = os.path.isdire('./comments_scraper/processed')
-	check_registrations_processed = os.path.isdire('./registrations_scraper/processed')
+	check_comments_processed = os.path.isdir('./comments_scraper/processed')
+	check_registrations_processed = os.path.isdir('./registrations_scraper/processed')
 	if not check_comments_processed or not check_registrations_processed:
 		return False
 	return True
