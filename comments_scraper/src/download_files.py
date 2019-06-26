@@ -12,10 +12,14 @@ from utils.file_system import check_file_exists, delete_files_of_this_ilk
 logger = logging.getLogger(__name__)
 
 # Cognos login
-USERNAME = os.environ.get('COGNOS_USERNAME')
-PASSWORD = os.environ.get('COGNOS_PASSWORD')
-assert USERNAME is not None, 'Missing USERNAME'
-assert PASSWORD is not None, 'Missing PASSWORD'
+USERNAME = os.environ.get('COGNOS_USERNAME', None)
+PASSWORD = os.environ.get('COGNOS_PASSWORD', None)
+if USERNAME is None:
+	logger.critical('Failure: Missing environ var USERNAME.')
+	exit()
+if PASSWORD is None:
+	logger.critical('Failure: Missing environ var PASSWORD.')
+	exit()
 
 # Delete previous raw data downloads
 os.chdir(shared_directories.DOWNLOADS_DIR)
@@ -42,13 +46,17 @@ logger.info('4/8: Logged in to Cognos.')
 # Download comments
 browser.get(os.environ.get('COMMENTS_URL'))
 os.chdir(shared_directories.DOWNLOADS_DIR)
-assert check_file_exists('Comments.xls'), 'Comments download unsuccessful'
+if not check_file_exists('Comments.xls'):
+	logger.critical('Failure: Comments download unsuccessful')
+	exit()
 logger.info('5/8: Comments downloaded.')
 
 # Download overall satisfaction
 browser.get(os.environ.get('OVERALL_SATISFACTION_URL'))
 os.chdir(shared_directories.DOWNLOADS_DIR)
-assert check_file_exists('Overall Satisfaction.xls'), 'Overall Satisfaction download unsuccessful'
+if not check_file_exists('Overall Satisfaction.xls'):
+	logger.critical('Failure: Overall satisfaction download unsuccessful')
+	exit()
 logger.info('6/8: Overall satisfaction downloaded.')
 
 # Logout
