@@ -18,7 +18,7 @@ os.chdir(directories.PROCESSED_DIR)
 df = pd.read_csv('comments_processed.csv', sep=',', index_col=False,
                  encoding='utf-8', dtype={'survey_id': 'object'}, keep_default_na=False)
 if not df.shape[0] > 0:
-	logger.critical('Failure: comments_processed.csv is empty.'
+	logger.critical('Failure: comments_processed.csv is empty.')
 	exit()
 
 logger.info('1/5: Data imported.')
