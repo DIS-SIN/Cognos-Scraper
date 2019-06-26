@@ -2,6 +2,7 @@
 or equal to current DB row count(s).
 """
 import logging
+import os
 import pandas as pd
 from config import shared_directories
 from utils.db import get_db, query_mysql
@@ -29,6 +30,7 @@ finally:
 	logger.info('3/5: Connection closed.')
 
 # Get row count of latest 'Comments.xls' file
+os.chdir(shared_directories.DOWNLOADS_DIR)
 comments = pd.read_csv('Comments.xls', sep='\t', index_col=False, encoding='utf_16_le',
                        dtype={'survey_id': 'object'}, keep_default_na=False)
 file_row_count = comments.shape[0]
