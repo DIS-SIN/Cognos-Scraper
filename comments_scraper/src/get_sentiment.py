@@ -1,3 +1,4 @@
+import logging
 from decimal import Decimal
 import os
 import pickle
@@ -5,6 +6,9 @@ import time
 from google.cloud import language
 import pandas as pd
 from comments_scraper.config import directories
+
+# Instantiate logger
+logger = logging.getLogger(__name__)
 
 # Ignore questions that aren't free text
 IGNORE_LIST = ['GCcampus Tools Used', 'OL Available', 'Prep', 'Reason to Participate', 'Technical Issues']
@@ -15,14 +19,14 @@ df = pd.read_csv('comments_processed.csv', sep=',', index_col=False,
                  encoding='utf-8', dtype={'survey_id': 'object'}, keep_default_na=False)
 assert df.shape[0] > 0, 'Unable to load comments: Null report'
 
-print('1/5: Data imported.')
+logger.info('1/5: Data imported.')
 
 # Load pickle for memoization
 os.chdir(directories.PICKLE_DIR)
 with open('sentiment_dict.pickle', 'rb') as f:
     sentiment_dict = pickle.load(f)
 
-print('2/5: Pickle imported.')
+logger.info('2/5: Pickle imported.')
 
 # Instantiate client
 client = language.LanguageServiceClient()
@@ -39,7 +43,7 @@ def get_sentiment_score(survey_id, original_question, short_question, text_answe
     ctr += 1
     # Print ctr every 1000 comments
     if ctr % 1_000 == 0:
-        print('Finished {0} comments.'.format(ctr))
+        logger.info('Finished {0} comments.'.format(ctr))
     
     if short_question in IGNORE_LIST:
         result = '\\N' # i.e. NULL for MySQL
@@ -57,7 +61,7 @@ def get_sentiment_score(survey_id, original_question, short_question, text_answe
     api_ctr += 1
     # API has limit of 500 queries / min
     if api_ctr % 500 == 0:
-        print('ML\'d {0} new comments.'.format(api_ctr))
+        logger.info('ML\'d {0} new comments.'.format(api_ctr))
         time.sleep(60)
     try:
         document = language.types.Document(content=text_answer,
@@ -81,18 +85,18 @@ api_results = df.apply(lambda x: get_sentiment_score(x['survey_id'], x['original
 
 df['stars'] = api_results
 
-print('3/5: New column created; {0} new comments ML\'d.'.format(api_ctr))
+logger.info('3/5: New column created; {0} new comments ML\'d.'.format(api_ctr))
 
 # Export sentiment_dict to pickle for future re-use
 os.chdir(directories.PICKLE_DIR)
 with open('sentiment_dict.pickle', 'wb') as f:
     pickle.dump(sentiment_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-print('4/5: Pickle exported.')
+logger.info('4/5: Pickle exported.')
 
 # Export results as CSV
 os.chdir(directories.PROCESSED_DIR)
 df.to_csv('comments_processed_ML.csv', sep=',', encoding='utf-8', index=False,
           quotechar='"', line_terminator='\r\n')
 
-print('5/5: Data exported.')
+logger.info('5/5: Data exported.')
