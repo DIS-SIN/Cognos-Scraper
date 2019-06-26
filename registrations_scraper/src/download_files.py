@@ -52,7 +52,7 @@ logger.info('5/7: LSR downloaded.')
 browser.find_elements_by_css_selector('#_NS_logOnOff td')[0].click()
 logger.info('6/7: Logged out of Cognos.')
 
-# End app
+# End module
 browser.quit()
 display.stop()
-logger.info('7/7: App ended.')
+logger.info('7/7: Module ended.')
