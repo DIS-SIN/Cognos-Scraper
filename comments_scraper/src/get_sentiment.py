@@ -1,3 +1,4 @@
+"""Get sentiment scores for comments from the Google NLP API."""
 import logging
 from decimal import Decimal
 import os

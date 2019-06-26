@@ -1,3 +1,4 @@
+"""Push processed extract to cloud DB."""
 import logging
 from comments_scraper.config.directories import PROCESSED_DIR
 from utils.db import get_db, run_mysql

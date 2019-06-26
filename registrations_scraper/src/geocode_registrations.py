@@ -1,3 +1,4 @@
+"""Geocode offering and learner locations with the Google Geocoding API."""
 import json
 import os
 import pickle

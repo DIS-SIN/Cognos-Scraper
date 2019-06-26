@@ -1,3 +1,4 @@
+"""Pre-process the extract from Cognos for integration into cloud DB."""
 import logging
 import os
 import pandas as pd
