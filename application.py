@@ -13,5 +13,10 @@ def main():
 
 if __name__ == '__main__':
 	import logging.config
+	# Instantiate parent logger
 	logging.config.fileConfig(fname='config/logging.ini')
-	main()
+	logger = logging.getLogger(__name__)
+	try:
+		main()
+	except Exception:
+		logger.critical('Failure!', exc_info=True)
