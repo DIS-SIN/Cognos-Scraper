@@ -152,6 +152,8 @@ try:
 	logger.info('5/6: Indices created.')
 except Exception as e:
 	logger.critical('Failure!', exc_info=True)
+	cnx.close()
+	exit()
 finally:
 	cnx.close()
 	logger.info('6/6: Connection closed.')
