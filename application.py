@@ -1,6 +1,7 @@
 import logging
 import logging.config
 import os
+from config.logger_config import logger_dict
 
 
 def main():
@@ -37,7 +38,7 @@ def check_for_processed_dirs():
 
 if __name__ == '__main__':
 	# Instantiate parent logger
-	logging.config.fileConfig(fname='config/logging.ini')
+	logging.config.dictConfig(logger_dict)
 	logger = logging.getLogger(__name__)
 	
 	# Check for pickles are processed dirs
