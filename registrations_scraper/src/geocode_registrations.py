@@ -59,9 +59,9 @@ def get_lat_lng(city, prov):
     """
     Get a city's latitude and longitude from the Google Maps Geocoding API and memoize.
     """
-	global fail_ctr
-	global geo_dict
-	global new_ctr
+    global fail_ctr
+    global geo_dict
+    global new_ctr
 	
     # Format city name for memoization
     memo_city = _get_memo_name(city, prov)
@@ -84,17 +84,17 @@ def get_lat_lng(city, prov):
         geo_response = json.loads(geo_request.text)
     else:
         logger.warning('Request error with city {0}: {1}'.format(lookup_city, geo_request.status_code))
-		fail_ctr += 1
-		if fail_ctr >= 3:
-			exit()
+        fail_ctr += 1
+        if fail_ctr >= 3:
+            exit()
     
     # Check if API response status is 'OK'
     api_status = geo_response['status']
     if api_status != 'OK':
         logger.warning('API error with city {0}: {1}'.format(lookup_city, api_status))
-		fail_ctr += 1
-		if fail_ctr >= 3:
-			exit()
+        fail_ctr += 1
+        if fail_ctr >= 3:
+            exit()
     
     # Parse results and memoize
     lat = geo_response['results'][0]['geometry']['location']['lat']
