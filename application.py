@@ -14,6 +14,7 @@ def main():
 	
 	# Registrations scraper
 	from registrations_scraper.src import download_files
+	from registrations_scraper.src import compare_row_counts
 	from registrations_scraper.src import geocode_registrations
 	from registrations_scraper.src import push_to_db
 
@@ -56,3 +57,6 @@ if __name__ == '__main__':
 		main()
 	except Exception:
 		logger.critical('Failure!', exc_info=True)
+	else:
+		# Assign critical level so will be seen by SlackHandler
+		logger.critical('Good morning nerds. ETL ran successfully!')
