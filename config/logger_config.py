@@ -61,7 +61,7 @@ logger_dict = {
 		},
 		'slackHandler': {
 			'class': 'logging.handlers.SlackHandler',
-			'level': 'INFO',
+			'level': 'CRITICAL',
 			'formatter': 'slackFormatter'
 		}
 	},
