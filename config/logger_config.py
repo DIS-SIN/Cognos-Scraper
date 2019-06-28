@@ -26,7 +26,8 @@ class SlackFormatter(logging.Formatter):
 		level_name = record.levelname
 		name = record.name
 		message = record.msg
-		return_string = f'{asc_time} - {level_name} - {name} - {message}'
+		exc_info = record.exc_info
+		return_string = f'{asc_time} - {level_name} - {name} - {message} - { exc_info if exc_info else "" }'
 		data = {'text': return_string}
 		return json.dumps(data)
 
