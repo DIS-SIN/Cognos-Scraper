@@ -8,17 +8,13 @@ logger = logging.getLogger(__name__)
 
 # Store DB connection in global var to avoid reconnecting after each query
 cnx = get_db()
-logger.debug('1/6: Connected to DB.')
+logger.debug('1/7: Connected to DB.')
 
 # MySQL requires paths with forward slashes
 PROCESSED_DIR = PROCESSED_DIR.replace('\\', '/')
 
-drop_existing_table = """
-	DROP TABLE IF EXISTS comments;
-"""
-
 create_table = """
-	CREATE TABLE comments(
+	CREATE TABLE new_comments(
 		course_code VARCHAR(20),
 		survey_id VARCHAR(15),
 		fiscal_year VARCHAR(9),
@@ -38,7 +34,7 @@ create_table = """
 
 load_data = """
 	LOAD DATA LOCAL INFILE '{0}/comments_processed_ML.csv'
-	INTO TABLE comments
+	INTO TABLE new_comments
 	FIELDS OPTIONALLY ENCLOSED BY '"'
 	TERMINATED BY ','
 	LINES TERMINATED BY '\r\n'
@@ -46,22 +42,35 @@ load_data = """
 """.format(PROCESSED_DIR)
 
 create_index = """
-	CREATE INDEX idx_cc_sq ON comments(course_code, short_question);
+	CREATE INDEX idx_cc_sq ON new_comments(course_code, short_question);
+"""
+
+# Rename tables in a single atomic transaction
+# Ensures clean switchover + no downtime
+rename_tables = """
+	RENAME TABLE comments TO old_comments, new_comments TO comments;
+"""
+
+drop_table = """
+	DROP TABLE old_comments;
 """
 
 try:
-	run_mysql(cnx, drop_existing_table)
-	logger.debug('2/6: Dropped existing table.')
 	run_mysql(cnx, create_table)
-	logger.debug('3/6: Created new table.')
+	logger.debug('2/7: New table created.')
 	run_mysql(cnx, load_data)
-	logger.debug('4/6: Data loaded.')
+	logger.debug('3/7: Data loaded.')
 	run_mysql(cnx, create_index)
-	logger.debug('5/6: Index created.')
+	logger.debug('4/7: Index created.')
+	run_mysql(cnx, rename_tables)
+	logger.debug('5/7: Tables renamed.')
+	run_mysql(cnx, drop_table)
+	logger.debug('6/7: Old table dropped.')
+
 except Exception:
 	logger.critical('Failure!', exc_info=True)
 	cnx.close()
 	exit()
 finally:
 	cnx.close()
-	logger.debug('6/6: Connection closed.')
+	logger.debug('7/7: Connection closed.')
