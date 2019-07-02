@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 # 'object' datatype in Pandas is synonymous with 'str'
 os.chdir(shared_directories.DOWNLOADS_DIR)
 comments = pd.read_csv('Comments.xls', sep='\t', index_col=False, encoding='utf_16_le',
-                       dtype={'survey_id': 'object'}, keep_default_na=False)
+					   dtype={'survey_id': 'object'}, keep_default_na=False)
 if not comments.shape[0] > 0:
 	logger.critical('Failure: Comments.xls is empty.')
 	exit()
@@ -42,7 +42,7 @@ comments['offering_city_fr'] = comments['offering_city_en'].map(city_map)
 # Import mapping to overwrite column 'short_question'
 os.chdir(directories.MAPPINGS_DIR)
 short_question_map = pd.read_csv('short_question_map.csv', sep=',',
-                                 index_col=0, squeeze=True, encoding='utf-8')
+								 index_col=0, squeeze=True, encoding='utf-8')
 if not short_question_map.shape[0] > 0:
 	logger.critical('Failure: short_question_map.csv is empty.')
 	exit()
@@ -50,7 +50,7 @@ if not short_question_map.shape[0] > 0:
 # Import mapping for new column 'text_answer_fr'
 os.chdir(directories.MAPPINGS_DIR)
 text_answer_map = pd.read_csv('text_answer_map.csv', sep=',',
-                              index_col=0, squeeze=True, encoding='utf-8')
+							  index_col=0, squeeze=True, encoding='utf-8')
 if not text_answer_map.shape[0] > 0:
 	logger.critical('Failure: text_answer_map.csv is empty.')
 	exit()
@@ -58,7 +58,7 @@ if not text_answer_map.shape[0] > 0:
 # Import mapping for column 'overall_satisfaction'
 os.chdir(shared_directories.DOWNLOADS_DIR)
 overall_sat_map = pd.read_csv('Overall Satisfaction.xls', sep='\t', index_col=0,
-                              squeeze=True, encoding='utf_16_le')
+							  squeeze=True, encoding='utf_16_le')
 if not overall_sat_map.shape[0] > 0:
 	logger.critical('Failure: overall_sat_map.csv is empty.')
 	exit()
@@ -90,6 +90,6 @@ logger.debug('3/4: New columns created.')
 # Export results as CSV
 os.chdir(directories.PROCESSED_DIR)
 comments.to_csv('comments_processed.csv', sep=',', encoding='utf-8', index=False,
-                quotechar='"', line_terminator='\r\n')
+				quotechar='"', line_terminator='\r\n')
 
 logger.debug('4/4: Data exported.')

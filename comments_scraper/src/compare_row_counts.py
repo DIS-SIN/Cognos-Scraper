@@ -37,7 +37,7 @@ finally:
 # Get total row count from Pandas
 os.chdir(shared_directories.DOWNLOADS_DIR)
 comments = pd.read_csv('Comments.xls', sep='\t', index_col=False, encoding='utf_16_le',
-                       dtype={'survey_id': 'object'}, keep_default_na=False)
+					   dtype={'survey_id': 'object'}, keep_default_na=False)
 
 # Get row counts by course code from Pandas
 course_code_count_pd = comments['course_code'].value_counts(sort=False, dropna=False)

@@ -38,7 +38,7 @@ finally:
 # Get total row count from Pandas
 os.chdir(shared_directories.DOWNLOADS_DIR)
 regs = pd.read_csv('LSR Mini.xls', sep='\t', index_col=False, encoding='utf_16_le',
-                   keep_default_na=False)
+				   keep_default_na=False)
 
 # Get row counts by course code from Pandas
 course_code_count_pd = regs['course_code'].value_counts(sort=False, dropna=False)

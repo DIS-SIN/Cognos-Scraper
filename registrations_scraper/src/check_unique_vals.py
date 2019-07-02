@@ -14,10 +14,10 @@ logger = logging.getLogger(__name__)
 ### IMPORT RAW DATA ###
 os.chdir(shared_directories.DOWNLOADS_DIR)
 regs = pd.read_csv('LSR Mini.xls', sep='\t', index_col=False, encoding='utf_16_le',
-                   keep_default_na=False)
+				   keep_default_na=False)
 if not regs.shape[0] > 0:
-    logger.critical('Failure: LSR Mini.xls is empty.')
-    exit()
+	logger.critical('Failure: LSR Mini.xls is empty.')
+	exit()
 logger.debug('1/12: Data imported.')
 
 # Check column 'business_type'
