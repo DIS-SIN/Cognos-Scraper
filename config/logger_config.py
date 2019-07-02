@@ -49,20 +49,20 @@ logger_dict = {
 	'handlers': {
 		'fileHandler': {
 			'class': 'logging.FileHandler',
-			'level': 'INFO',
+			'level': 'DEBUG',
 			'formatter': 'formatter',
 			'encoding': 'utf-8',
 			'filename': 'logs/scraper.log'
 		},
 		'stdOutHandler': {
 			'class': 'logging.StreamHandler',
-			'level': 'INFO',
+			'level': 'DEBUG',
 			'formatter': 'formatter',
 			'stream': 'ext://sys.stdout'
 		},
 		'slackHandler': {
 			'class': 'logging.handlers.SlackHandler',
-			'level': 'CRITICAL',
+			'level': 'INFO',
 			'formatter': 'slackFormatter'
 		}
 	},

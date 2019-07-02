@@ -61,4 +61,4 @@ if __name__ == '__main__':
 		logger.critical('Failure!', exc_info=True)
 	else:
 		# Assign critical level so will be seen by SlackHandler
-		logger.critical('Good morning nerds. ETL ran successfully!')
+		logger.info('Good morning nerds. ETL ran successfully!')
