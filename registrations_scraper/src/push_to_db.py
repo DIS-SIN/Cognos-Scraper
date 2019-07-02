@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 # Store DB connection in global var to avoid reconnecting after each query
 cnx = get_db()
-logger.info('1/6: Connected to DB.')
+logger.debug('1/6: Connected to DB.')
 
 # MySQL requires paths with forward slashes
 PROCESSED_DIR = PROCESSED_DIR.replace('\\', '/')
@@ -142,18 +142,18 @@ indices = [
 
 try:
 	run_mysql(cnx, drop_existing_table)
-	logger.info('2/6: Dropped existing table.')
+	logger.debug('2/6: Dropped existing table.')
 	run_mysql(cnx, create_table)
-	logger.info('3/6: Created new table.')
+	logger.debug('3/6: Created new table.')
 	run_mysql(cnx, load_data)
-	logger.info('4/6: Data loaded.')
+	logger.debug('4/6: Data loaded.')
 	for index in indices:
 		run_mysql(cnx, index)
-	logger.info('5/6: Indices created.')
+	logger.debug('5/6: Indices created.')
 except Exception as e:
 	logger.critical('Failure!', exc_info=True)
 	cnx.close()
 	exit()
 finally:
 	cnx.close()
-	logger.info('6/6: Connection closed.')
+	logger.debug('6/6: Connection closed.')

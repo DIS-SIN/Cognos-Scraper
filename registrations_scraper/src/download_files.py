@@ -22,23 +22,23 @@ if PASSWORD is None:
 # Delete previous raw data downloads
 os.chdir(shared_directories.DOWNLOADS_DIR)
 delete_files_of_this_ilk('LSR Mini')
-logger.info('1/7: Previous files deleted.')
+logger.debug('1/7: Previous files deleted.')
 
 # Open virtual viewport
 display = Display(visible=0, size=(1920, 1080))
 display.start()
-logger.info('2/7: Virtual viewport opened.')
+logger.debug('2/7: Virtual viewport opened.')
 
 # Open controlled browser
 browser = webdriver.Chrome()
-logger.info('3/7: Browser opened.')
+logger.debug('3/7: Browser opened.')
 
 # Navigate to Cognos and login
 browser.get(os.environ.get('LOGIN_URL'))
 browser.find_element_by_id('CAMUsername').send_keys(USERNAME)
 browser.find_element_by_id('CAMPassword').send_keys(PASSWORD)
 browser.find_element_by_id('cmdOK').click()
-logger.info('4/7: Logged in to Cognos.')
+logger.debug('4/7: Logged in to Cognos.')
 
 # Download LSR
 browser.get(os.environ.get('LSR_URL'))
@@ -46,13 +46,13 @@ os.chdir(shared_directories.DOWNLOADS_DIR)
 if not check_file_exists('LSR Mini.xls'):
 	logger.critical('Failure: LSR download unsuccessful.')
 	exit()
-logger.info('5/7: LSR downloaded.')
+logger.debug('5/7: LSR downloaded.')
 
 # Logout
 browser.find_elements_by_css_selector('#_NS_logOnOff td')[0].click()
-logger.info('6/7: Logged out of Cognos.')
+logger.debug('6/7: Logged out of Cognos.')
 
 # End module
 browser.quit()
 display.stop()
-logger.info('7/7: Module ended.')
+logger.debug('7/7: Module ended.')

@@ -29,14 +29,14 @@ if not regs.shape[0] > 0:
     logger.critical('Failure: LSR Mini.xls is empty.')
     exit()
 
-logger.info('1/5: Data imported.')
+logger.debug('1/5: Data imported.')
 
 # Load pickle for memoization
 os.chdir(directories.PICKLE_DIR)
 with open('geo_dict.pickle', 'rb') as f:
     geo_dict = pickle.load(f)
 
-logger.info('2/5: Pickle imported.')
+logger.debug('2/5: Pickle imported.')
 
 # New cities passed to API
 new_ctr = 0
@@ -102,7 +102,7 @@ def get_lat_lng(city, prov):
     results = {'lat': lat, 'lng': lng}
     geo_dict[memo_city] = results
     new_ctr += 1
-    logger.info('New city geocoded: {0} at {1}, {2}.'.format(lookup_city, lat, lng))
+    logger.debug('New city geocoded: {0} at {1}, {2}.'.format(lookup_city, lat, lng))
     
     return results
 
@@ -114,18 +114,18 @@ regs['offering_lng'] = regs.apply(lambda x: get_lat_lng(x['offering_city'], x['o
 regs['learner_lat'] = regs.apply(lambda x: get_lat_lng(x['learner_city'], x['learner_province'])['lat'], axis=1)
 regs['learner_lng'] = regs.apply(lambda x: get_lat_lng(x['learner_city'], x['learner_province'])['lng'], axis=1)
 
-logger.info('3/5: New columns created.')
+logger.debug('3/5: New columns created.')
 
 # Export geo_dict to pickle for future re-use
 os.chdir(directories.PICKLE_DIR)
 with open('geo_dict.pickle', 'wb') as f:
     pickle.dump(geo_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-logger.info('4/5: Pickle exported.')
+logger.debug('4/5: Pickle exported.')
 
 # Export results as CSV
 os.chdir(directories.PROCESSED_DIR)
 regs.to_csv('lsr_processed.csv', sep=',', encoding='utf-8', index=False,
             quotechar='"', line_terminator='\r\n')
 
-logger.info('5/5: Data exported.')
+logger.debug('5/5: Data exported.')
