@@ -66,7 +66,6 @@ try:
 	logger.debug('5/7: Tables renamed.')
 	run_mysql(cnx, drop_table)
 	logger.debug('6/7: Old table dropped.')
-
 except Exception:
 	logger.critical('Failure!', exc_info=True)
 	cnx.close()
