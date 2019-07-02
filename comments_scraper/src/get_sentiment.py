@@ -6,6 +6,7 @@ import pickle
 import time
 from google.cloud import language
 import pandas as pd
+from utils.utils import _check_col_in_valid_range
 from comments_scraper.config import directories
 
 # Instantiate logger
@@ -86,6 +87,11 @@ api_results = df.apply(lambda x: get_sentiment_score(x['survey_id'], x['original
 					   result_type='expand')	# Return DataFrame rather than Series of tuples
 
 df['stars'] = api_results
+
+# Ensure new column contains valid stars
+if not _check_col_in_valid_range(df['stars'].unique(), 1, 5):
+	logger.critical('Failure: Invalid stars.')
+	exit()
 
 logger.debug('3/5: New column created; {0} new comments ML\'d.'.format(api_ctr))
 

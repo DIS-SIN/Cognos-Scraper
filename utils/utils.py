@@ -9,10 +9,8 @@ def _check_column(col_vals, target_vals):
 			exit()
 
 
-def _check_col_is_lat_long(my_list):
-	"""Ensure values are valid coördinates (i.e. between -180 and 180) or
-	a MySQL null (i.e. '\\N').
-	"""
+def _check_col_in_valid_range(my_list, min, max):
+	"""Ensure values are within specific range or a MySQL null (i.e. '\\N')."""
 	for val in my_list:
 		try:
 			val_float = float(val)
@@ -20,6 +18,6 @@ def _check_col_is_lat_long(my_list):
 			if val != '\\N':
 				return False
 		else:
-			if not (-180 <= val_float <= 180):
+			if not (min <= val_float <= max):
 				return False
 	return True
