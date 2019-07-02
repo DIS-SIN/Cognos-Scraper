@@ -7,6 +7,7 @@ import requests
 import urllib
 import pandas as pd
 from config import shared_directories
+from utils.utils import _check_col_is_lat_long
 from registrations_scraper.config import directories
 
 # Instantiate logger
@@ -113,6 +114,14 @@ regs['offering_lng'] = regs.apply(lambda x: get_lat_lng(x['offering_city'], x['o
 # Add learner latitude and longitude
 regs['learner_lat'] = regs.apply(lambda x: get_lat_lng(x['learner_city'], x['learner_province'])['lat'], axis=1)
 regs['learner_lng'] = regs.apply(lambda x: get_lat_lng(x['learner_city'], x['learner_province'])['lng'], axis=1)
+
+# Ensure new columns contain valid coördinates
+if not _check_col_is_lat_long(regs['offering_lat'].unique()) and
+	   _check_col_is_lat_long(regs['offering_lng'].unique()) and
+	   _check_col_is_lat_long(regs['learner_lat'].unique()) and
+	   _check_col_is_lat_long(regs['learner_lng'].unique()):
+	logger.critical('Failure: Invalid coördinates.')
+    exit()
 
 logger.debug('3/5: New columns created.')
 
