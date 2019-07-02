@@ -54,4 +54,12 @@ for tup in course_code_count_db:
 		logger.critical('Failure: Missing data in latest Cognos extract for course code {0}.'.format(course_code))
 		exit()
 
+# Log new rows this ETL
+# Useful to get a feeling for data by day of week, time of year, etc.
+# Also insurance against repeated days of 0 new rows -> problem with Cognos
+total_db = sum([tup[1] for tup in course_code_count_db])
+total_pd = regs.shape[0]
+new_rows = total_pd - total_db
+logger.info('{0} new registrations today.'.format(new_rows))
+
 logger.debug('5/5: Check complete: No missing data.')
