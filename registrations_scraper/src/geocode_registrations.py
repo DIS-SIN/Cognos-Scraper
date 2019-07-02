@@ -102,7 +102,7 @@ def get_lat_lng(city, prov):
     results = {'lat': lat, 'lng': lng}
     geo_dict[memo_city] = results
     new_ctr += 1
-    logger.debug('New city geocoded: {0} at {1}, {2}.'.format(lookup_city, lat, lng))
+    logger.info('New city geocoded: {0} at {1}, {2}.'.format(lookup_city, lat, lng))
     
     return results
 
