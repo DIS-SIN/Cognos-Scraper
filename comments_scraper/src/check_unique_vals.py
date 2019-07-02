@@ -5,6 +5,7 @@ import logging
 import os
 import pandas as pd
 from config import shared_directories
+from utils.utils import _check_column
 from comments_scraper.config import unique_vals
 
 # Instantiate logger
@@ -18,14 +19,6 @@ if not comments.shape[0] > 0:
 	logger.critical('Failure: Comments.xls is empty.')
 	exit()
 logger.debug('1/4: Data imported.')
-
-
-def _check_column(col_vals, target_vals):
-	"""Compare a column's unique values to target set."""
-	for elem in col_vals:
-		if elem not in target_vals:
-			logger.critical('Failure: Unknown value \'{0}\' in latest Cognos extract.'.format(elem))
-			exit()
 
 # Check column 'quarter'
 _check_column(comments['quarter'].unique(), unique_vals.QUARTER)
