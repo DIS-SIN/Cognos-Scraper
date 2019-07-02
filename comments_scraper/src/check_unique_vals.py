@@ -17,7 +17,7 @@ comments = pd.read_csv('Comments.xls', sep='\t', index_col=False, encoding='utf_
 if not comments.shape[0] > 0:
 	logger.critical('Failure: Comments.xls is empty.')
 	exit()
-logger.info('1/4: Data imported.')
+logger.debug('1/4: Data imported.')
 
 
 def _check_column(col_vals, target_vals):
@@ -29,10 +29,10 @@ def _check_column(col_vals, target_vals):
 
 # Check column 'quarter'
 _check_column(comments['quarter'].unique(), unique_vals.QUARTER)
-logger.info('2/4: Column \'quarter\' verified.')
+logger.debug('2/4: Column \'quarter\' verified.')
 
 # Check column 'original_question'
 _check_column(comments['original_question'].unique(), unique_vals.ORIGINAL_QUESTION)
-logger.info('3/4: Column \'original_question\' verified.')
+logger.debug('3/4: Column \'original_question\' verified.')
 
-logger.info('4/4: Check complete: No unknown values.')
+logger.debug('4/4: Check complete: No unknown values.')

@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 # Store DB connection in global var to avoid reconnecting after each query
 cnx = get_db()
-logger.info('1/5: Connected to DB.')
+logger.debug('1/5: Connected to DB.')
 
 # Get row counts by course code from DB
 course_code_query = """
@@ -25,14 +25,14 @@ course_code_query = """
 try:
 	course_code_count_db = query_mysql(cnx, course_code_query)
 	course_code_count_db = [(tup[0].decode(), tup[1]) for tup in course_code_count_db]
-	logger.info('2/5: Queried DB for row counts.')
+	logger.debug('2/5: Queried DB for row counts.')
 except Exception:
 	logger.critical('Failure!', exc_info=True)
 	cnx.close()
 	exit()
 finally:
 	cnx.close()
-	logger.info('3/5: Connection closed.')
+	logger.debug('3/5: Connection closed.')
 
 # Get total row count from Pandas
 os.chdir(shared_directories.DOWNLOADS_DIR)
@@ -42,7 +42,7 @@ comments = pd.read_csv('Comments.xls', sep='\t', index_col=False, encoding='utf_
 # Get row counts by course code from Pandas
 course_code_count_pd = comments['course_code'].value_counts(sort=False, dropna=False)
 course_code_count_pd = {tup[0]: tup[1] for tup in course_code_count_pd.iteritems()}
-logger.info('4/5: Queried Pandas for row counts.')
+logger.debug('4/5: Queried Pandas for row counts.')
 
 # Compare DB counts with Pandas counts, using DB as baseline
 for tup in course_code_count_db:
@@ -53,4 +53,4 @@ for tup in course_code_count_db:
 		logger.critical('Failure: Missing data in latest Cognos extract for course code {0}.'.format(course_code))
 		exit()
 
-logger.info('5/5: Check complete: No missing data.')
+logger.debug('5/5: Check complete: No missing data.')

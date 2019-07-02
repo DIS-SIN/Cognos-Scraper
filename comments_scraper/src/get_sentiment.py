@@ -22,14 +22,14 @@ if not df.shape[0] > 0:
 	logger.critical('Failure: comments_processed.csv is empty.')
 	exit()
 
-logger.info('1/5: Data imported.')
+logger.debug('1/5: Data imported.')
 
 # Load pickle for memoization
 os.chdir(directories.PICKLE_DIR)
 with open('sentiment_dict.pickle', 'rb') as f:
     sentiment_dict = pickle.load(f)
 
-logger.info('2/5: Pickle imported.')
+logger.debug('2/5: Pickle imported.')
 
 # Instantiate client
 client = language.LanguageServiceClient()
@@ -46,7 +46,7 @@ def get_sentiment_score(survey_id, original_question, short_question, text_answe
     ctr += 1
     # Log ctr every 1000 comments
     if ctr % 10_000 == 0:
-        logger.info('Finished {0} comments.'.format(ctr))
+        logger.debug('Finished {0} comments.'.format(ctr))
     
     if short_question in IGNORE_LIST:
         result = '\\N' # i.e. NULL for MySQL
@@ -64,7 +64,6 @@ def get_sentiment_score(survey_id, original_question, short_question, text_answe
     api_ctr += 1
     # API has limit of 500 queries / min
     if api_ctr % 500 == 0:
-        logger.info('ML\'d {0} new comments.'.format(api_ctr))
         time.sleep(60)
     try:
         document = language.types.Document(content=text_answer,
@@ -88,18 +87,18 @@ api_results = df.apply(lambda x: get_sentiment_score(x['survey_id'], x['original
 
 df['stars'] = api_results
 
-logger.info('3/5: New column created; {0} new comments ML\'d.'.format(api_ctr))
+logger.debug('3/5: New column created; {0} new comments ML\'d.'.format(api_ctr))
 
 # Export sentiment_dict to pickle for future re-use
 os.chdir(directories.PICKLE_DIR)
 with open('sentiment_dict.pickle', 'wb') as f:
     pickle.dump(sentiment_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-logger.info('4/5: Pickle exported.')
+logger.debug('4/5: Pickle exported.')
 
 # Export results as CSV
 os.chdir(directories.PROCESSED_DIR)
 df.to_csv('comments_processed_ML.csv', sep=',', encoding='utf-8', index=False,
           quotechar='"', line_terminator='\r\n')
 
-logger.info('5/5: Data exported.')
+logger.debug('5/5: Data exported.')

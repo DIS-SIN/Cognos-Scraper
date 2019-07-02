@@ -20,7 +20,7 @@ if not comments.shape[0] > 0:
 	logger.critical('Failure: Comments.xls is empty.')
 	exit()
 
-logger.info('1/4: Data imported.')
+logger.debug('1/4: Data imported.')
 
 # Ensure column 'course_code' is uppercase
 comments['course_code'] = comments['course_code'].astype(str).str.upper()
@@ -32,7 +32,7 @@ comments['fiscal_year'] = comments['fiscal_year'].astype(str).str.strip()
 # A very small number of learners put a lengthy description instead of their classification
 comments['learner_classif'] = comments['learner_classif'].astype(str).str.slice(0, 80)
 
-logger.info('2/4: Data cleaned.')
+logger.debug('2/4: Data cleaned.')
 
 # Create new column 'offering_city_fr' as certain cities require translation e.g. 'NCR'
 comments['offering_city_fr'] = comments['offering_city_en'].map(city_map)
@@ -85,11 +85,11 @@ comments['text_answer_fr'] = comments['text_answer'].map(text_answer_map).fillna
 # Assign these comments value '\N' (null integer in MySQL)
 comments['overall_satisfaction'] = comments['survey_id'].map(overall_sat_map).fillna('\\N')
 
-logger.info('3/4: New columns created.')
+logger.debug('3/4: New columns created.')
 
 # Export results as CSV
 os.chdir(directories.PROCESSED_DIR)
 comments.to_csv('comments_processed.csv', sep=',', encoding='utf-8', index=False,
                 quotechar='"', line_terminator='\r\n')
 
-logger.info('4/4: Data exported.')
+logger.debug('4/4: Data exported.')
