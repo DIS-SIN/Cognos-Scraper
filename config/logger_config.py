@@ -32,11 +32,23 @@ class SlackFormatter(logging.Formatter):
 		return json.dumps(data)
 
 
+class SeleniumFilter(logging.Filter):
+	"""Exclude Selenium logs as superfluous."""
+	def filter(self, record):
+		"""Required func returning boolean indicating if record to be emitted by handler."""
+		return not record.name.startswith('selenium')
+
+
 # Add custom handler to logging library
 logging.handlers.SlackHandler = SlackHandler
 
 logger_dict = {
 	'version': 1,
+	'filters': {
+		'seleniumFilter': {
+			'()': SeleniumFilter
+		}
+	},
 	'formatters': {
 		'formatter': {
 			'format': '%(asctime)s - %(levelname)s - %(name)s - %(message)s',
@@ -52,18 +64,21 @@ logger_dict = {
 			'level': 'DEBUG',
 			'formatter': 'formatter',
 			'encoding': 'utf-8',
-			'filename': 'logs/scraper.log'
+			'filename': 'logs/scraper.log',
+			'filters': ['seleniumFilter']
 		},
 		'stdOutHandler': {
 			'class': 'logging.StreamHandler',
 			'level': 'DEBUG',
 			'formatter': 'formatter',
-			'stream': 'ext://sys.stdout'
+			'stream': 'ext://sys.stdout',
+			'filters': ['seleniumFilter']
 		},
 		'slackHandler': {
 			'class': 'logging.handlers.SlackHandler',
 			'level': 'INFO',
-			'formatter': 'slackFormatter'
+			'formatter': 'slackFormatter',
+			'filters': ['seleniumFilter']
 		}
 	},
 	'loggers': {
