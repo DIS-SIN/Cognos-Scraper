@@ -28,6 +28,7 @@ create_table = """
 		text_answer_fr VARCHAR(90),
 		overall_satisfaction TINYINT,
 		stars TINYINT,
+		magnitude FLOAT UNSIGNED,
 		PRIMARY KEY(survey_id, original_question)
 	);
 """

@@ -50,7 +50,7 @@ def get_sentiment_score(survey_id, original_question, short_question, text_answe
 		logger.debug('Finished {0} comments.'.format(ctr))
 	
 	if short_question in IGNORE_LIST:
-		result = '\\N' # i.e. NULL for MySQL
+		result = ('\\N', '\\N') # i.e. NULL for MySQL
 		# No need to memoize as no expensive computation performed
 		return result
 	
@@ -72,12 +72,15 @@ def get_sentiment_score(survey_id, original_question, short_question, text_answe
 		sentiment = client.analyze_sentiment(document=document).document_sentiment
 		# Adjust interval from [-1, 1] to [1, 5]
 		# Cast to Decimal then back to int to prevent floating point rounding errors
-		result = int(round(Decimal(str((sentiment.score * 2) + 3))))
+		sent = int(round(Decimal(str((sentiment.score * 2) + 3))))
+		mag = sentiment.magnitude
 	# Comments occasionally so badly written the API can't identify the language
 	except Exception:
 		# Default to overall_satisfaction
-		result = float(overall_satisfaction)
+		sent = float(overall_satisfaction)
+		mag = '\\N'
 	# Memoize and return result
+	result = (sent, mag)
 	sentiment_dict[pkey] = result
 	return result
 
@@ -85,12 +88,15 @@ api_results = df.apply(lambda x: get_sentiment_score(x['survey_id'], x['original
 					   axis=1,					# Apply to each row
 					   raw=False,				# Pass each cell individually as not using NumPy
 					   result_type='expand')	# Return DataFrame rather than Series of tuples
+df['stars'] = api_results.loc[:, 0]
+df['magnitude'] = api_results.loc[:, 1]
 
-df['stars'] = api_results
-
-# Ensure new column contains valid stars
+# Ensure new columns in valid range
 if not _check_col_in_valid_range(df['stars'].unique(), 1, 5):
 	logger.critical('Failure: Invalid stars.')
+	exit()
+if not _check_col_in_valid_range(df['magnitude'].unique(), 0, float('inf')):
+	logger.critical('Failure: Invalid magnitude.')
 	exit()
 
 logger.debug('3/5: New column created; {0} new comments ML\'d.'.format(api_ctr))
