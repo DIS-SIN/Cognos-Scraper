@@ -32,11 +32,11 @@ class SlackFormatter(logging.Formatter):
 		return json.dumps(data)
 
 
-class SeleniumFilter(logging.Filter):
-	"""Exclude Selenium logs as superfluous."""
+class ThirdPartyFilter(logging.Filter):
+	"""Exclude unnecessary logs from 3rd party libraries."""
 	def filter(self, record):
 		"""Required func returning boolean indicating if record to be emitted by handler."""
-		return not record.name.startswith('selenium')
+		return not (record.name.startswith('selenium') or record.name.startswith('google'))
 
 
 # Add custom handler to logging library
@@ -45,8 +45,8 @@ logging.handlers.SlackHandler = SlackHandler
 logger_dict = {
 	'version': 1,
 	'filters': {
-		'seleniumFilter': {
-			'()': SeleniumFilter
+		'thirdPartyFilter': {
+			'()': ThirdPartyFilter
 		}
 	},
 	'formatters': {
@@ -65,20 +65,20 @@ logger_dict = {
 			'formatter': 'formatter',
 			'encoding': 'utf-8',
 			'filename': 'logs/scraper.log',
-			'filters': ['seleniumFilter']
+			'filters': ['thirdPartyFilter']
 		},
 		'stdOutHandler': {
 			'class': 'logging.StreamHandler',
 			'level': 'DEBUG',
 			'formatter': 'formatter',
 			'stream': 'ext://sys.stdout',
-			'filters': ['seleniumFilter']
+			'filters': ['thirdPartyFilter']
 		},
 		'slackHandler': {
 			'class': 'logging.handlers.SlackHandler',
 			'level': 'INFO',
 			'formatter': 'slackFormatter',
-			'filters': ['seleniumFilter']
+			'filters': ['thirdPartyFilter']
 		}
 	},
 	'loggers': {
