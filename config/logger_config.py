@@ -36,8 +36,11 @@ class ThirdPartyFilter(logging.Filter):
 	"""Exclude unnecessary logs from 3rd party libraries."""
 	def filter(self, record):
 		"""Required func returning boolean indicating if record to be emitted by handler."""
-		return not (record.name.startswith('selenium') or record.name.startswith('google'))
-
+		IGNORE_LIST = ['easyprocess', 'google', 'pyvirtualdisplay', 'selenium']
+		check = [record.name.startswith(val) for val in IGNORE_LIST]
+		if any(check):
+			return False
+		return True
 
 # Add custom handler to logging library
 logging.handlers.SlackHandler = SlackHandler
