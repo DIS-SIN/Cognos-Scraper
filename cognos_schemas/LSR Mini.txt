@@ -1,0 +1,109 @@
+##########
+FITLERS
+##########
+
+Offering Start Date between 2019-03-31 23:59:59.999 and 2020-03-31 23:59:59.999
+DimScopeDwKey includes 2
+Offering Delivery Type excludes [
+	Event (in-person)
+	Learning Event (Virtual)*,
+	Learning Event(in person),
+	Web Conference (VOID),
+	Webcast (VOID)
+]
+Course Code excludes [
+	No course code
+	Unknown
+	E171
+	E225
+	E393
+	G221
+	Z101
+]
+
+
+
+##########
+FIELDS
+##########
+
+course_title_en
+[Registration (public)].[Offering].[CourseTitle_EN]
+
+course_title_fr
+[Registration (public)].[Offering].[(en-ca) CourseTitle_FR]
+
+course_code
+UPPER ([Registration (public)].[Offering].[CourseCode])
+
+business_type
+IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] = 'Online - Self-Paced') THEN ('Online') ELSE ('Instructor-Led')
+
+offering_id
+[Registration (public)].[Offering].[OfferingIdentification]
+
+start_date
+[Registration (public)].[Offer Start Date].[Date]
+
+end_date
+[Registration (public)].[Offer End Date].[Date]
+
+month_en
+[Registration (public)].[Offer Start Date].[MonthName_EN]
+
+month_fr
+[Registration (public)].[Offer Start Date].[(en-ca) MonthName_FR]
+
+client
+IF ([Registration (public)].[Offering].[(en-ca) Client] = 'Unknown') THEN ('') ELSE ([Registration (public)].[Offering].[(en-ca) Client])
+
+offering_status
+[Registration (public)].[Offering].[(en-ca) OfferingStatus_EN]
+
+offering_language
+SUBSTRING ([Registration (public)].[Offering].[Offering Language], 0, POSITION ('/', [Registration (public)].[Offering].[Offering Language]))
+
+offering_region_en
+IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'Atlantic Region') THEN ('Atlantic') ELSE (IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'National Capital Region') THEN ('NCR') ELSE (IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'Ontario Region' OR [Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario Region') ELSE (IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'Pacific and Yukon Region') THEN ('Pacific') ELSE (IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'Prairies and Northwest Territories') THEN ('Prairie') ELSE (IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'Québec and Nunavut Region') THEN ('Québec Region') ELSE (IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'Outside Canada Region') THEN ('Outside Canada') ELSE (IF ([business_type] = 'Online') THEN ('Online') ELSE ([Registration (public)].[Offering Address].[OfferingRegionName_EN]))))))))
+
+offering_region_fr
+IF([offering_region_en] = 'Atlantic') THEN ('Atlantique') ELSE (IF([offering_region_en] = 'NCR') THEN ('RCN') ELSE (IF([offering_region_en] = 'Ontario Region') THEN ('Région d''Ontario') ELSE (IF([offering_region_en] = 'Pacific') THEN ('Pacifique') ELSE (IF([offering_region_en] = 'Prairie') THEN ('Prairie') ELSE (IF([offering_region_en] = 'Québec Region') THEN ('Région du Québec') ELSE (IF([offering_region_en] = 'Online') THEN ('En ligne') ELSE (IF ([offering_region_en] = 'Outside Canada') THEN ('Hors du Canada') ELSE ([offering_region_en]))))))))
+
+offering_province_en
+IF ([business_type] = 'Online') THEN ('Online') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE([Registration (public)].[Offering Address].[OfferingProvinceName_EN]))
+
+offering_province_fr
+IF ([business_type] = 'Online') THEN ('En ligne') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR]))
+
+offering_city
+IF ([business_type] = 'Online') THEN ('Online') ELSE ([Registration (public)].[Offering Address].[OfferingCityName])
+
+learner_province
+IF ([Registration (public)].[Learner].[(en-ca) LearnerLocationName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE ([Registration (public)].[Learner].[LearnerProvinceName_EN])
+
+learner_city
+[Registration (public)].[Learner].[(en-ca) LearnerLocationName]
+
+reg_id
+REPLACE ([Registration (public)].[Registration Fact].[RegistrationBusId], 'regdw', '')
+
+reg_status
+[Registration (public)].[Miscellaneous].[Registration Status_EN]
+
+no_show
+[Registration (public)].[Miscellaneous].[RegistrationNoShowFlag]
+
+learner_id
+[Registration (public)].[Learner].[LearnerBusKey]
+
+learner_language
+IF ([Registration (public)].[Learner].[LearnerLanguageCode] = 'EN') THEN ('English') ELSE (IF ([Registration (public)].[Learner].[LearnerLanguageCode] = 'FR') THEN ('French') ELSE ([Registration (public)].[Learner].[LearnerLanguageCode]))
+
+learner_classif
+[Registration (public)].[Learner].[JobClassificationFull]
+
+billing_dept_name_en
+[Registration (public)].[Billing Dep/Org].[OrganizationName_EN]
+
+billing_dept_name_fr
+[Registration (public)].[Billing Dep/Org].[OrganizationName_FR]

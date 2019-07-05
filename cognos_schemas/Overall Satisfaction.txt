@@ -1,0 +1,18 @@
+##########
+FITLERS
+##########
+
+Offering Start Date between 2015-03-31 23:59:59.999 and 2020-03-31 23:59:59.999
+Short Question_EN includes Overall Satisfaction
+
+
+
+##########
+FIELDS
+##########
+
+survey_id
+[Evaluation (query)].[Eval - Questions and Answers].[Survey Line ID]
+
+overall_satisfaction
+[Evaluation (query)].[Eval - Questions and Answers].[Numerical Answer]

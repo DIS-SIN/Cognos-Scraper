@@ -1,0 +1,58 @@
+##########
+FITLERS
+##########
+
+Offering Start Date between 2015-03-31 23:59:59.999 and 2020-03-31 23:59:59.999
+Short Question_EN includes [
+	Comment - application for performance improvement
+	Comment - General
+	Comment - OL Not Available
+	GCCampus Tools Used
+	Official Language Available
+	Prep - Did not prepare
+	Prep - Discuss with supervisor
+	Prep - Job related development
+	Prep - Pre-course work
+	Prep - Related courses
+	Reason to Participate
+	Technical Issues
+	Technical Issues?
+	Issue Description
+	Describe technical issues
+	Comments
+	Comments for Improvement
+]
+Question_EN excludes [
+	Comments on the facilitator/instructor:
+	Please use the space below to provide additional comments.
+]
+
+
+
+##########
+FIELDS
+##########
+
+course_code
+UPPER ([Evaluation (query)].[Eval - Offering Information].[Course Code])
+
+survey_id
+[Evaluation (query)].[Eval - Questions and Answers].[Survey Line ID]
+
+fiscal_year (sort by)
+[Evaluation (query)].[Eval - Offering Start Date].[Offering Start Fiscal Year]
+
+quarter (sort by)
+[Evaluation (query)].[Eval - Offering Start Date].[Offering Start Fiscal Quarter Name_EN]
+
+learner_classif
+[Evaluation (query)].[Eval - Learner Classification].[Full Classification]
+
+offering_city_en
+IF ([Evaluation (query)].[Eval - Offering Information].[Offering DeliveryType_EN] = 'Online - Self-Paced') THEN ('Online') ELSE ([Evaluation (query)].[Eval - Offering Location].[Offering City])
+
+original_question
+[Evaluation (query)].[Eval - Questions and Answers].[Short Question_EN]
+
+text_answer
+[Evaluation (query)].[Eval - Questions and Answers].[Long Answer]
