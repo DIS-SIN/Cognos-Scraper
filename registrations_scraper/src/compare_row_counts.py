@@ -25,7 +25,6 @@ course_code_query = """
 
 try:
 	course_code_count_db = query_mysql(cnx, course_code_query)
-	course_code_count_db = [(tup[0].decode(), tup[1]) for tup in course_code_count_db]
 	logger.debug('2/5: Queried DB for row counts.')
 except Exception:
 	logger.critical('Failure!', exc_info=True)
