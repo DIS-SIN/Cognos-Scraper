@@ -35,6 +35,9 @@ cd ~/Cognos-Scraper/comments_scraper
 mkdir pickles
 mkdir processed
 
+cd ~/Cognos-Scraper/offerings_scraper
+mkdir processed
+
 cd ~/Cognos-Scraper/registrations_scraper
 mkdir pickles
 mkdir processed
