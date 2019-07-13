@@ -70,10 +70,10 @@ offering_region_fr
 IF([offering_region_en] = 'Atlantic') THEN ('Atlantique') ELSE (IF([offering_region_en] = 'NCR') THEN ('RCN') ELSE (IF([offering_region_en] = 'Ontario Region') THEN ('Région d''Ontario') ELSE (IF([offering_region_en] = 'Pacific') THEN ('Pacifique') ELSE (IF([offering_region_en] = 'Prairie') THEN ('Prairie') ELSE (IF([offering_region_en] = 'Québec Region') THEN ('Région du Québec') ELSE (IF([offering_region_en] = 'Online') THEN ('En ligne') ELSE (IF ([offering_region_en] = 'Outside Canada') THEN ('Hors du Canada') ELSE ([offering_region_en]))))))))
 
 offering_province_en
-IF ([business_type] = 'Online') THEN ('Online') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE([Registration (public)].[Offering Address].[OfferingProvinceName_EN]))
+IF ([business_type] = 'Online') THEN ('Online') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE(REPLACE ([Registration (public)].[Offering Address].[OfferingProvinceName_EN], '_NCR', '')))
 
 offering_province_fr
-IF ([business_type] = 'Online') THEN ('En ligne') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR]))
+IF ([business_type] = 'Online') THEN ('En ligne') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE(REPLACE ([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR], '_RCN', '')))
 
 offering_city
 IF ([business_type] = 'Online') THEN ('Online') ELSE ([Registration (public)].[Offering Address].[OfferingCityName])
