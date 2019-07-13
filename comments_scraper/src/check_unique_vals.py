@@ -21,11 +21,11 @@ if not comments.shape[0] > 0:
 logger.debug('1/4: Data imported.')
 
 # Check column 'quarter'
-_check_column(comments['quarter'].unique(), unique_vals.QUARTER)
+_check_column(logger, comments['quarter'].unique(), unique_vals.QUARTER)
 logger.debug('2/4: Column \'quarter\' verified.')
 
 # Check column 'original_question'
-_check_column(comments['original_question'].unique(), unique_vals.ORIGINAL_QUESTION)
+_check_column(logger, comments['original_question'].unique(), unique_vals.ORIGINAL_QUESTION)
 logger.debug('3/4: Column \'original_question\' verified.')
 
 logger.debug('4/4: Check complete: No unknown values.')
