@@ -1,0 +1,49 @@
+##########
+FITLERS
+##########
+
+Offering Start Date between 2018-03-31 23:59:59.999 and 2020-03-31 23:59:59.999
+Offering Delivery Type excludes [
+	Documentation
+	Online - Scheduled (VOID)
+	Online - Self-Paced
+]
+
+
+
+##########
+FIELDS
+##########
+
+offering_id
+[Registration (public)].[Offering].[OfferingIdentification]
+
+course_title_en
+[Registration (public)].[Offering].[CourseTitle_EN]
+
+course_title_fr
+[Registration (public)].[Offering].[(en-ca) CourseTitle_FR]
+
+course_code  (sort by)
+UPPER ([Registration (public)].[Offering].[CourseCode])
+
+business_type
+IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] = 'Online - Self-Paced') THEN ('Online') ELSE ('Instructor-Led')
+
+start_date  (sort by)
+[Registration (public)].[Offer Start Date].[Date]
+
+end_date
+[Registration (public)].[Offer End Date].[Date]
+
+offering_status
+[Registration (public)].[Offering].[(en-ca) OfferingStatus_EN]
+
+offering_province_en
+IF ([business_type] = 'Online') THEN ('Online') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE(REPLACE (REPLACE ([Registration (public)].[Offering Address].[OfferingProvinceName_EN], 'Ontario_NCR', 'Ontario'), 'Québec_NCR', 'Quebec')))
+
+offering_province_fr
+IF ([business_type] = 'Online') THEN ('En ligne') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE(REPLACE (REPLACE ([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR], 'Ontario_RCN', 'Ontario'), 'Québec_RCN', 'Québec')))
+
+offering_city
+IF ([business_type] = 'Online') THEN ('Online') ELSE ([Registration (public)].[Offering Address].[OfferingCityName])
