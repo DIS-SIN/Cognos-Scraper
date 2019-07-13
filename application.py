@@ -39,8 +39,9 @@ def check_for_pickles():
 def check_for_processed_dirs():
 	"""Check if dirs into which outputs will be saved are present."""
 	check_comments_processed = os.path.isdir('./comments_scraper/processed')
+	check_offerings_processed = os.path.isdir('./offerings_scraper/processed')
 	check_registrations_processed = os.path.isdir('./registrations_scraper/processed')
-	if not check_comments_processed or not check_registrations_processed:
+	if not check_comments_processed or not check_offerings_processed or not check_registrations_processed:
 		return False
 	return True
 
@@ -50,7 +51,7 @@ if __name__ == '__main__':
 	logging.config.dictConfig(logger_dict)
 	logger = logging.getLogger(__name__)
 	
-	# Check for pickles are processed dirs
+	# Check for pickles and processed dirs
 	pickles = check_for_pickles()
 	if not pickles:
 		logger.critical('Failure: Missing pickles.')
