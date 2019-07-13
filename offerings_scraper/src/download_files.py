@@ -1,7 +1,7 @@
 """Download list of offerings as CSV from Cognos."""
 import logging
 import os
-# from pyvirtualdisplay import Display
+from pyvirtualdisplay import Display
 from selenium import webdriver
 from config import shared_directories
 from utils.file_system import check_file_exists, delete_files_of_this_ilk
@@ -25,8 +25,8 @@ delete_files_of_this_ilk('Offerings')
 logger.debug('1/7: Previous files deleted.')
 
 # Open virtual viewport
-# display = Display(visible=0, size=(1920, 1080))
-# display.start()
+display = Display(visible=0, size=(1920, 1080))
+display.start()
 logger.debug('2/7: Virtual viewport opened.')
 
 # Open controlled browser
@@ -54,5 +54,5 @@ logger.debug('6/7: Logged out of Cognos.')
 
 # End module
 browser.quit()
-# display.stop()
+display.stop()
 logger.debug('7/7: Module ended.')
