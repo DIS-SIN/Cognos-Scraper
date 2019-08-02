@@ -19,11 +19,16 @@ if not df.shape[0] > 0:
 	logger.critical('Failure: Offerings.xls is empty.')
 	exit()
 
-logger.debug('1/2: Data imported.')
+logger.debug('1/3: Data imported.')
+
+# Remove whitespace from column 'fiscal_year'
+df['fiscal_year'] = df['fiscal_year'].astype(str).str.strip()
+
+logger.debug('2/3: Data cleaned.')
 
 # Export results as CSV
 os.chdir(directories.PROCESSED_DIR)
 df.to_csv('offerings_processed.csv', sep=',', encoding='utf-8', index=False,
 		  quotechar='"', line_terminator='\r\n')
 
-logger.debug('2/2: Data exported.')
+logger.debug('3/3: Data exported.')
