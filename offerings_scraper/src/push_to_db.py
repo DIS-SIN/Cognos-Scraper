@@ -14,7 +14,7 @@ logger.debug('1/7: Connected to DB.')
 PROCESSED_DIR = PROCESSED_DIR.replace('\\', '/')
 
 create_table = """
-	CREATE TABLE offerings(
+	CREATE TABLE new_offerings(
 		offering_id INT,
 		course_title_en VARCHAR(200),
 		course_title_fr VARCHAR(300),
