@@ -41,8 +41,8 @@ load_data = """
 	LINES TERMINATED BY '\r\n'
 	IGNORE 1 LINES
 	(offering_id, course_title_en, course_title_fr, course_code, business_type, fiscal_year,
-	quarter, @temp_start_date, @temp_end_date, offering_status, offering_province_en,
-	offering_province_fr, offering_city)
+	quarter, @temp_start_date, @temp_end_date, offering_status, offering_region_en,
+	offering_region_fr, offering_province_en, offering_province_fr, offering_city)
 	SET start_date = STR_TO_DATE(@temp_start_date, '%Y-%m-%d %T'),
 	end_date = STR_TO_DATE(@temp_end_date, '%Y-%m-%d %T');
 """.format(PROCESSED_DIR)
