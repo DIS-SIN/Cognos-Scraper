@@ -1,0 +1,31 @@
+CREATE TABLE offerings(
+	offering_id INT,
+	course_title_en VARCHAR(200),
+	course_title_fr VARCHAR(300),
+	course_code VARCHAR(20),
+	business_type VARCHAR(30),
+	fiscal_year VARCHAR(7),
+	quarter VARCHAR(2),
+	start_date DATE,
+	end_date DATE,
+	offering_status VARCHAR(30),
+	offering_region_en VARCHAR(30),
+	offering_region_fr VARCHAR(30),
+	offering_province_en VARCHAR(30),
+	offering_province_fr VARCHAR(30),
+	offering_city VARCHAR(50)
+);
+
+
+
+LOAD DATA INFILE 'D:\\offerings.csv'
+INTO TABLE offerings
+FIELDS OPTIONALLY ENCLOSED BY '"'
+TERMINATED BY ','
+LINES TERMINATED BY '\r\n'
+IGNORE 1 LINES;
+
+
+
+# Index
+# None needed
