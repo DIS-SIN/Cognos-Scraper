@@ -4,11 +4,33 @@ in Python sets for O(1) lookup times.
 
 BUSINESS_TYPE = {'Events', 'Instructor-Led', 'Online'}
 
+QUARTER = {'Q1', 'Q2', 'Q3', 'Q4'}
+
 OFFERING_STATUS = {
 	'Cancelled - Normal',
 	'Delivered - Normal',
 	'N/a',
 	'Open - Normal'
+}
+
+OFFERING_REGION_EN = {
+	'Atlantic',
+	'NCR',
+	'Online',
+	'Ontario Region',
+	'Pacific',
+	'Prairie',
+	'Québec Region'
+}
+
+OFFERING_REGION_FR = {
+	'Atlantique',
+	'En ligne',
+	'Pacifique',
+	'Prairie',
+	'RCN',
+	'Région d\'Ontario',
+	'Région du Québec',
 }
 
 OFFERING_PROVINCE_EN = {
@@ -26,5 +48,22 @@ OFFERING_PROVINCE_EN = {
 	'Prince Edward Island',
 	'Quebec',
 	'Saskatchewan',
+	'Yukon'
+}
+
+OFFERING_PROVINCE_FR = {
+	'Alberta',
+	'Colombie-Britannique',
+	'Île-du-Prince-Édouard',
+	'Manitoba',
+	'NCR/RCN',
+	'Nouveau-Brunswick',
+	'Nouvelle-Écosse',
+	'Nunavut',
+	'Ontario',
+	'Québec',
+	'Saskatchewan',
+	'Terre-Neuve-et-Labrador',
+	'Territoires du Nord-Ouest',
 	'Yukon'
 }

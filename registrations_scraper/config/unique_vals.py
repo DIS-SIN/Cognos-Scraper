@@ -44,6 +44,16 @@ OFFERING_REGION_EN = {
 	'Québec Region'
 }
 
+OFFERING_REGION_FR = {
+	'Atlantique',
+	'En ligne',
+	'Pacifique',
+	'Prairie',
+	'RCN',
+	'Région d\'Ontario',
+	'Région du Québec',
+}
+
 OFFERING_PROVINCE_EN = {
 	'Alberta',
 	'British Columbia',
