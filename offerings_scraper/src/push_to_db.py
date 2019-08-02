@@ -15,7 +15,7 @@ PROCESSED_DIR = PROCESSED_DIR.replace('\\', '/')
 
 create_table = """
 	CREATE TABLE new_offerings(
-		offering_id INT,
+		offering_id INT PRIMARY KEY,
 		course_title_en VARCHAR(200),
 		course_title_fr VARCHAR(300),
 		course_code VARCHAR(20),
