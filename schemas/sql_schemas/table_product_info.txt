@@ -18,7 +18,7 @@ CREATE TABLE new_product_info(
 	communities_en VARCHAR(110),
 	communities_fr VARCHAR(110),
 	point_of_contact VARCHAR(80),
-	director VARCHAR(40),
+	director VARCHAR(60),
 	program_manager VARCHAR(40),
 	project_lead VARCHAR(40)
 );
