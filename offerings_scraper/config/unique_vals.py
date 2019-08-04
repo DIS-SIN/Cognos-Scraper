@@ -13,6 +13,14 @@ OFFERING_STATUS = {
 	'Open - Normal'
 }
 
+OFFERING_LANGUAGE = {
+	'Bilingual',
+	'English',
+	'ESL',
+	'French',
+	'FSL'
+}
+
 OFFERING_REGION_EN = {
 	'Atlantic',
 	'NCR',

@@ -27,6 +27,15 @@ course_title_fr
 course_code  (sort by)
 UPPER ([Registration (public)].[Offering].[CourseCode])
 
+instructor_names
+IF ([Registration (public)].[Offering].[(en-ca) InstructorName] = 'Unknown') THEN ('') ELSE ([Registration (public)].[Offering].[(en-ca) InstructorName])
+
+confirmed_count
+[Registration (public)].[Offering].[(en-ca) ConfirmedRegstrations]
+
+waitlisted_count
+[Registration (public)].[Offering].[(en-ca) StudentWaitlisted]
+
 business_type
 IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] = 'Online - Self-Paced') THEN ('Online') ELSE ('Instructor-Led')
 
@@ -42,8 +51,14 @@ start_date  (sort by)
 end_date
 [Registration (public)].[Offer End Date].[Date]
 
+client
+IF ([Registration (public)].[Offering].[(en-ca) Client] = 'Unknown') THEN ('') ELSE ([Registration (public)].[Offering].[(en-ca) Client])
+
 offering_status
 [Registration (public)].[Offering].[(en-ca) OfferingStatus_EN]
+
+offering_language
+SUBSTRING ([Registration (public)].[Offering].[Offering Language], 0, POSITION ('/', [Registration (public)].[Offering].[Offering Language]))
 
 offering_region_en
 IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'Atlantic Region') THEN ('Atlantic') ELSE (IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'National Capital Region') THEN ('NCR') ELSE (IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'Ontario Region' OR [Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario Region') ELSE (IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'Pacific and Yukon Region') THEN ('Pacific') ELSE (IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'Prairies and Northwest Territories') THEN ('Prairie') ELSE (IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'Québec and Nunavut Region') THEN ('Québec Region') ELSE (IF ([Registration (public)].[Offering Address].[OfferingRegionName_EN] = 'Outside Canada Region') THEN ('Outside Canada') ELSE (IF ([business_type] = 'Online') THEN ('Online') ELSE ([Registration (public)].[Offering Address].[OfferingRegionName_EN]))))))))
