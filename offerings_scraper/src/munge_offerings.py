@@ -28,7 +28,7 @@ df['client'] = df['client'].astype(str).str.strip()
 df['offering_language'] = df['offering_language'].astype(str).str.strip()
 
 # Merge obscure values with standard values for 'offering_language'
-df['offering_language'] = df['offering_language'].astype(str).str.replace('Simultaneous Translation', 'Bilingual').replace('ESL', 'English').replace('FLS', 'French')
+df['offering_language'] = df['offering_language'].astype(str).str.replace('Simultaneous Translation', 'Bilingual').replace('ESL', 'English').replace('FSL', 'French')
 
 logger.debug('2/3: Data cleaned.')
 
