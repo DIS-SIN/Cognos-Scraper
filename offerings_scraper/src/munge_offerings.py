@@ -21,8 +21,14 @@ if not df.shape[0] > 0:
 
 logger.debug('1/3: Data imported.')
 
-# Remove whitespace from column 'fiscal_year'
+# Remove whitespace from columns known to contain junk spacing
+df['instructor_names'] = df['instructor_names'].astype(str).str.strip()
 df['fiscal_year'] = df['fiscal_year'].astype(str).str.strip()
+df['client'] = df['client'].astype(str).str.strip()
+df['offering_language'] = df['offering_language'].astype(str).str.strip()
+
+# Merge obscure values with standard values for 'offering_language'
+df['offering_language'] = df['offering_language'].astype(str).str.replace('Simultaneous Translation', 'Bilingual').replace('ESL', 'English').replace('FLS', 'French')
 
 logger.debug('2/3: Data cleaned.')
 
