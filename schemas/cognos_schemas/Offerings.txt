@@ -2,7 +2,7 @@
 FITLERS
 ##########
 
-Offering Start Date between 2018-03-31 23:59:59.999 and 2020-03-31 23:59:59.999
+OfferingStartDateDwKey between 20180400 and 20200400
 Offering Delivery Type excludes [
 	Documentation
 	Online - Scheduled (VOID)
@@ -37,19 +37,27 @@ waitlisted_count
 [Registration (public)].[Offering].[(en-ca) StudentWaitlisted]
 
 business_type
-IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] = 'Online - Self-Paced') THEN ('Online') ELSE ('Instructor-Led')
+IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] IN ('Documentation', 'Online - Scheduled (VOID)', 'Online - Self-Paced')) THEN ('Online') ELSE (IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] IN ('Classroom', 'Correction', 'Virtual Classroom')) THEN ('Instructor-Led') ELSE(IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] IN ('Event (in-person)', 'Learning Event(in person)', 'Learning Event (Virtual)*', 'Web Conference (VOID)', 'Webcast (VOID)')) THEN ('Events') ELSE('Error - Check Delivery Type')))
 
 fiscal_year
-REPLACE ([Registration (public)].[Offer Start Date].[FiscalYear], '-20', '-')
+CASE
+WHEN EXTRACT(MONTH, [start_date]) >=4 THEN CAST(EXTRACT(YEAR, [start_date]), VARCHAR(10)) + '-' + SUBSTRING(CAST(EXTRACT(YEAR, [start_date])+1, VARCHAR(10)), 3, 4)
+ELSE CAST(EXTRACT(YEAR, [start_date])-1, VARCHAR(10)) + '-' + SUBSTRING(CAST(EXTRACT(YEAR, [start_date]), VARCHAR(10)), 3, 4)
+END
 
 quarter
-[Registration (public)].[Offer Start Date].[(en-ca) FiscalQuarterName_EN]
+CASE
+WHEN EXTRACT(MONTH, [start_date]) IN (4, 5, 6) THEN 'Q1'
+WHEN EXTRACT(MONTH, [start_date]) IN (7, 8, 9) THEN 'Q2'
+WHEN EXTRACT(MONTH, [start_date]) IN (10, 11, 12) THEN 'Q3'
+ELSE 'Q4'
+END
 
 start_date  (sort by)
-[Registration (public)].[Offer Start Date].[Date]
+IF ([Registration (public)].[Offering].[(en-ca) OfferingStartDateDwKey] NOT LIKE -1) THEN (_make_timestamp (LEFT ([Registration (public)].[Offering].[(en-ca) OfferingStartDateDwKey],4) , RIGHT (LEFT ([Registration (public)].[Offering].[(en-ca) OfferingStartDateDwKey],6),2) , RIGHT ([Registration (public)].[Offering].[(en-ca) OfferingStartDateDwKey],2))) ELSE (NULL)
 
 end_date
-[Registration (public)].[Offer End Date].[Date]
+IF ([Registration (public)].[Offering].[(en-ca) OfferingEndDateDwKey] NOT LIKE -1) THEN (_make_timestamp (LEFT ([Registration (public)].[Offering].[(en-ca) OfferingEndDateDwKey],4) , RIGHT (LEFT ([Registration (public)].[Offering].[(en-ca) OfferingEndDateDwKey],6),2) , RIGHT ([Registration (public)].[Offering].[(en-ca) OfferingEndDateDwKey],2))) ELSE (NULL)
 
 client
 IF ([Registration (public)].[Offering].[(en-ca) Client] = 'Unknown') THEN ('') ELSE ([Registration (public)].[Offering].[(en-ca) Client])
@@ -70,7 +78,7 @@ offering_province_en
 IF ([business_type] = 'Online') THEN ('Online') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE(REPLACE (REPLACE ([Registration (public)].[Offering Address].[OfferingProvinceName_EN], 'Ontario_NCR', 'Ontario'), 'Québec_NCR', 'Quebec')))
 
 offering_province_fr
-IF ([business_type] = 'Online') THEN ('En ligne') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE(REPLACE (REPLACE ([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR], 'Ontario_RCN', 'Ontario'), 'Québec_RCN', 'Québec')))
+IF ([business_type] = 'Online') THEN ('En ligne') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE(IF ([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR] = 'Dehors Canada') THEN ('Hors du Canada') ELSE (REPLACE (REPLACE ([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR], 'Ontario_RCN', 'Ontario'), 'Québec_RCN', 'Québec'))))
 
 offering_city
 IF ([business_type] = 'Online') THEN ('Online') ELSE ([Registration (public)].[Offering Address].[OfferingCityName])
