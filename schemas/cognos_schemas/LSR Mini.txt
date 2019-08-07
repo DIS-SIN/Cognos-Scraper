@@ -37,7 +37,7 @@ course_code
 UPPER ([Registration (public)].[Offering].[CourseCode])
 
 business_type
-IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] = 'Online - Self-Paced') THEN ('Online') ELSE ('Instructor-Led')
+IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] IN ('Documentation', 'Online - Scheduled (VOID)', 'Online - Self-Paced')) THEN ('Online') ELSE ('Instructor-Led')
 
 offering_id
 [Registration (public)].[Offering].[OfferingIdentification]
