@@ -29,7 +29,8 @@ OFFERING_REGION_EN = {
 	'Ontario Region',
 	'Pacific',
 	'Prairie',
-	'Québec Region'
+	'Québec Region',
+	'Outside Canada'
 }
 
 OFFERING_REGION_FR = {
@@ -40,6 +41,7 @@ OFFERING_REGION_FR = {
 	'RCN',
 	'Région d\'Ontario',
 	'Région du Québec',
+	'Hors du Canada'
 }
 
 OFFERING_PROVINCE_EN = {
@@ -57,7 +59,8 @@ OFFERING_PROVINCE_EN = {
 	'Prince Edward Island',
 	'Quebec',
 	'Saskatchewan',
-	'Yukon'
+	'Yukon',
+	'Outside Canada'
 }
 
 OFFERING_PROVINCE_FR = {
@@ -74,5 +77,6 @@ OFFERING_PROVINCE_FR = {
 	'Saskatchewan',
 	'Terre-Neuve-et-Labrador',
 	'Territoires du Nord-Ouest',
-	'Yukon'
+	'Yukon',
+	'Hors du Canada'
 }
