@@ -18,4 +18,4 @@ Scrape comments, offerings, and registrations, munge, and push to cloud DB.
 * SLACK_BOT_URL
 
 ### One-Pager:
-https://docs.google.com/document/d/1i2VyVDVxVLBVIATPKBkFqoMwzMl9IaMqZ8mV5umyAcA
+https://drive.google.com/open?id=1i2VyVDVxVLBVIATPKBkFqoMwzMl9IaMqZ8mV5umyAcA
