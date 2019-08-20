@@ -40,7 +40,8 @@ ctr = 0
 # New comments passed to API
 api_ctr = 0
 
-def get_sentiment_score(survey_id, original_question, short_question, text_answer, overall_satisfaction):
+
+def get_sentiment_score(survey_id, original_question, short_question, text_answer):
 	"""Pass text to API, return its sentiment score, and memoize results."""
 	global ctr
 	global api_ctr
@@ -63,28 +64,25 @@ def get_sentiment_score(survey_id, original_question, short_question, text_answe
 	
 	# Otherwise, pass to API
 	api_ctr += 1
-	# API has limit of 500 queries / min
-	if api_ctr % 500 == 0:
+	# API has limit of 600 queries / min
+	if api_ctr % 590 == 0:
 		time.sleep(60)
-	try:
-		document = language.types.Document(content=text_answer,
-										   type=language.enums.Document.Type.PLAIN_TEXT)
-		sentiment = client.analyze_sentiment(document=document).document_sentiment
-		# Adjust interval from [-1, 1] to [1, 5]
-		# Cast to Decimal then back to int to prevent floating point rounding errors
-		sent = int(round(Decimal(str((sentiment.score * 2) + 3))))
-		mag = sentiment.magnitude
-	# Comments occasionally so badly written the API can't identify the language
-	except Exception:
-		# Default to overall_satisfaction
-		sent = float(overall_satisfaction)
-		mag = '\\N'
+	
+	document = language.types.Document(content=text_answer,
+									   type=language.enums.Document.Type.PLAIN_TEXT)
+	sentiment = client.analyze_sentiment(document=document).document_sentiment
+	# Adjust sentiment scores from real numbers in [-1, 1] to integers in [1, 5]
+	# Cast to Decimal then back to int to prevent floating point rounding errors
+	sent = int(round(Decimal(str((sentiment.score * 2) + 3))))
+	mag = sentiment.magnitude
+	
 	# Memoize and return result
 	result = (sent, mag)
 	sentiment_dict[pkey] = result
 	return result
 
-api_results = df.apply(lambda x: get_sentiment_score(x['survey_id'], x['original_question'], x['short_question'], x['text_answer'], x['overall_satisfaction']),
+
+api_results = df.apply(lambda x: get_sentiment_score(x['survey_id'], x['original_question'], x['short_question'], x['text_answer']),
 					   axis=1,					# Apply to each row
 					   raw=False,				# Pass each cell individually as not using NumPy
 					   result_type='expand')	# Return DataFrame rather than Series of tuples
