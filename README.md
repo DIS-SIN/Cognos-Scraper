@@ -1,5 +1,5 @@
 # Cognos-Scraper
-Scrape comments and registrations, munge, and push to cloud DB.
+Scrape comments, offerings, and registrations, munge, and push to cloud DB.
 
 ## Environment variables
 * COGNOS_PASSWORD
