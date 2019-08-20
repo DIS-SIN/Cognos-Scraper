@@ -23,5 +23,9 @@ ORIGINAL_QUESTION = {
 	'Prep - Related courses',
 	'Reason to Participate',
 	'Technical Issues',
-	'Technical Issues?'
+	'Technical Issues?',
+	# New questions from Nanos survey
+	'2. Satisfaction Overall Comments',
+	'8. Technical Experience',
+	'24. Comments you would like to share to help the School improve'
 }
