@@ -2,7 +2,7 @@
 in Python sets for O(1) lookup times.
 """
 
-# Table 'registrations' excludes events, unlike table 'offerings'
+# Tables 'lsr_this_year' and 'lsr_last_year' exclude events, unlike table 'offerings'
 BUSINESS_TYPE = {'Instructor-Led', 'Online'}
 
 LEARNER_LANGUAGE = {'English', 'French'}
