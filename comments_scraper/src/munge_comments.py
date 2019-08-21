@@ -3,9 +3,9 @@ import logging
 import os
 import re
 import pandas as pd
-from comments_scraper.config import directories
-from config.shared_mappings import city_map
 from config import shared_directories
+from config.shared_mappings import city_map
+from comments_scraper.config import directories
 
 # Instantiate logger
 logger = logging.getLogger(__name__)
