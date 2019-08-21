@@ -5,6 +5,7 @@ import logging
 import os
 import pandas as pd
 from config import shared_directories
+from config import shared_unique_vals
 from utils.utils import _check_column
 from comments_scraper.config import comments_unique_vals
 
@@ -21,7 +22,7 @@ if not comments.shape[0] > 0:
 logger.debug('1/4: Data imported.')
 
 # Check column 'quarter'
-_check_column(logger, comments['quarter'].unique(), comments_unique_vals.QUARTER)
+_check_column(logger, comments['quarter'].unique(), shared_unique_vals.QUARTER)
 logger.debug('2/4: Column \'quarter\' verified.')
 
 # Check column 'original_question'
