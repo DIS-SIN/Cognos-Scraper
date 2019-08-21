@@ -2,7 +2,10 @@
 in Python sets for O(1) lookup times.
 """
 
+# Table 'registrations' excludes events, unlike table 'offerings'
 BUSINESS_TYPE = {'Instructor-Led', 'Online'}
+
+LEARNER_LANGUAGE = {'English', 'French'}
 
 MONTH_EN = {
 	'April',
@@ -34,82 +37,7 @@ MONTH_FR = {
 	'Mars'
 }
 
-OFFERING_STATUS = {
-	'Cancelled - Normal',
-	'Delivered - Normal',
-	'N/a',
-	'Open - Normal'
-}
-
-OFFERING_LANGUAGE = {
-	'Bilingual',
-	'English',
-	'ESL',
-	'French',
-	'FSL'
-}
-
-REGION_EN = {
-	'Atlantic',
-	'NCR',
-	'Online',
-	'Ontario Region',
-	'Pacific',
-	'Prairie',
-	'Québec Region',
-	'Outside Canada'
-}
-
-REGION_FR = {
-	'Atlantique',
-	'En ligne',
-	'Pacifique',
-	'Prairie',
-	'RCN',
-	'Région d\'Ontario',
-	'Région du Québec',
-	'Hors du Canada'
-}
-
-PROVINCE_EN = {
-	'Alberta',
-	'British Columbia',
-	'Manitoba',
-	'NCR/RCN',
-	'New Brunswick',
-	'Newfoundland and Labrador',
-	'Northwest Territories',
-	'Nova Scotia',
-	'Nunavut',
-	'Online',
-	'Ontario',
-	'Prince Edward Island',
-	'Quebec',
-	'Saskatchewan',
-	'Unknown',
-	'Yukon',
-	'Outside Canada'
-}
-
-PROVINCE_FR = {
-	'Alberta',
-	'Colombie-Britannique',
-	'En ligne',
-	'Île-du-Prince-Édouard',
-	'Inconnu',
-	'Manitoba',
-	'NCR/RCN',
-	'Nouveau-Brunswick',
-	'Nouvelle-Écosse',
-	'Nunavut',
-	'Ontario',
-	'Québec',
-	'Saskatchewan',
-	'Terre-Neuve-et-Labrador',
-	'Territoires du Nord-Ouest',
-	'Yukon',
-	'Hors du Canada'
-}
+NO_SHOW = {0, 1}
 
 REG_STATUS = {
 	'Cancelled',
@@ -118,7 +46,3 @@ REG_STATUS = {
 	'Offered',
 	'Waitlisted'
 }
-
-NO_SHOW = {0, 1}
-
-LEARNER_LANGUAGE = {'English', 'French'}
