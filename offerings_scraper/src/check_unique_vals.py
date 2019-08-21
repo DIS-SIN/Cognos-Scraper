@@ -5,8 +5,9 @@ import logging
 import os
 import pandas as pd
 from config import shared_directories
+from config import shared_unique_vals
 from utils.utils import _check_column
-from offerings_scraper.config import unique_vals
+from offerings_scraper.config import offerings_unique_vals
 
 # Instantiate logger
 logger = logging.getLogger(__name__)
@@ -18,34 +19,38 @@ df = pd.read_csv('Offerings.xls', sep='\t', index_col=False, encoding='utf_16_le
 if not df.shape[0] > 0:
 	logger.critical('Failure: Offerings.xls is empty.')
 	exit()
-logger.debug('1/9: Data imported.')
+logger.debug('1/10: Data imported.')
 
 # Check column 'business_type'
-_check_column(logger, df['business_type'].unique(), unique_vals.BUSINESS_TYPE)
-logger.debug('2/9: Column \'business_type\' verified.')
+_check_column(logger, df['business_type'].unique(), offerings_unique_vals.BUSINESS_TYPE)
+logger.debug('2/10: Column \'business_type\' verified.')
 
 # Check column 'quarter'
-_check_column(logger, df['quarter'].unique(), unique_vals.QUARTER)
-logger.debug('3/9: Column \'quarter\' verified.')
+_check_column(logger, df['quarter'].unique(), shared_unique_vals.QUARTER)
+logger.debug('3/10: Column \'quarter\' verified.')
 
 # Check column 'offering_status'
-_check_column(logger, df['offering_status'].unique(), unique_vals.OFFERING_STATUS)
-logger.debug('4/9: Column \'offering_status\' verified.')
+_check_column(logger, df['offering_status'].unique(), shared_unique_vals.OFFERING_STATUS)
+logger.debug('4/10: Column \'offering_status\' verified.')
 
 # Check column 'offering_language'
-_check_column(logger, df['offering_language'].unique(), unique_vals.OFFERING_LANGUAGE)
-logger.debug('5/9: Column \'offering_language\' verified.')
+_check_column(logger, df['offering_language'].unique(), shared_unique_vals.OFFERING_LANGUAGE)
+logger.debug('5/10: Column \'offering_language\' verified.')
 
 # Check column 'offering_region_en'
-_check_column(logger, df['offering_region_en'].unique(), unique_vals.OFFERING_REGION_EN)
-logger.debug('6/9: Column \'offering_region_en\' verified.')
+_check_column(logger, df['offering_region_en'].unique(), shared_unique_vals.REGION_EN)
+logger.debug('6/10: Column \'offering_region_en\' verified.')
 
 # Check column 'offering_region_fr'
-_check_column(logger, df['offering_region_fr'].unique(), unique_vals.OFFERING_REGION_FR)
-logger.debug('7/9: Column \'offering_region_fr\' verified.')
+_check_column(logger, df['offering_region_fr'].unique(), shared_unique_vals.REGION_FR)
+logger.debug('7/10: Column \'offering_region_fr\' verified.')
 
 # Check column 'offering_province_en'
-_check_column(logger, df['offering_province_en'].unique(), unique_vals.OFFERING_PROVINCE_EN)
-logger.debug('8/9: Column \'offering_province_en\' verified.')
+_check_column(logger, df['offering_province_en'].unique(), shared_unique_vals.PROVINCE_EN)
+logger.debug('8/10: Column \'offering_province_en\' verified.')
 
-logger.debug('9/9: Check complete: No unknown values.')
+# Check column 'offering_province_fr'
+_check_column(logger, df['offering_province_fr'].unique(), shared_unique_vals.PROVINCE_FR)
+logger.debug('9/10: Column \'offering_province_fr\' verified.')
+
+logger.debug('10/10: Check complete: No unknown values.')
