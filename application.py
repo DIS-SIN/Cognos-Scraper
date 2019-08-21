@@ -25,6 +25,7 @@ def main():
 	from offerings_scraper.src import download_files
 	from offerings_scraper.src import check_unique_vals
 	from offerings_scraper.src import munge_offerings
+	from offerings_scraper.src import geocode_offerings
 	from offerings_scraper.src import push_to_db
 
 
