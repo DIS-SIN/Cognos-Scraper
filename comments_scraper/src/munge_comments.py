@@ -1,6 +1,7 @@
 """Pre-process the extract from Cognos for integration into cloud DB."""
 import logging
 import os
+import re
 import pandas as pd
 from comments_scraper.config import directories
 from config.shared_mappings import city_map
@@ -25,8 +26,11 @@ logger.debug('1/4: Data imported.')
 # Ensure column 'course_code' is uppercase
 comments['course_code'] = comments['course_code'].astype(str).str.upper()
 
-# Remove whitespace from column 'fiscal_year'
+# Remove whitespace from column 'fiscal_year' and switch format from '2019-2020' to
+# '2019-20'
 comments['fiscal_year'] = comments['fiscal_year'].astype(str).str.strip()
+year_pattern = re.compile(pattern=r'([-]{1}\d{2})(?=\d{2})')
+comments['fiscal_year'] = comments['fiscal_year'].astype(str).str.replace(year_pattern, '-', regex=True)
 
 # Limit entries in column 'learner_classif' to 80 characters
 # A very small number of learners put a lengthy description instead of their classification
