@@ -75,13 +75,16 @@ IF ([business_type] = 'Online') THEN ('Online') ELSE (IF ([Registration (public)
 offering_province_fr
 IF ([business_type] = 'Online') THEN ('En ligne') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE(IF ([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR] = 'Dehors Canada') THEN ('Hors du Canada') ELSE (REPLACE (REPLACE ([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR], 'Ontario_RCN', 'Ontario'), 'Québec_RCN', 'Québec'))))
 
-offering_city
+offering_city_en
 IF ([business_type] = 'Online') THEN ('Online') ELSE ([Registration (public)].[Offering Address].[OfferingCityName])
 
-learner_province
-IF ([Registration (public)].[Learner].[(en-ca) LearnerLocationName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE ([Registration (public)].[Learner].[LearnerProvinceName_EN])
+learner_province_en
+IF ([Registration (public)].[Learner].[(en-ca) LearnerLocationName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE (REPLACE (REPLACE ([Registration (public)].[Learner].[LearnerProvinceName_EN], 'Ontario_NCR', 'Ontario'), 'Québec_NCR', 'Quebec'))
 
-learner_city
+learner_province_fr
+IF ([Registration (public)].[Learner].[(en-ca) LearnerLocationName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE (IF ([Registration (public)].[Learner].[(en-ca) LearnerAddressProvinceName_FR] = 'Dehors Canada') THEN ('Hors du Canada') ELSE (REPLACE (REPLACE ([Registration (public)].[Learner].[(en-ca) LearnerAddressProvinceName_FR], 'Ontario_RCN', 'Ontario'), 'Québec_RCN', 'Québec')))
+
+learner_city_en
 [Registration (public)].[Learner].[(en-ca) LearnerLocationName]
 
 reg_id
