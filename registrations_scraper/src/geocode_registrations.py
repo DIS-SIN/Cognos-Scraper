@@ -53,7 +53,7 @@ def _get_memo_name(city, prov):
 
 def _get_lookup_name(city, prov):
 	"""Remove junk strings that interfere with Geocoding API"""
-	return '{0}, {1}'.format(city, prov).replace(', Outside Canada', '').replace('_NCR', '')
+	return '{0}, {1}'.format(city, prov).replace(', Outside Canada', '')
 
 
 def get_lat_lng(city, prov):
@@ -108,12 +108,12 @@ def get_lat_lng(city, prov):
 	return results
 
 # Add offering latitude and longitude
-regs['offering_lat'] = regs.apply(lambda x: get_lat_lng(x['offering_city'], x['offering_province_en'])['lat'], axis=1)
-regs['offering_lng'] = regs.apply(lambda x: get_lat_lng(x['offering_city'], x['offering_province_en'])['lng'], axis=1)
+regs['offering_lat'] = regs.apply(lambda x: get_lat_lng(x['offering_city_en'], x['offering_province_en'])['lat'], axis=1)
+regs['offering_lng'] = regs.apply(lambda x: get_lat_lng(x['offering_city_en'], x['offering_province_en'])['lng'], axis=1)
 
 # Add learner latitude and longitude
-regs['learner_lat'] = regs.apply(lambda x: get_lat_lng(x['learner_city'], x['learner_province'])['lat'], axis=1)
-regs['learner_lng'] = regs.apply(lambda x: get_lat_lng(x['learner_city'], x['learner_province'])['lng'], axis=1)
+regs['learner_lat'] = regs.apply(lambda x: get_lat_lng(x['learner_city_en'], x['learner_province_en'])['lat'], axis=1)
+regs['learner_lng'] = regs.apply(lambda x: get_lat_lng(x['learner_city_en'], x['learner_province_en'])['lng'], axis=1)
 
 # Ensure new columns contain valid coördinates
 if not _check_col_in_valid_range(regs['offering_lat'].unique(), -180, 180) and \
