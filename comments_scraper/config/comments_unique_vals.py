@@ -2,6 +2,8 @@
 in Python sets for O(1) lookup times.
 """
 
+QUARTER = {'Q1', 'Q2', 'Q3', 'Q4'}
+
 ORIGINAL_QUESTION = {
 	'Comment - General ',
 	'Comment - OL Not Available',
