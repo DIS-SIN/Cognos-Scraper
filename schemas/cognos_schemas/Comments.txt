@@ -37,7 +37,7 @@ FIELDS
 ##########
 
 course_code
-UPPER ([Evaluation (query)].[Eval - Offering Information].[Course Code])
+[Evaluation (query)].[Eval - Offering Information].[Course Code]
 
 survey_id
 [Evaluation (query)].[Eval - Questions and Answers].[Survey Line ID]
