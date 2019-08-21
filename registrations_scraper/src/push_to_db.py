@@ -50,7 +50,7 @@ create_table = """
 """
 
 load_data = """
-	LOAD DATA LOCAL INFILE '{0}/lsr_processed.csv'
+	LOAD DATA LOCAL INFILE '{0}/lsr_processed_geo.csv'
 	INTO TABLE new_regs
 	FIELDS OPTIONALLY ENCLOSED BY '"'
 	TERMINATED BY ','

@@ -20,11 +20,8 @@ if API_KEY is None:
 	exit()
 
 ### IMPORT RAW DATA ###
-# Files exported by Cognos have .xls extension but are tab-separated and
-# encoded with UTF-16 Little Endian
-# 'object' datatype in Pandas is synonymous with 'str'
-os.chdir(shared_directories.DOWNLOADS_DIR)
-regs = pd.read_csv('LSR Mini.xls', sep='\t', index_col=False, encoding='utf_16_le',
+os.chdir(shared_directories.PROCESSED_DIR)
+regs = pd.read_csv('lsr_processed.csv', sep=',', index_col=False, encoding='utf-8',
 				   keep_default_na=False)
 if not regs.shape[0] > 0:
 	logger.critical('Failure: LSR Mini.xls is empty.')
@@ -134,7 +131,7 @@ logger.debug('4/5: Pickle exported.')
 
 # Export results as CSV
 os.chdir(directories.PROCESSED_DIR)
-regs.to_csv('lsr_processed.csv', sep=',', encoding='utf-8', index=False,
+regs.to_csv('lsr_processed_geo.csv', sep=',', encoding='utf-8', index=False,
 			quotechar='"', line_terminator='\r\n')
 
 logger.debug('5/5: Data exported.')
