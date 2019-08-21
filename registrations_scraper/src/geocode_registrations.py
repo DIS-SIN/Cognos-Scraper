@@ -6,7 +6,6 @@ import pickle
 import requests
 import urllib
 import pandas as pd
-from config import shared_directories
 from utils.utils import _check_col_in_valid_range
 from registrations_scraper.config import directories
 
@@ -20,11 +19,11 @@ if API_KEY is None:
 	exit()
 
 ### IMPORT RAW DATA ###
-os.chdir(shared_directories.PROCESSED_DIR)
+os.chdir(directories.PROCESSED_DIR)
 regs = pd.read_csv('lsr_processed.csv', sep=',', index_col=False, encoding='utf-8',
 				   keep_default_na=False)
 if not regs.shape[0] > 0:
-	logger.critical('Failure: LSR Mini.xls is empty.')
+	logger.critical('Failure: lsr_processed.csv is empty.')
 	exit()
 
 logger.debug('1/5: Data imported.')
@@ -50,7 +49,7 @@ def _get_memo_name(city, prov):
 
 def _get_lookup_name(city, prov):
 	"""Remove junk strings that interfere with Geocoding API"""
-	return '{0}, {1}'.format(city, prov).replace(', Outside Canada', '')
+	return '{0}, {1}'.format(city, prov).replace(', Outside Canada', '').replace(', Unknown', '')
 
 
 def get_lat_lng(city, prov):
