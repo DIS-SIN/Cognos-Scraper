@@ -25,7 +25,7 @@ MONTH_FR = {
 	'Juin',
 	'Juillet',
 	'Août',
-	'Septembre'
+	'Septembre',
 	'Octobre',
 	'Novembre',
 	'Décembre',
