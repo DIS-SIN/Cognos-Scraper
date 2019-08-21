@@ -1,4 +1,4 @@
-"""Target unique values for select fields in table 'comments'. Stored
+"""Target unique values for select fields in table 'lsr_this_year'. Stored
 in Python sets for O(1) lookup times.
 """
 
@@ -19,6 +19,21 @@ MONTH_EN = {
 	'March'
 }
 
+MONTH_FR = {
+	'Avril',
+	'Mai',
+	'Juin',
+	'Juillet',
+	'Août',
+	'Septembre'
+	'Octobre',
+	'Novembre',
+	'Décembre',
+	'Janvier',
+	'Février',
+	'Mars'
+}
+
 OFFERING_STATUS = {
 	'Cancelled - Normal',
 	'Delivered - Normal',
@@ -34,7 +49,7 @@ OFFERING_LANGUAGE = {
 	'FSL'
 }
 
-OFFERING_REGION_EN = {
+REGION_EN = {
 	'Atlantic',
 	'NCR',
 	'Online',
@@ -45,7 +60,7 @@ OFFERING_REGION_EN = {
 	'Outside Canada'
 }
 
-OFFERING_REGION_FR = {
+REGION_FR = {
 	'Atlantique',
 	'En ligne',
 	'Pacifique',
@@ -56,7 +71,7 @@ OFFERING_REGION_FR = {
 	'Hors du Canada'
 }
 
-OFFERING_PROVINCE_EN = {
+PROVINCE_EN = {
 	'Alberta',
 	'British Columbia',
 	'Manitoba',
@@ -71,29 +86,29 @@ OFFERING_PROVINCE_EN = {
 	'Prince Edward Island',
 	'Quebec',
 	'Saskatchewan',
+	'Unknown',
 	'Yukon',
 	'Outside Canada'
 }
 
-LEARNER_PROVINCE = {
+PROVINCE_FR = {
 	'Alberta',
-	'British Columbia',
+	'Colombie-Britannique',
+	'En ligne',
+	'Île-du-Prince-Édouard',
+	'Inconnu',
 	'Manitoba',
 	'NCR/RCN',
-	'New Brunswick',
-	'Newfoundland and Labrador',
-	'Northwest Territories',
-	'Nova Scotia',
+	'Nouveau-Brunswick',
+	'Nouvelle-Écosse',
 	'Nunavut',
 	'Ontario',
-	'Ontario_NCR',
-	'Prince Edward Island',
-	'Quebec',
-	'Québec_NCR',
+	'Québec',
 	'Saskatchewan',
-	'Unknown',
+	'Terre-Neuve-et-Labrador',
+	'Territoires du Nord-Ouest',
 	'Yukon',
-	'Outside Canada',
+	'Hors du Canada'
 }
 
 REG_STATUS = {
