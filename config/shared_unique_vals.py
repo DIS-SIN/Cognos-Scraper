@@ -3,7 +3,8 @@ OFFERING_LANGUAGE = {
 	'English',
 	'ESL',
 	'French',
-	'FSL'
+	'FSL',
+	'Simultaneous Translation '
 }
 
 OFFERING_STATUS = {
