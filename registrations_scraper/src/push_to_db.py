@@ -31,9 +31,10 @@ create_table = """
 		offering_region_fr VARCHAR(30),
 		offering_province_en VARCHAR(30),
 		offering_province_fr VARCHAR(30),
-		offering_city VARCHAR(50),
-		learner_province VARCHAR(30),
-		learner_city VARCHAR(50),
+		offering_city_en VARCHAR(50),
+		learner_province_en VARCHAR(30),
+		learner_province_fr VARCHAR(30),
+		learner_city_en VARCHAR(50),
 		reg_id INT PRIMARY KEY,
 		reg_status VARCHAR(30),
 		no_show INT,
@@ -58,7 +59,7 @@ load_data = """
 	TERMINATED BY ','
 	LINES TERMINATED BY '\r\n'
 	IGNORE 1 LINES
-	(course_title_en, course_title_fr, course_code, business_type, offering_id, @temp_start_date, @temp_end_date, month_en, month_fr, client, offering_status, offering_language, offering_region_en, offering_region_fr, offering_province_en, offering_province_fr, offering_city, learner_province, learner_city, reg_id, reg_status, no_show, learner_id, learner_language, learner_classif, billing_dept_name_en, billing_dept_name_fr, offering_city_fr, learner_city_fr, offering_lat, offering_lng, learner_lat, learner_lng)
+	(course_title_en, course_title_fr, course_code, business_type, offering_id, @temp_start_date, @temp_end_date, month_en, month_fr, client, offering_status, offering_language, offering_region_en, offering_region_fr, offering_province_en, offering_province_fr, offering_city_en, learner_province_en, learner_province_fr, learner_city_en, reg_id, reg_status, no_show, learner_id, learner_language, learner_classif, billing_dept_name_en, billing_dept_name_fr, offering_city_fr, learner_city_fr, offering_lat, offering_lng, learner_lat, learner_lng)
 	SET start_date = STR_TO_DATE(@temp_start_date, '%Y-%m-%d %T'),
 	end_date = STR_TO_DATE(@temp_end_date, '%Y-%m-%d %T');
 """.format(PROCESSED_DIR)
@@ -86,8 +87,8 @@ indices = [
 	'CREATE INDEX idx_cc_mnfr_rs_ns ON new_regs(course_code, month_fr, reg_status, no_show);',
 	
 	# Index for class OfferingLocations
-	'CREATE INDEX idx_cc_os_oren_open_oc_oid ON new_regs(course_code, offering_status, offering_region_en, offering_province_en, offering_city, offering_id);',
-	'CREATE INDEX idx_cc_os_orfr_opfr_oc_oid ON new_regs(course_code, offering_status, offering_region_fr, offering_province_fr, offering_city, offering_id);',
+	'CREATE INDEX idx_cc_os_oren_open_ocen_oid ON new_regs(course_code, offering_status, offering_region_en, offering_province_en, offering_city_en, offering_id);',
+	'CREATE INDEX idx_cc_os_orfr_opfr_ocfr_oid ON new_regs(course_code, offering_status, offering_region_fr, offering_province_fr, offering_city_fr, offering_id);',
 	
 	# Index for offerings per language
 	'CREATE INDEX idx_cc_os_ol_oid ON new_regs(course_code, offering_status, offering_language, offering_id);',
@@ -118,17 +119,17 @@ indices = [
 	'CREATE INDEX idx_ns ON new_regs(no_show);',
 	
 	# Index for offering city counts
-	'CREATE INDEX idx_cc_os_oc_olat_olng_oid ON new_regs(course_code, offering_status, offering_city, offering_lat, offering_lng, offering_id);',
+	'CREATE INDEX idx_cc_os_ocen_olat_olng_oid ON new_regs(course_code, offering_status, offering_city_en, offering_lat, offering_lng, offering_id);',
 	
 	# Index for learner city counts
-	'CREATE INDEX idx_cc_rs_lc_llat_llng_lid ON new_regs(course_code, reg_status, learner_city, learner_lat, learner_lng, learner_id);',
+	'CREATE INDEX idx_cc_rs_lcen_llat_llng_lid ON new_regs(course_code, reg_status, learner_city_en, learner_lat, learner_lng, learner_id);',
 	
 	# Index for regs per month
 	'CREATE INDEX idx_cc_rs_mnen ON new_regs(course_code, reg_status, month_en);',
 	'CREATE INDEX idx_cc_rs_mnfr ON new_regs(course_code, reg_status, month_fr);',
 	
 	# Index for REGISTHOR: learner_city and learner_province
-	'CREATE INDEX idx_lc_lp ON new_regs(learner_city, learner_province);',
+	'CREATE INDEX idx_lcen_lpen ON new_regs(learner_city_en, learner_province_en);',
 	
 	# Index for REGISTHOR: learner_classif
 	'CREATE INDEX idx_lclassif ON new_regs(learner_classif);',
