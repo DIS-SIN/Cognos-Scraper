@@ -41,12 +41,12 @@ regs = pd.read_csv('LSR Mini.xls', sep='\t', index_col=False, encoding='utf_16_l
 
 # Get row counts by course code from Pandas
 course_code_count_pd = regs['course_code'].value_counts(sort=False, dropna=False)
-course_code_count_pd = {tup[0]: tup[1] for tup in course_code_count_pd.iteritems()}
+course_code_count_pd = {tup[0].upper(): tup[1] for tup in course_code_count_pd.iteritems()}
 logger.debug('4/5: Queried Pandas for row counts.')
 
 # Compare DB counts with Pandas counts, using DB as baseline
 for tup in course_code_count_db:
-	course_code = tup[0]
+	course_code = tup[0].upper()
 	db_count = tup[1]
 	pd_count = course_code_count_pd.get(course_code, 0)
 	if pd_count < db_count:
