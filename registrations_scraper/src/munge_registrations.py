@@ -29,6 +29,12 @@ regs['course_code'] = regs['course_code'].astype(str).str.upper()
 # A very small number of learners put a lengthy description instead of their classification
 regs['learner_classif'] = regs['learner_classif'].astype(str).str.slice(0, 80)
 
+# Remove whitespace from columns known to contain junk spacing
+regs['client'] = regs['client'].astype(str).str.strip()
+
+# Merge obscure values with standard values for 'offering_language'
+regs['offering_language'] = regs['offering_language'].astype(str).str.replace('Simultaneous Translation', 'Bilingual').replace('ESL', 'English').replace('FSL', 'French')
+
 logger.debug('2/4: Data cleaned.')
 
 # Create new columns 'offering_city_fr' and 'learner_city_fr' as certain cities require translation e.g. 'NCR'
