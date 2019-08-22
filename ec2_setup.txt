@@ -45,7 +45,7 @@ mkdir processed
 # From local machine, use secure copy (scp) to send in sentiment_dict.pickle, nlp-key.json, and geo_dict.pickle
 # scp -i "<path to .pem key>" sentiment_dict.pickle ubuntu@ec2-<EC2 public IP with hyphens>.ca-central-1.compute.amazonaws.com:/home/ubuntu/Cognos-Scraper/comments_scraper/pickles/
 # scp -i "<path to .pem key>" nlp-key.json ubuntu@ec2-<EC2 public IP with hyphens>.ca-central-1.compute.amazonaws.com:/home/ubuntu/Cognos-Scraper/comments_scraper/config/
-# scp -i "<path to .pem key>" geo_dict.pickle ubuntu@ec2-<EC2 public IP with hyphens>.ca-central-1.compute.amazonaws.com:/home/ubuntu/Cognos-Scraper/registrations_scraper/pickles/
+# scp -i "<path to .pem key>" geo_dict.pickle ubuntu@ec2-<EC2 public IP with hyphens>.ca-central-1.compute.amazonaws.com:/home/ubuntu/Cognos-Scraper/utils/geocoding/pickles/
 
 cd ~/Cognos-Scraper/
 pip3 install -r requirements.txt
