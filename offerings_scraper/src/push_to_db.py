@@ -43,7 +43,7 @@ create_table = """
 """
 
 load_data = """
-	LOAD DATA LOCAL INFILE '{0}/offerings_processed.csv'
+	LOAD DATA LOCAL INFILE '{0}/offerings_processed_geo.csv'
 	INTO TABLE new_offerings
 	FIELDS OPTIONALLY ENCLOSED BY '"'
 	TERMINATED BY ','
