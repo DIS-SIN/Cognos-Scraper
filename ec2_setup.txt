@@ -39,7 +39,6 @@ cd ~/Cognos-Scraper/offerings_scraper
 mkdir processed
 
 cd ~/Cognos-Scraper/registrations_scraper
-mkdir pickles
 mkdir processed
 
 # From local machine, use secure copy (scp) to send in sentiment_dict.pickle, nlp-key.json, and geo_dict.pickle

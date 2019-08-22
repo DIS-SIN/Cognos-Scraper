@@ -3,7 +3,7 @@ import logging
 import os
 import pickle
 import pandas as pd
-from utils.geocoding.config.directories import PICKLE_DIR
+from config import shared_directories
 from utils.geocoding.geocoding import get_lat_lng
 from utils.utils import _check_col_in_valid_range
 from offerings_scraper.config import directories
@@ -22,7 +22,7 @@ if not df.shape[0] > 0:
 logger.debug('1/5: Data imported.')
 
 # Load pickle for memoization
-os.chdir(PICKLE_DIR)
+os.chdir(shared_directories.GEO_PICKLE_DIR)
 with open('geo_dict.pickle', 'rb') as f:
 	geo_dict = pickle.load(f)
 
@@ -44,7 +44,7 @@ if not _check_col_in_valid_range(df['offering_lat'].unique(), -180, 180) and \
 logger.debug('3/5: New columns created.')
 
 # Export geo_dict to pickle for future re-use
-os.chdir(PICKLE_DIR)
+os.chdir(shared_directories.GEO_PICKLE_DIR)
 with open('geo_dict.pickle', 'wb') as f:
 	pickle.dump(geo_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
 

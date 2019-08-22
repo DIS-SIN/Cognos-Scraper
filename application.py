@@ -32,7 +32,7 @@ def main():
 def check_for_pickles():
 	"""Check if pickles required for memoization are present."""
 	check_sentiment_dict = os.path.isfile('./comments_scraper/pickles/sentiment_dict.pickle')
-	check_geo_dict = os.path.isfile('./registrations_scraper/pickles/geo_dict.pickle')
+	check_geo_dict = os.path.isfile('./utils/geocoding/pickles/geo_dict.pickle')
 	if not check_sentiment_dict or not check_geo_dict:
 		return False
 	return True
