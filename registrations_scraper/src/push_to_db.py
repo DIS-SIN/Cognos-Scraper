@@ -69,6 +69,7 @@ indices = [
 	'CREATE INDEX idx_cc_cten ON new_regs(course_code, course_title_en);',
 	'CREATE INDEX idx_cc_ctfr ON new_regs(course_code, course_title_fr);',
 	'CREATE INDEX idx_cten_cc ON new_regs(course_title_en, course_code);',
+	'CREATE INDEX idx_ctfr_cc ON new_regs(course_title_fr, course_code);',
 	
 	# Index for open, delivered, cancelled offerings
 	'CREATE INDEX idx_cc_os_oid ON new_regs(course_code, offering_status, offering_id);',
@@ -120,9 +121,11 @@ indices = [
 	
 	# Index for offering city counts
 	'CREATE INDEX idx_cc_os_ocen_olat_olng_oid ON new_regs(course_code, offering_status, offering_city_en, offering_lat, offering_lng, offering_id);',
+	'CREATE INDEX idx_cc_os_ocfr_olat_olng_oid ON new_regs(course_code, offering_status, offering_city_fr, offering_lat, offering_lng, offering_id);',
 	
 	# Index for learner city counts
 	'CREATE INDEX idx_cc_rs_lcen_llat_llng_lid ON new_regs(course_code, reg_status, learner_city_en, learner_lat, learner_lng, learner_id);',
+	'CREATE INDEX idx_cc_rs_lcfr_llat_llng_lid ON new_regs(course_code, reg_status, learner_city_fr, learner_lat, learner_lng, learner_id);',
 	
 	# Index for regs per month
 	'CREATE INDEX idx_cc_rs_mnen ON new_regs(course_code, reg_status, month_en);',
@@ -130,6 +133,7 @@ indices = [
 	
 	# Index for REGISTHOR: learner_city and learner_province
 	'CREATE INDEX idx_lcen_lpen ON new_regs(learner_city_en, learner_province_en);',
+	'CREATE INDEX idx_lcfr_lpfr ON new_regs(learner_city_fr, learner_province_fr);',
 	
 	# Index for REGISTHOR: learner_classif
 	'CREATE INDEX idx_lclassif ON new_regs(learner_classif);',
