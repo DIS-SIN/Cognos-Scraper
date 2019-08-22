@@ -26,6 +26,7 @@ create_table = """
 		offering_city_fr VARCHAR(60),
 		short_question VARCHAR(60),
 		text_answer_fr VARCHAR(90),
+		nanos BOOL,
 		overall_satisfaction TINYINT,
 		stars TINYINT,
 		magnitude FLOAT UNSIGNED,

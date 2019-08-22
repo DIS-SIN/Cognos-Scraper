@@ -27,3 +27,17 @@ ORIGINAL_QUESTION = {
 	'8. Technical Experience',
 	'24. Comments you would like to share to help the School improve'
 }
+
+NANOS_QUESTIONS = {
+	'2. Satisfaction Overall Comments',
+	'8. Technical Experience',
+	'24. Comments you would like to share to help the School improve'
+}
+
+
+def check_nanos(original_question):
+	"""Check if original_question from new Nanos survey."""
+	if original_question in NANOS_QUESTIONS:
+		# Return int as will be stored as BOOL (alias for TINYINT(1))in MySQL
+		return 1
+	return 0

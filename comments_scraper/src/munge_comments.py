@@ -6,6 +6,7 @@ import pandas as pd
 from config import shared_directories
 from config.shared_mappings import city_map
 from comments_scraper.config import directories
+from comments_scraper.config.comments_unique_vals import check_nanos
 
 # Instantiate logger
 logger = logging.getLogger(__name__)
@@ -88,6 +89,9 @@ comments['text_answer_fr'] = comments['text_answer'].map(text_answer_map).fillna
 # Rarely, a learner will have left a comment without indicating overall satisfaction
 # Assign these comments value '\N' (null integer in MySQL)
 comments['overall_satisfaction'] = comments['survey_id'].map(overall_sat_map).fillna('\\N')
+
+# Create boolean column 'nanos' indicating if response from new survey
+comments['nanos'] = comments['original_question'].map(check_nanos)
 
 logger.debug('3/4: New columns created.')
 
