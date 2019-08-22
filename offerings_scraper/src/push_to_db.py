@@ -22,6 +22,7 @@ create_table = """
 		instructor_names VARCHAR(200),
 		confirmed_count SMALLINT UNSIGNED,
 		waitlisted_count SMALLINT UNSIGNED,
+		no_show_count SMALLINT UNSIGNED,
 		business_type VARCHAR(30),
 		fiscal_year VARCHAR(7),
 		quarter VARCHAR(2),
@@ -34,7 +35,10 @@ create_table = """
 		offering_region_fr VARCHAR(30),
 		offering_province_en VARCHAR(30),
 		offering_province_fr VARCHAR(30),
-		offering_city VARCHAR(50)
+		offering_city_en VARCHAR(50),
+		offering_city_fr VARCHAR(50),
+		offering_lat FLOAT,
+		offering_lng FLOAT
 	);
 """
 
@@ -46,10 +50,10 @@ load_data = """
 	LINES TERMINATED BY '\r\n'
 	IGNORE 1 LINES
 	(offering_id, course_title_en, course_title_fr, course_code, instructor_names,
-	confirmed_count, waitlisted_count, business_type, fiscal_year, quarter,
-	@temp_start_date, @temp_end_date, client, offering_status, offering_language,
+	confirmed_count, waitlisted_count, no_show_count, business_type, fiscal_year,
+	quarter, @temp_start_date, @temp_end_date, client, offering_status, offering_language,
 	offering_region_en,	offering_region_fr, offering_province_en, offering_province_fr,
-	offering_city)
+	offering_city_en, offering_city_fr, offering_lat, offering_lng)
 	SET start_date = STR_TO_DATE(@temp_start_date, '%Y-%m-%d %T'),
 	end_date = STR_TO_DATE(@temp_end_date, '%Y-%m-%d %T');
 """.format(PROCESSED_DIR)
