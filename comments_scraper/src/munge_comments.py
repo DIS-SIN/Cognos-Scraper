@@ -65,7 +65,7 @@ os.chdir(shared_directories.DOWNLOADS_DIR)
 overall_sat_map = pd.read_csv('Overall Satisfaction.xls', sep='\t', index_col=0,
 							  squeeze=True, encoding='utf_16_le')
 if not overall_sat_map.shape[0] > 0:
-	logger.critical('Failure: overall_sat_map.csv is empty.')
+	logger.critical('Failure: Overall Satisfaction.xls is empty.')
 	exit()
 
 # Create new column 'short_question'
