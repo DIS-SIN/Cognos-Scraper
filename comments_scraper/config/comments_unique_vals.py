@@ -3,6 +3,11 @@ in Python sets for O(1) lookup times.
 """
 
 ORIGINAL_QUESTION = {
+	# Nanos
+	'2. Satisfaction Overall Comments',
+	'24. Comments you would like to share to help the School improve',
+	'8. Technical Experience',
+	# Previous surveys
 	'Comment - General ',
 	'Comment - OL Not Available',
 	'Comment - application for performance improvement',
@@ -11,21 +16,7 @@ ORIGINAL_QUESTION = {
 	'Comments  ',
 	'Comments for Improvement',
 	'Describe technical issues',
-	'GCCampus Tools Used',
-	'Issue Description',
-	'Official Language Available ',
-	'Prep - Did not prepare',
-	'Prep - Discuss with supervisor',
-	'Prep - Job related development',
-	'Prep - Pre-course work',
-	'Prep - Related courses',
-	'Reason to Participate',
-	'Technical Issues',
-	'Technical Issues?',
-	# New questions from Nanos survey
-	'2. Satisfaction Overall Comments',
-	'8. Technical Experience',
-	'24. Comments you would like to share to help the School improve'
+	'Issue Description'
 }
 
 NANOS_QUESTIONS = {
