@@ -13,9 +13,6 @@ from comments_scraper.config import directories
 # Instantiate logger
 logger = logging.getLogger(__name__)
 
-# Ignore questions that aren't free text
-IGNORE_LIST = ['GCcampus Tools Used', 'OL Available', 'Prep', 'Reason to Participate', 'Technical Issues']
-
 # Load dataset
 os.chdir(directories.PROCESSED_DIR)
 df = pd.read_csv('comments_processed.csv', sep=',', index_col=False,
@@ -42,7 +39,7 @@ ctr = 0
 api_ctr = 0
 
 
-def get_sentiment_score(survey_id, original_question, short_question, text_answer, overall_satisfaction):
+def get_sentiment_score(survey_id, original_question, text_answer, overall_satisfaction):
 	"""Pass text to API, return its sentiment score, and memoize results."""
 	global ctr
 	global api_ctr
@@ -50,11 +47,6 @@ def get_sentiment_score(survey_id, original_question, short_question, text_answe
 	# Log ctr every 10k comments
 	if ctr % 10_000 == 0:
 		logger.debug('Finished {0} comments.'.format(ctr))
-	
-	if short_question in IGNORE_LIST:
-		result = ('\\N', '\\N') # i.e. NULL for MySQL
-		# No need to memoize as no expensive computation performed
-		return result
 	
 	# Use composite key of survey_id.original_question
 	pkey = '{0}.{1}'.format(survey_id, original_question)
@@ -94,7 +86,7 @@ def get_sentiment_score(survey_id, original_question, short_question, text_answe
 	return result
 
 
-api_results = df.apply(lambda x: get_sentiment_score(x['survey_id'], x['original_question'], x['short_question'], x['text_answer'], x['overall_satisfaction']),
+api_results = df.apply(lambda x: get_sentiment_score(x['survey_id'], x['original_question'], x['text_answer'], x['overall_satisfaction']),
 					   axis=1,					# Apply to each row
 					   raw=False,				# Pass each cell individually as not using NumPy
 					   result_type='expand')	# Return DataFrame rather than Series of tuples

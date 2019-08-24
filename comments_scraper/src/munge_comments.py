@@ -52,14 +52,6 @@ if not short_question_map.shape[0] > 0:
 	logger.critical('Failure: short_question_map.csv is empty.')
 	exit()
 
-# Import mapping for new column 'text_answer_fr'
-os.chdir(directories.MAPPINGS_DIR)
-text_answer_map = pd.read_csv('text_answer_map.csv', sep=',',
-							  index_col=0, squeeze=True, encoding='utf-8')
-if not text_answer_map.shape[0] > 0:
-	logger.critical('Failure: text_answer_map.csv is empty.')
-	exit()
-
 # Import mapping for column 'overall_satisfaction'
 os.chdir(shared_directories.DOWNLOADS_DIR)
 overall_sat_map = pd.read_csv('Overall Satisfaction.xls', sep='\t', index_col=0,
@@ -79,11 +71,6 @@ comments['short_question'] = comments['original_question'].map(short_question_ma
 if not all([isinstance(short_question, str) for short_question in comments['short_question'].unique()]):
 	logger.critical('Failure: Unknown values in field original_question')
 	exit()
-
-# Create new column 'text_answer_fr'
-# Only applies to questions with pre-defined answers like 'Yes' and 'No'
-# Free text entries not translated, therefore left as empty string
-comments['text_answer_fr'] = comments['text_answer'].map(text_answer_map).fillna('')
 
 # Create new column 'overall_satisfaction'
 # Rarely, a learner will have left a comment without indicating overall satisfaction

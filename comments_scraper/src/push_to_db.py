@@ -25,7 +25,6 @@ create_table = """
 		text_answer TEXT,
 		offering_city_fr VARCHAR(60),
 		short_question VARCHAR(60),
-		text_answer_fr VARCHAR(90),
 		overall_satisfaction TINYINT,
 		nanos BOOL,
 		stars TINYINT,
