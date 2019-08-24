@@ -15,6 +15,7 @@ Scrape comments, offerings, and registrations, munge, and push to cloud DB.
 * LSR_URL
 * OFFERINGS_URL
 * OVERALL_SATISFACTION_URL
+* RATINGS_URL
 * SLACK_BOT_URL
 
 ### One-Pager:
