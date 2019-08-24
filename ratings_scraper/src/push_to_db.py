@@ -38,7 +38,8 @@ load_data = """
 """.format(PROCESSED_DIR)
 
 indices = [
-	'CREATE INDEX idx_cc_oq ON new_ratings(course_code, original_question);'
+	'CREATE INDEX idx_cc_oq_taen ON ratings(course_code, original_question, text_answer_en);',
+	'CREATE INDEX idx_cc_oq_tafr ON ratings(course_code, original_question, text_answer_fr);'
 ]
 
 # Rename tables in a single atomic transaction
