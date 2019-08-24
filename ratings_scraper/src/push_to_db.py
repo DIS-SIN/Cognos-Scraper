@@ -15,7 +15,16 @@ PROCESSED_DIR = PROCESSED_DIR.replace('\\', '/')
 
 create_table = """
 	CREATE TABLE new_ratings(
-		
+		course_code VARCHAR(20),
+		survey_id VARCHAR(15),
+		fiscal_year VARCHAR(9),
+		month_en VARCHAR(10),
+		month_fr VARCHAR(10),
+		original_question VARCHAR(75),
+		numerical_answer TINYINT,
+		text_answer_en VARCHAR(40),
+		text_answer_fr VARCHAR(40),
+		PRIMARY KEY(survey_id, original_question)
 	);
 """
 
@@ -29,7 +38,7 @@ load_data = """
 """.format(PROCESSED_DIR)
 
 indices = [
-	'what??? same as comments???'
+	CREATE INDEX idx_cc_oq ON new_ratings(course_code, original_question);
 ]
 
 # Rename tables in a single atomic transaction
