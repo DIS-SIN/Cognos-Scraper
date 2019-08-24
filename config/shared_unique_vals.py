@@ -1,3 +1,33 @@
+MONTH_EN = {
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December',
+	'January',
+	'February',
+	'March'
+}
+
+MONTH_FR = {
+	'Avril',
+	'Mai',
+	'Juin',
+	'Juillet',
+	'Août',
+	'Septembre',
+	'Octobre',
+	'Novembre',
+	'Décembre',
+	'Janvier',
+	'Février',
+	'Mars'
+}
+
 OFFERING_LANGUAGE = {
 	'Bilingual',
 	'English',

@@ -26,11 +26,11 @@ _check_column(logger, regs['business_type'].unique(), registrations_unique_vals.
 logger.debug('2/16: Column \'business_type\' verified.')
 
 # Check column 'month_en'
-_check_column(logger, regs['month_en'].unique(), registrations_unique_vals.MONTH_EN)
+_check_column(logger, regs['month_en'].unique(), shared_unique_vals.MONTH_EN)
 logger.debug('3/16: Column \'month_en\' verified.')
 
 # Check column 'month_fr'
-_check_column(logger, regs['month_fr'].unique(), registrations_unique_vals.MONTH_FR)
+_check_column(logger, regs['month_fr'].unique(), shared_unique_vals.MONTH_FR)
 logger.debug('4/16: Column \'month_fr\' verified.')
 
 # Check column 'offering_status'
