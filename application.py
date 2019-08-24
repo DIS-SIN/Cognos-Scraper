@@ -13,6 +13,12 @@ def main():
 	from comments_scraper.src import get_sentiment
 	from comments_scraper.src import push_to_db
 	
+	# Ratings scraper
+	from ratings_scraper.src import download_files
+	from ratings_scraper.src import check_unique_vals
+	from ratings_scraper.src import munge_ratings
+	from ratings_scraper.src import push_to_db
+	
 	# Registrations scraper
 	from registrations_scraper.src import download_files
 	from registrations_scraper.src import compare_row_counts
@@ -41,9 +47,10 @@ def check_for_pickles():
 def check_for_processed_dirs():
 	"""Check if dirs into which outputs will be saved are present."""
 	check_comments_processed = os.path.isdir('./comments_scraper/processed')
-	check_offerings_processed = os.path.isdir('./offerings_scraper/processed')
+	check_ratings_processed = os.path.isdir('./ratings_scraper/processed')
 	check_registrations_processed = os.path.isdir('./registrations_scraper/processed')
-	if not check_comments_processed or not check_offerings_processed or not check_registrations_processed:
+	check_offerings_processed = os.path.isdir('./offerings_scraper/processed')
+	if not check_comments_processed or not check_ratings_processed or not check_registrations_processed or not check_offerings_processed:
 		return False
 	return True
 
