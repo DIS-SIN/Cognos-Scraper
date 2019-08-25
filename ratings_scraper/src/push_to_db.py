@@ -39,7 +39,8 @@ load_data = """
 
 indices = [
 	'CREATE INDEX idx_cc_oq_taen ON new_ratings(course_code, original_question, text_answer_en);',
-	'CREATE INDEX idx_cc_oq_tafr ON new_ratings(course_code, original_question, text_answer_fr);'
+	'CREATE INDEX idx_cc_oq_tafr ON new_ratings(course_code, original_question, text_answer_fr);',
+	'CREATE INDEX idx_cc_fy_oq_men_na_sid ON new_ratings(course_code, fiscal_year, original_question, month_en, numerical_answer, survey_id);'
 ]
 
 # Rename tables in a single atomic transaction
