@@ -21,6 +21,7 @@ create_table = """
 		course_code VARCHAR(20),
 		instructor_names VARCHAR(200),
 		confirmed_count SMALLINT UNSIGNED,
+		cancelled_count SMALLINT UNSIGNED,
 		waitlisted_count SMALLINT UNSIGNED,
 		no_show_count SMALLINT UNSIGNED,
 		business_type VARCHAR(30),
@@ -50,7 +51,7 @@ load_data = """
 	LINES TERMINATED BY '\r\n'
 	IGNORE 1 LINES
 	(offering_id, course_title_en, course_title_fr, course_code, instructor_names,
-	confirmed_count, waitlisted_count, no_show_count, business_type, fiscal_year,
+	confirmed_count, cancelled_count, waitlisted_count, no_show_count, business_type, fiscal_year,
 	quarter, @temp_start_date, @temp_end_date, client, offering_status, offering_language,
 	offering_region_en,	offering_region_fr, offering_province_en, offering_province_fr,
 	offering_city_en, offering_city_fr, offering_lat, offering_lng)
