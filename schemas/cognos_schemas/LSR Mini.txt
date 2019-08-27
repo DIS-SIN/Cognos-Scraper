@@ -1,31 +1,22 @@
-##########
-FITLERS
-##########
-
-Offering Start Date between 2019-03-31 23:59:59.999 and 2020-03-31 23:59:59.999
+Offering Start Date between Mar 31, 2019 11:59:59:99 PM and Mar 31, 2020 11:59:59:99 PM
 DimScopeDwKey includes 2
-Offering Delivery Type excludes [
+Offering Delivery Type (en) excludes [
+	Learning Event (Virtual)*
+	Learning Event(in person)
+	Web Conference (VOID)
 	Event (in-person)
-	Learning Event (Virtual)*,
-	Learning Event(in person),
-	Web Conference (VOID),
-	Webcast (VOID)
 ]
 Course Code excludes [
-	No course code
-	Unknown
 	E171
-	E225
+	E222
 	E393
 	G221
+	No course code
+	Unknown
 	Z101
 ]
 
 
-
-##########
-FIELDS
-##########
 
 course_title_en
 [Registration (public)].[Offering].[CourseTitle_EN]
@@ -73,7 +64,7 @@ offering_province_en
 IF ([business_type] = 'Online') THEN ('Online') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE(REPLACE (REPLACE ([Registration (public)].[Offering Address].[OfferingProvinceName_EN], 'Ontario_NCR', 'Ontario'), 'Québec_NCR', 'Quebec')))
 
 offering_province_fr
-IF ([business_type] = 'Online') THEN ('En ligne') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE(IF ([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR] = 'Dehors Canada') THEN ('Hors du Canada') ELSE (REPLACE (REPLACE ([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR], 'Ontario_RCN', 'Ontario'), 'Québec_RCN', 'Québec'))))
+IF ([business_type] = 'Online') THEN ('En ligne') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE (IF ([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR] = 'Dehors Canada') THEN ('Hors du Canada') ELSE (REPLACE (REPLACE ([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR], 'Ontario_RCN', 'Ontario'), 'Québec_RCN', 'Québec'))))
 
 offering_city_en
 IF ([business_type] = 'Online') THEN ('Online') ELSE ([Registration (public)].[Offering Address].[OfferingCityName])

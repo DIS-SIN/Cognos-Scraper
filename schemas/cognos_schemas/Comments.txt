@@ -1,22 +1,12 @@
-##########
-FITLERS
-##########
-
-Offering Start Date between 2015-03-31 23:59:59.999 and 2020-03-31 23:59:59.999
+Offering Start Date between Mar 31, 2015 11:59:59:99 PM and Mar 31, 2020 11:59:59:99 PM
+Question_EN excludes [
+	Comments on the facilitator/instructor:
+	Please use the space below to provide additional comments.
+]
 Short Question_EN includes [
 	Comment - application for performance improvement
 	Comment - General
 	Comment - OL Not Available
-	GCCampus Tools Used
-	Official Language Available
-	Prep - Did not prepare
-	Prep - Discuss with supervisor
-	Prep - Job related development
-	Prep - Pre-course work
-	Prep - Related courses
-	Reason to Participate
-	Technical Issues
-	Technical Issues?
 	Issue Description
 	Describe technical issues
 	Comments
@@ -25,16 +15,8 @@ Short Question_EN includes [
 	8. Technical Experience
 	24. Comments you would like to share to help the School improve
 ]
-Question_EN excludes [
-	Comments on the facilitator/instructor:
-	Please use the space below to provide additional comments.
-]
 
 
-
-##########
-FIELDS
-##########
 
 course_code
 UPPER ([Evaluation (query)].[Eval - Offering Information].[Course Code])

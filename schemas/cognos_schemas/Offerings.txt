@@ -1,19 +1,11 @@
-﻿##########
-FITLERS
-##########
-
-OfferingStartDateDwKey between 20180400 and 20200400
-Offering Delivery Type excludes [
+Offering Start Date between 20180400 and 20200400
+Offering Delivery Type (en) excludes [
 	Documentation
 	Online - Scheduled (VOID)
-	Online - Self-Paced
+	Online - Self-paced
 ]
 
 
-
-##########
-FIELDS
-##########
 
 offering_id
 [Registration (public)].[Offering].[OfferingIdentification]
@@ -24,17 +16,23 @@ course_title_en
 course_title_fr
 [Registration (public)].[Offering].[(en-ca) CourseTitle_FR]
 
-course_code  (sort by)
+course_code (sort by)
 UPPER ([Registration (public)].[Offering].[CourseCode])
 
 instructor_names
 IF ([Registration (public)].[Offering].[(en-ca) InstructorName] = 'Unknown') THEN ('') ELSE ([Registration (public)].[Offering].[(en-ca) InstructorName])
 
 confirmed_count
-[Registration (public)].[Offering].[(en-ca) ConfirmedRegstrations]
+TOTAL (IF (([Registration (public)].[Miscellaneous].[Registration Status_EN] = 'Confirmed') AND ([Registration (public)].[Registration Fact].[DimScopeDwKey] = 2)) THEN (1) ELSE (0))
+
+cancelled_count
+TOTAL (IF (([Registration (public)].[Miscellaneous].[Registration Status_EN] IN ('Cancelled', 'Cancelled - Class Cancelled')) AND ([Registration (public)].[Registration Fact].[DimScopeDwKey] = 2)) THEN (1) ELSE (0))
 
 waitlisted_count
-[Registration (public)].[Offering].[(en-ca) StudentWaitlisted]
+TOTAL (IF (([Registration (public)].[Miscellaneous].[Registration Status_EN] = 'Waitlisted') AND ([Registration (public)].[Registration Fact].[DimScopeDwKey] = 2)) THEN (1) ELSE (0))
+
+no_show_count
+TOTAL (IF (([Registration (public)].[Miscellaneous].[RegistrationNoShowFlag] = 1) AND ([Registration (public)].[Registration Fact].[DimScopeDwKey] = 2)) THEN (1) ELSE (0))
 
 business_type
 IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] IN ('Documentation', 'Online - Scheduled (VOID)', 'Online - Self-Paced')) THEN ('Online') ELSE (IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] IN ('Classroom', 'Correction', 'Virtual Classroom')) THEN ('Instructor-Led') ELSE(IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] IN ('Event (in-person)', 'Learning Event(in person)', 'Learning Event (Virtual)*', 'Web Conference (VOID)', 'Webcast (VOID)')) THEN ('Events') ELSE('Error - Check Delivery Type')))
@@ -53,7 +51,7 @@ WHEN EXTRACT(MONTH, [start_date]) IN (10, 11, 12) THEN 'Q3'
 ELSE 'Q4'
 END
 
-start_date  (sort by)
+start_date (sort by)
 IF ([Registration (public)].[Offering].[(en-ca) OfferingStartDateDwKey] NOT LIKE -1) THEN (_make_timestamp (LEFT ([Registration (public)].[Offering].[(en-ca) OfferingStartDateDwKey],4) , RIGHT (LEFT ([Registration (public)].[Offering].[(en-ca) OfferingStartDateDwKey],6),2) , RIGHT ([Registration (public)].[Offering].[(en-ca) OfferingStartDateDwKey],2))) ELSE (NULL)
 
 end_date
@@ -80,5 +78,5 @@ IF ([business_type] = 'Online') THEN ('Online') ELSE (IF ([Registration (public)
 offering_province_fr
 IF ([business_type] = 'Online') THEN ('En ligne') ELSE (IF ([Registration (public)].[Offering Address].[OfferingCityName] IN ('STURGEON FALLS', 'CAMBRIDGE', 'BATH')) THEN ('Ontario') ELSE(IF ([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR] = 'Dehors Canada') THEN ('Hors du Canada') ELSE (REPLACE (REPLACE ([Registration (public)].[Offering Address].[(en-ca) OfferingProvinceName_FR], 'Ontario_RCN', 'Ontario'), 'Québec_RCN', 'Québec'))))
 
-offering_city
+offering_city_en
 IF ([business_type] = 'Online') THEN ('Online') ELSE ([Registration (public)].[Offering Address].[OfferingCityName])
