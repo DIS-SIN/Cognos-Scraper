@@ -33,6 +33,11 @@ def main():
 	from offerings_scraper.src import munge_offerings
 	from offerings_scraper.src import geocode_offerings
 	from offerings_scraper.src import push_to_db
+	
+	# Departments scraper
+	from departments_scraper.src import download_files
+	from departments_scraper.src import munge_departments
+	from departments_scraper.src import push_to_db
 
 
 def check_for_pickles():
@@ -50,7 +55,8 @@ def check_for_processed_dirs():
 	check_ratings_processed = os.path.isdir('./ratings_scraper/processed')
 	check_registrations_processed = os.path.isdir('./registrations_scraper/processed')
 	check_offerings_processed = os.path.isdir('./offerings_scraper/processed')
-	if not check_comments_processed or not check_ratings_processed or not check_registrations_processed or not check_offerings_processed:
+	check_departments_processed = os.path.isdir('./departments_scraper/processed')
+	if not check_comments_processed or not check_ratings_processed or not check_registrations_processed or not check_offerings_processed or not check_departments_processed:
 		return False
 	return True
 
