@@ -45,10 +45,10 @@ create_table = """
 		billing_dept_name_fr VARCHAR(200),
 		offering_city_fr VARCHAR(50),
 		learner_city_fr VARCHAR(50),
-		offering_lat FLOAT,
-		offering_lng FLOAT,
-		learner_lat FLOAT,
-		learner_lng FLOAT
+		offering_lat DECIMAL(10, 8),
+		offering_lng DECIMAL(11, 8),
+		learner_lat DECIMAL(10, 8),
+		learner_lng DECIMAL(11, 8)
 	);
 """
 

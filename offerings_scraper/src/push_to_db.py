@@ -38,8 +38,8 @@ create_table = """
 		offering_province_fr VARCHAR(30),
 		offering_city_en VARCHAR(50),
 		offering_city_fr VARCHAR(50),
-		offering_lat FLOAT,
-		offering_lng FLOAT
+		offering_lat DECIMAL(10, 8),
+		offering_lng DECIMAL(11, 8)
 	);
 """
 
