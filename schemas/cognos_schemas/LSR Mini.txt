@@ -101,3 +101,9 @@ billing_dept_name_en
 
 billing_dept_name_fr
 [Registration (public)].[Billing Dep/Org].[OrganizationName_FR]
+
+billing_dept_code
+[Registration (public)].[Billing Dep/Org].[OrganizationIlmsCode]
+
+current_dept_code
+[Registration (public)].[Current Dep/Org].[OrganizationIlmsCode]

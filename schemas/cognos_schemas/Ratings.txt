@@ -29,6 +29,9 @@ UPPER ([Evaluation (query)].[Eval - Offering Information].[Course Code])
 survey_id
 [Evaluation (query)].[Eval - Questions and Answers].[Survey Line ID]
 
+offering_id
+[Evaluation (query)].[Eval - Offering Information].[Offering Identification]
+
 fiscal_year (sort by)
 [Evaluation (query)].[Eval - Offering Start Date].[Offering Start Fiscal Year]
 
@@ -37,6 +40,12 @@ month_en
 
 month_fr
 [Evaluation (query)].[Eval - Offering Start Date].[Offering Start Month_FR]
+
+learner_classif
+[Evaluation (query)].[Eval - Learner Classification].[Full Classification]
+
+learner_dept
+[Evaluation (query)].[Eval - Learner Department].[Department Name Original from Survey]
 
 original_question
 [Evaluation (query)].[Eval - Questions and Answers].[Short Question_EN]

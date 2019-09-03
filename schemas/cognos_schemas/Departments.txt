@@ -1,0 +1,15 @@
+Offering Start Date greater than Mar 31, 2018 11:59:59:99 PM
+[dept_code] excludes [
+	Unknown
+]
+
+
+
+dept_code (sort_by)
+[Registration (public)].[Billing Dep/Org].[OrganizationIlmsCode]
+
+dept_name_en
+[Registration (public)].[Billing Dep/Org].[OrganizationName_EN]
+
+dept_name_fr
+[Registration (public)].[Billing Dep/Org].[OrganizationName_FR]

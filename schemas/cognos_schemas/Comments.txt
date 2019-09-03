@@ -24,6 +24,9 @@ UPPER ([Evaluation (query)].[Eval - Offering Information].[Course Code])
 survey_id
 [Evaluation (query)].[Eval - Questions and Answers].[Survey Line ID]
 
+offering_id
+[Evaluation (query)].[Eval - Offering Information].[Offering Identification]
+
 fiscal_year (sort by)
 [Evaluation (query)].[Eval - Offering Start Date].[Offering Start Fiscal Year]
 
@@ -32,6 +35,9 @@ quarter (sort by)
 
 learner_classif
 [Evaluation (query)].[Eval - Learner Classification].[Full Classification]
+
+learner_dept
+[Evaluation (query)].[Eval - Learner Department].[Department Name Original from Survey]
 
 offering_city_en
 IF ([Evaluation (query)].[Eval - Offering Information].[Offering DeliveryType_EN] = 'Online - Self-Paced') THEN ('Online') ELSE ([Evaluation (query)].[Eval - Offering Location].[Offering City])
