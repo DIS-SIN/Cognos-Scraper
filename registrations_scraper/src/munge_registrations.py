@@ -35,6 +35,14 @@ regs['client'] = regs['client'].astype(str).str.strip()
 # Merge obscure values with standard values for 'offering_language'
 regs['offering_language'] = regs['offering_language'].astype(str).str.replace('Simultaneous Translation', 'Bilingual').replace('ESL', 'English').replace('FSL', 'French')
 
+# Remove junk prefixes
+regs['billing_dept_name_en'] = regs['billing_dept_name_en'].astype(str).str.replace('_archive_', ' ').replace('_obsolete_', ' ').replace('_Obsolete_', ' ')
+regs['billing_dept_name_fr'] = regs['billing_dept_name_fr'].astype(str).str.replace('_archive_', ' ').replace('_obsolete_', ' ').replace('_Obsolete_', ' ')
+
+# Remove superfluous whitespace
+regs['billing_dept_name_en'] = regs['billing_dept_name_en'].astype(str).str.strip()
+regs['billing_dept_name_fr'] = regs['billing_dept_name_fr'].astype(str).str.strip()
+
 logger.debug('2/4: Data cleaned.')
 
 # Create new columns 'offering_city_fr' and 'learner_city_fr' as certain cities require translation e.g. 'NCR'
