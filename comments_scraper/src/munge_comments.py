@@ -60,6 +60,14 @@ if not overall_sat_map.shape[0] > 0:
 	logger.critical('Failure: Overall Satisfaction.xls is empty.')
 	exit()
 
+# Import mapping for column 'learner_dept_code'
+os.chdir(shared_directories.DEPARTMENT_CLEANING_DIR)
+department_map = pd.read_csv('department_map.csv', sep=',', index_col=0,
+							  squeeze=True, encoding='utf-8')
+if not department_map.shape[0] > 0:
+	logger.critical('Failure: department_map.csv is empty.')
+	exit()
+
 # Create new column 'short_question'
 # Stores re-mapped questions e.g. 'Issue Description' and its variants all mapped to
 # 'Comment - Technical'
@@ -76,6 +84,16 @@ if not all([isinstance(short_question, str) for short_question in comments['shor
 # Rarely, a learner will have left a comment without indicating overall satisfaction
 # Assign these comments value '\N' (null integer in MySQL)
 comments['overall_satisfaction'] = comments['survey_id'].map(overall_sat_map).fillna('\\N')
+
+# Create new column 'learner_dept_code'
+comments['learner_dept_code'] = comments['learner_dept'].map(department_map)
+
+# Check if column 'learner_dept_code' properly mapped
+# Unknown values would be assgined value 'np.nan', which has dtype 'float'
+# Therefore, check all values have dtype 'str'
+for tup in comments.loc[:, ['learner_dept', 'learner_dept_code']].drop_duplicates().itertuples():
+	if isinstance(tup[2], float):
+		logger.info('New department entered in comments: "{0}"'.format(tup[1]))
 
 # Create boolean column 'nanos' indicating if response from new survey
 comments['nanos'] = comments['original_question'].map(check_nanos)
