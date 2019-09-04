@@ -17,13 +17,17 @@ create_table = """
 	CREATE TABLE new_ratings(
 		course_code VARCHAR(20),
 		survey_id VARCHAR(15),
+		offering_id INT,
 		fiscal_year VARCHAR(9),
 		month_en VARCHAR(10),
 		month_fr VARCHAR(10),
+		learner_classif VARCHAR(80),
+		learner_dept VARCHAR(150),
 		original_question VARCHAR(75),
 		numerical_answer TINYINT,
 		text_answer_en VARCHAR(40),
 		text_answer_fr VARCHAR(40),
+		learner_dept_code VARCHAR(75),
 		PRIMARY KEY(survey_id, original_question)
 	);
 """
