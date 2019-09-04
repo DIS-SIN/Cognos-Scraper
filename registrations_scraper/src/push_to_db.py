@@ -43,6 +43,8 @@ create_table = """
 		learner_classif VARCHAR(40),
 		billing_dept_name_en VARCHAR(150),
 		billing_dept_name_fr VARCHAR(200),
+		billing_dept_code VARCHAR(120),
+		current_dept_code VARCHAR(120),
 		offering_city_fr VARCHAR(50),
 		learner_city_fr VARCHAR(50),
 		offering_lat DECIMAL(10, 8),
@@ -59,7 +61,7 @@ load_data = """
 	TERMINATED BY ','
 	LINES TERMINATED BY '\r\n'
 	IGNORE 1 LINES
-	(course_title_en, course_title_fr, course_code, business_type, offering_id, @temp_start_date, @temp_end_date, month_en, month_fr, client, offering_status, offering_language, offering_region_en, offering_region_fr, offering_province_en, offering_province_fr, offering_city_en, learner_province_en, learner_province_fr, learner_city_en, reg_id, reg_status, no_show, learner_id, learner_language, learner_classif, billing_dept_name_en, billing_dept_name_fr, offering_city_fr, learner_city_fr, offering_lat, offering_lng, learner_lat, learner_lng)
+	(course_title_en, course_title_fr, course_code, business_type, offering_id, @temp_start_date, @temp_end_date, month_en, month_fr, client, offering_status, offering_language, offering_region_en, offering_region_fr, offering_province_en, offering_province_fr, offering_city_en, learner_province_en, learner_province_fr, learner_city_en, reg_id, reg_status, no_show, learner_id, learner_language, learner_classif, billing_dept_name_en, billing_dept_name_fr, billing_dept_code, current_dept_code, offering_city_fr, learner_city_fr, offering_lat, offering_lng, learner_lat, learner_lng)
 	SET start_date = STR_TO_DATE(@temp_start_date, '%Y-%m-%d %T'),
 	end_date = STR_TO_DATE(@temp_end_date, '%Y-%m-%d %T');
 """.format(PROCESSED_DIR)
