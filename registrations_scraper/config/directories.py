@@ -1,1 +1,1 @@
-PROCESSED_DIR  = '/home/ubuntu/Cognos-Scraper/registrations_scraper/processed'
+PROCESSED_DIR = '/home/ubuntu/Cognos-Scraper/registrations_scraper/processed'
