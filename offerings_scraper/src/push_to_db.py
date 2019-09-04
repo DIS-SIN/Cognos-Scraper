@@ -25,6 +25,7 @@ create_table = """
 		waitlisted_count SMALLINT UNSIGNED,
 		no_show_count SMALLINT UNSIGNED,
 		business_type VARCHAR(30),
+		event_description TEXT,
 		fiscal_year VARCHAR(7),
 		quarter VARCHAR(2),
 		start_date DATE,
@@ -51,8 +52,8 @@ load_data = """
 	LINES TERMINATED BY '\r\n'
 	IGNORE 1 LINES
 	(offering_id, course_title_en, course_title_fr, course_code, instructor_names,
-	confirmed_count, cancelled_count, waitlisted_count, no_show_count, business_type, fiscal_year,
-	quarter, @temp_start_date, @temp_end_date, client, offering_status, offering_language,
+	confirmed_count, cancelled_count, waitlisted_count, no_show_count, business_type, event_description,
+	fiscal_year, quarter, @temp_start_date, @temp_end_date, client, offering_status, offering_language,
 	offering_region_en,	offering_region_fr, offering_province_en, offering_province_fr,
 	offering_city_en, offering_city_fr, offering_lat, offering_lng)
 	SET start_date = STR_TO_DATE(@temp_start_date, '%Y-%m-%d %T'),

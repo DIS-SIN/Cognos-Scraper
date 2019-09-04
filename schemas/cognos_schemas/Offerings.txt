@@ -37,6 +37,9 @@ TOTAL (IF (([Registration (public)].[Miscellaneous].[RegistrationNoShowFlag] = 1
 business_type
 IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] IN ('Documentation', 'Online - Scheduled (VOID)', 'Online - Self-Paced')) THEN ('Online') ELSE (IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] IN ('Classroom', 'Correction', 'Virtual Classroom')) THEN ('Instructor-Led') ELSE(IF ([Registration (public)].[Offering].[OfferingDeliveryType_EN] IN ('Event (in-person)', 'Learning Event(in person)', 'Learning Event (Virtual)*', 'Web Conference (VOID)', 'Webcast (VOID)')) THEN ('Events') ELSE('Error - Check Delivery Type')))
 
+event_description
+IF ([business_type] = 'Events' AND [Registration (public)].[Offering].[EventTitle] <> 'Unknown') THEN ([Registration (public)].[Offering].[EventTitle]) ELSE ('')
+
 fiscal_year
 CASE
 WHEN EXTRACT(MONTH, [start_date]) >=4 THEN CAST(EXTRACT(YEAR, [start_date]), VARCHAR(10)) + '-' + SUBSTRING(CAST(EXTRACT(YEAR, [start_date])+1, VARCHAR(10)), 3, 4)
