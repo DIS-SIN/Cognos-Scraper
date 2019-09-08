@@ -3,6 +3,8 @@ in Python sets for O(1) lookup times.
 """
 
 ORIGINAL_QUESTION = {
+	'Overall Satisfaction', # Only question persisted from old surveys
+	'1. Satisfaction Overall',
 	'3. Satisfaction - Level of detail of the content',
 	'4. Satisfaction - Quality of the content',
 	'5. Satisfaction - Language quality of the materials (English or French)',
@@ -34,10 +36,13 @@ TEXT_ANSWER_EN = {
 	'8',
 	'9',
 	'10',
+	'Agree', # From old surveys' field 'Overall Satisfaction'
 	'Did not use tool',
+	'Disagree', # From old surveys' field 'Overall Satisfaction'
 	'Exceeded',
 	'Likely',
 	'Met',
+	'Neither agree nor disagree', # From old surveys' field 'Overall Satisfaction'
 	'No',
 	'Not met',
 	'Not valuable',
@@ -45,6 +50,8 @@ TEXT_ANSWER_EN = {
 	'Somewhat not valuable',
 	'Somewhat unlikely',
 	'Somewhat valuable',
+	'Strongly agree', # From old surveys' field 'Overall Satisfaction'
+	'Strongly disagree', # From old surveys' field 'Overall Satisfaction'
 	'Unlikely',
 	'Valuable',
 	'Yes'

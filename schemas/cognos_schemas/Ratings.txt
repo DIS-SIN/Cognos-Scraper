@@ -1,22 +1,24 @@
 Offering Start Date between Mar 31, 2018 11:59:59:99 PM and Mar 31, 2020 11:59:59:99 PM
 original_question includes [
-	3. Satisfaction - Level of detail of the content
-	4. Satisfaction - Quality of the content
-	5. Satisfaction - Language quality of the materials (English or French)
-	6. Satisfaction - Quality of the graphics
-	7. Satisfaction Ease of navigation
-	10. Before this learning activity
-	11. After this learning activity
-	12. Expectations Met
-	13. Recommend learning Activity
-	14. GCCampus Usage
-	15. Videos
-	16. Blogs
-	17. Forums
-	18. Job aids
-	20. This learning activity is a valuable use of my time
-	21. This learning activity is relevant to my job
-	22. This learning activity is contributing to my performance on the job
+	Overall Satisfaction, # Only question persisted from old surveys
+	1. Satisfaction Overall,
+	3. Satisfaction - Level of detail of the content,
+	4. Satisfaction - Quality of the content,
+	5. Satisfaction - Language quality of the materials (English or French),
+	6. Satisfaction - Quality of the graphics,
+	7. Satisfaction Ease of navigation,
+	10. Before this learning activity,
+	11. After this learning activity,
+	12. Expectations Met,
+	13. Recommend learning Activity,
+	14. GCCampus Usage,
+	15. Videos,
+	16. Blogs,
+	17. Forums,
+	18. Job aids,
+	20. This learning activity is a valuable use of my time,
+	21. This learning activity is relevant to my job,
+	22. This learning activity is contributing to my performance on the job,
 	23. I can apply what I have learned on the job
 ]
 [Evaluation (query)].[Eval - Questions and Answers].[Numerical Answer] IS NOT NULL (advanced filter)
@@ -51,7 +53,7 @@ original_question
 [Evaluation (query)].[Eval - Questions and Answers].[Short Question_EN]
 
 numerical_answer
-[Evaluation (query)].[Eval - Questions and Answers].[Numerical Answer]
+IF ([Evaluation (query)].[Eval - Questions and Answers].[Short Question_EN] = 'Overall Satisfaction') THEN ([Evaluation (query)].[Eval - Questions and Answers].[Numerical Answer] * 2) ELSE ([Evaluation (query)].[Eval - Questions and Answers].[Numerical Answer])
 
 text_answer_en
 [Evaluation (query)].[Eval - Questions and Answers].[Long Answer]
