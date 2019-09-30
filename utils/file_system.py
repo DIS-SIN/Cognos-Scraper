@@ -4,9 +4,7 @@ import time
 
 
 def check_file_exists(filename):
-	"""Check every 5 seconds if file exists in current working directory; send
-	email on error.
-	"""
+	"""Check every 5 seconds if file exists in current working directory."""
 	ctr = 0
 	while not os.path.isfile(filename):
 		if ctr == 60:
