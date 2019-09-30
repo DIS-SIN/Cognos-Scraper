@@ -53,7 +53,7 @@ original_question
 [Evaluation (query)].[Eval - Questions and Answers].[Short Question_EN]
 
 numerical_answer
-IF ([Evaluation (query)].[Eval - Questions and Answers].[Short Question_EN] = 'Overall Satisfaction') THEN ([Evaluation (query)].[Eval - Questions and Answers].[Numerical Answer] * 2) ELSE ([Evaluation (query)].[Eval - Questions and Answers].[Numerical Answer])
+[Evaluation (query)].[Eval - Questions and Answers].[Numerical Answer]
 
 text_answer_en
 [Evaluation (query)].[Eval - Questions and Answers].[Long Answer]
