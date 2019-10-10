@@ -49,18 +49,27 @@ def get_lat_lng(city, prov, geo_dict, fail_ctr):
 	if geo_request.status_code == 200:
 		geo_response = json.loads(geo_request.text)
 	else:
-		logger.warning('Request error with city {0}: {1}'.format(lookup_city, geo_request.status_code))
+		logger.warning('Request error with city {0}: {1}'.format(memo_city, geo_request.status_code))
 		fail_ctr += 1
+		# Allow up to 3 network or API errors
 		if fail_ctr >= 3:
 			exit()
+		return {'lat': '\\N', 'lng': '\\N'}
 	
 	# Check if API response status is 'OK'
 	api_status = geo_response['status']
 	if api_status != 'OK':
-		logger.warning('API error with city {0}: {1}'.format(lookup_city, api_status))
+		logger.warning('API error with city {0}: {1}'.format(memo_city, api_status))
+		# Allow up to 3 network or API errors
 		fail_ctr += 1
 		if fail_ctr >= 3:
 			exit()
+		# Assume the city was junk entered in GCcampus and assign it null coördinates
+		# Log the assignment to Slack so can be confirmed as junk
+		results = {'lat': '\\N', 'lng': '\\N'}
+		geo_dict[memo_city] = results
+		logger.info('{0} is assumed to be junk and has been assigned null coördinates.'.format(memo_city))
+		return results
 	
 	# Parse results and memoize
 	lat = geo_response['results'][0]['geometry']['location']['lat']
