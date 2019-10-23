@@ -21,7 +21,7 @@ if PASSWORD is None:
 
 # Delete previous raw data downloads
 os.chdir(shared_directories.DOWNLOADS_DIR)
-delete_files_of_this_ilk('LSR Mini')
+delete_files_of_this_ilk('Registrations')
 logger.debug('1/7: Previous files deleted.')
 
 # Open virtual viewport
@@ -43,7 +43,7 @@ logger.debug('4/7: Logged in to Cognos.')
 # Download LSR
 browser.get(os.environ.get('LSR_URL'))
 os.chdir(shared_directories.DOWNLOADS_DIR)
-if not check_file_exists('LSR Mini.csv'):
+if not check_file_exists('Registrations.csv'):
 	logger.critical('Failure: LSR download unsuccessful.')
 	exit()
 logger.debug('5/7: LSR downloaded.')

@@ -14,10 +14,10 @@ logger = logging.getLogger(__name__)
 # encoded with UTF-16 Little Endian
 # 'object' datatype in Pandas is synonymous with 'str'
 os.chdir(shared_directories.DOWNLOADS_DIR)
-regs = pd.read_csv('LSR Mini.csv', sep='\t', index_col=False, encoding='utf_16_le',
+regs = pd.read_csv('Registrations.csv', sep='\t', index_col=False, encoding='utf_16_le',
 				   keep_default_na=False)
 if not regs.shape[0] > 0:
-	logger.critical('Failure: LSR Mini.csv is empty.')
+	logger.critical('Failure: Registrations.csv is empty.')
 	exit()
 
 logger.debug('1/4: Data imported.')
