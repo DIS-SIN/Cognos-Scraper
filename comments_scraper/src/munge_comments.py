@@ -12,14 +12,14 @@ from comments_scraper.config.comments_unique_vals import check_nanos
 logger = logging.getLogger(__name__)
 
 ### IMPORT RAW DATA ###
-# Files exported by Cognos have .xls extension but are tab-separated and
+# Files exported by Cognos have .csv extension but are tab-separated and
 # encoded with UTF-16 Little Endian
 # 'object' datatype in Pandas is synonymous with 'str'
 os.chdir(shared_directories.DOWNLOADS_DIR)
-comments = pd.read_csv('Comments.xls', sep='\t', index_col=False, encoding='utf_16_le',
+comments = pd.read_csv('Comments.csv', sep='\t', index_col=False, encoding='utf_16_le',
 					   dtype={'survey_id': 'object'}, keep_default_na=False)
 if not comments.shape[0] > 0:
-	logger.critical('Failure: Comments.xls is empty.')
+	logger.critical('Failure: Comments.csv is empty.')
 	exit()
 
 logger.debug('1/4: Data imported.')
@@ -54,10 +54,10 @@ if not short_question_map.shape[0] > 0:
 
 # Import mapping for column 'overall_satisfaction'
 os.chdir(shared_directories.DOWNLOADS_DIR)
-overall_sat_map = pd.read_csv('Overall Satisfaction.xls', sep='\t', index_col=0,
+overall_sat_map = pd.read_csv('Overall Satisfaction.csv', sep='\t', index_col=0,
 							  squeeze=True, encoding='utf_16_le')
 if not overall_sat_map.shape[0] > 0:
-	logger.critical('Failure: Overall Satisfaction.xls is empty.')
+	logger.critical('Failure: Overall Satisfaction.csv is empty.')
 	exit()
 
 # Import mapping for column 'learner_dept_code'

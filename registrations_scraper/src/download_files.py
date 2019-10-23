@@ -43,7 +43,7 @@ logger.debug('4/7: Logged in to Cognos.')
 # Download LSR
 browser.get(os.environ.get('LSR_URL'))
 os.chdir(shared_directories.DOWNLOADS_DIR)
-if not check_file_exists('LSR Mini.xls'):
+if not check_file_exists('LSR Mini.csv'):
 	logger.critical('Failure: LSR download unsuccessful.')
 	exit()
 logger.debug('5/7: LSR downloaded.')

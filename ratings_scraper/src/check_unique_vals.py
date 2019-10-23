@@ -14,10 +14,10 @@ logger = logging.getLogger(__name__)
 
 ### IMPORT RAW DATA ###
 os.chdir(shared_directories.DOWNLOADS_DIR)
-df = pd.read_csv('Ratings.xls', sep='\t', index_col=False, encoding='utf_16_le',
+df = pd.read_csv('Ratings.csv', sep='\t', index_col=False, encoding='utf_16_le',
 				 keep_default_na=False)
 if not df.shape[0] > 0:
-	logger.critical('Failure: Ratings.xls is empty.')
+	logger.critical('Failure: Ratings.csv is empty.')
 	exit()
 logger.debug('1/7: Data imported.')
 

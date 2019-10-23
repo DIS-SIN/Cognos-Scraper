@@ -43,7 +43,7 @@ logger.debug('4/7: Logged in to Cognos.')
 # Download department codes and names
 browser.get(os.environ.get('DEPARTMENTS_URL'))
 os.chdir(shared_directories.DOWNLOADS_DIR)
-if not check_file_exists('Departments.xls'):
+if not check_file_exists('Departments.csv'):
 	logger.critical('Failure: Departments download unsuccessful.')
 	exit()
 logger.debug('5/7: Department codes and names downloaded.')

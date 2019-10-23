@@ -43,7 +43,7 @@ logger.debug('4/7: Logged in to Cognos.')
 # Download ratings
 browser.get(os.environ.get('RATINGS_URL'))
 os.chdir(shared_directories.DOWNLOADS_DIR)
-if not check_file_exists('Ratings.xls'):
+if not check_file_exists('Ratings.csv'):
 	logger.critical('Failure: Ratings download unsuccessful.')
 	exit()
 logger.debug('5/7: Ratings downloaded.')

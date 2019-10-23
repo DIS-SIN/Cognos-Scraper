@@ -46,7 +46,7 @@ logger.debug('4/8: Logged in to Cognos.')
 # Download comments
 browser.get(os.environ.get('COMMENTS_URL'))
 os.chdir(shared_directories.DOWNLOADS_DIR)
-if not check_file_exists('Comments.xls'):
+if not check_file_exists('Comments.csv'):
 	logger.critical('Failure: Comments download unsuccessful')
 	exit()
 logger.debug('5/8: Comments downloaded.')
@@ -54,7 +54,7 @@ logger.debug('5/8: Comments downloaded.')
 # Download overall satisfaction
 browser.get(os.environ.get('OVERALL_SATISFACTION_URL'))
 os.chdir(shared_directories.DOWNLOADS_DIR)
-if not check_file_exists('Overall Satisfaction.xls'):
+if not check_file_exists('Overall Satisfaction.csv'):
 	logger.critical('Failure: Overall satisfaction download unsuccessful')
 	exit()
 logger.debug('6/8: Overall satisfaction downloaded.')

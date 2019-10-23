@@ -15,8 +15,8 @@ def check_file_exists(filename):
 
 
 def delete_files_of_this_ilk(ilk):
-	"""Delete 'Foo.xls', 'Foo (1).xls', etc. from current working directory."""
-	files = glob.glob('{0}*.xls'.format(ilk))
+	"""Delete 'Foo.csv', 'Foo (1).csv', etc. from current working directory."""
+	files = glob.glob('{0}*.csv'.format(ilk))
 	for file in files:
 		try:
 			os.remove(file)

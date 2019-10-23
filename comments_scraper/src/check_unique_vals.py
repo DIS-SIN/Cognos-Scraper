@@ -14,10 +14,10 @@ logger = logging.getLogger(__name__)
 
 ### IMPORT RAW DATA ###
 os.chdir(shared_directories.DOWNLOADS_DIR)
-comments = pd.read_csv('Comments.xls', sep='\t', index_col=False, encoding='utf_16_le',
+comments = pd.read_csv('Comments.csv', sep='\t', index_col=False, encoding='utf_16_le',
 					   dtype={'survey_id': 'object'}, keep_default_na=False)
 if not comments.shape[0] > 0:
-	logger.critical('Failure: Comments.xls is empty.')
+	logger.critical('Failure: Comments.csv is empty.')
 	exit()
 logger.debug('1/4: Data imported.')
 

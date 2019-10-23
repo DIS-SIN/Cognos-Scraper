@@ -6,7 +6,7 @@ from config.logger_config import logger_dict
 
 def main():
 	# Comments scraper
-	from comments_scraper.src import download_files
+	# from comments_scraper.src import download_files
 	from comments_scraper.src import compare_row_counts
 	from comments_scraper.src import check_unique_vals
 	from comments_scraper.src import munge_comments
@@ -14,13 +14,13 @@ def main():
 	from comments_scraper.src import push_to_db
 	
 	# Ratings scraper
-	from ratings_scraper.src import download_files
+	# from ratings_scraper.src import download_files
 	from ratings_scraper.src import check_unique_vals
 	from ratings_scraper.src import munge_ratings
 	from ratings_scraper.src import push_to_db
 	
 	# Registrations scraper
-	from registrations_scraper.src import download_files
+	# from registrations_scraper.src import download_files
 	from registrations_scraper.src import compare_row_counts
 	from registrations_scraper.src import check_unique_vals
 	from registrations_scraper.src import munge_registrations
@@ -28,14 +28,14 @@ def main():
 	from registrations_scraper.src import push_to_db
 	
 	# Offerings scraper
-	from offerings_scraper.src import download_files
+	# from offerings_scraper.src import download_files
 	from offerings_scraper.src import check_unique_vals
 	from offerings_scraper.src import munge_offerings
 	from offerings_scraper.src import geocode_offerings
 	from offerings_scraper.src import push_to_db
 	
 	# Departments scraper
-	from departments_scraper.src import download_files
+	# from departments_scraper.src import download_files
 	from departments_scraper.src import munge_departments
 	from departments_scraper.src import push_to_db
 
