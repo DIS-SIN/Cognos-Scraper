@@ -46,7 +46,7 @@ load_data = """
 """.format(PROCESSED_DIR)
 
 create_index = """
-	CREATE INDEX idx_cc_sq ON new_comments(course_code, short_question);
+	CREATE INDEX idx_sq_cc_fy_ldc_strs ON comments(short_question, course_code, fiscal_year, learner_dept_code, stars);
 """
 
 # Rename tables in a single atomic transaction
