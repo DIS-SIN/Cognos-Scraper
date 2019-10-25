@@ -142,7 +142,11 @@ indices = [
 	
 	# Index for REGISTHOR: billing_dept_name
 	'CREATE INDEX idx_bdnen ON new_regs(billing_dept_name_en);',
-	'CREATE INDEX idx_bdnfr ON new_regs(billing_dept_name_fr);'
+	'CREATE INDEX idx_bdnfr ON new_regs(billing_dept_name_fr);',
+	
+	# Index for REGISTHOR: load_training_locations
+	'CREATE INDEX idx_bdc_rs_ocen ON new_regs(billing_dept_code, reg_status, offering_city_en);',
+	'CREATE INDEX idx_bdc_rs_ocfr ON new_regs(billing_dept_code, reg_status, offering_city_fr);'
 ]
 
 # Rename tables in a single atomic transaction
