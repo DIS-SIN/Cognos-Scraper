@@ -67,87 +67,67 @@ load_data = """
 """.format(PROCESSED_DIR)
 
 indices = [
+	### browse_queries.py ###
 	# Index for selection page
 	'CREATE INDEX idx_cc_cten ON new_regs(course_code, course_title_en);',
 	'CREATE INDEX idx_cc_ctfr ON new_regs(course_code, course_title_fr);',
-	'CREATE INDEX idx_cten_cc ON new_regs(course_title_en, course_code);',
-	'CREATE INDEX idx_ctfr_cc ON new_regs(course_title_fr, course_code);',
 	
-	# Index for open, delivered, cancelled offerings
-	'CREATE INDEX idx_cc_os_oid ON new_regs(course_code, offering_status, offering_id);',
 	
-	# Index for client requests
-	'CREATE INDEX idx_cc_cl_os_oid ON new_regs(course_code, client, offering_status, offering_id);',
 	
-	# Index for confirmed regs
-	'CREATE INDEX idx_cc_rs ON new_regs(course_code, reg_status);',
-	
-	# Index for total no-shows
-	'CREATE INDEX idx_cc_ns ON new_regs(course_code, no_show);',
-	
+	### dashboard_learner_queries.py ###
 	# Index for combo no-shows and registrations per month
 	'CREATE INDEX idx_cc_mnen_rs_ns ON new_regs(course_code, month_en, reg_status, no_show);',
 	'CREATE INDEX idx_cc_mnfr_rs_ns ON new_regs(course_code, month_fr, reg_status, no_show);',
 	
-	# Index for class OfferingLocations
-	'CREATE INDEX idx_cc_os_oren_open_ocen_oid ON new_regs(course_code, offering_status, offering_region_en, offering_province_en, offering_city_en, offering_id);',
-	'CREATE INDEX idx_cc_os_orfr_opfr_ocfr_oid ON new_regs(course_code, offering_status, offering_region_fr, offering_province_fr, offering_city_fr, offering_id);',
-	
-	# Index for offerings per language
-	'CREATE INDEX idx_cc_os_ol_oid ON new_regs(course_code, offering_status, offering_language, offering_id);',
-	
-	# Index for offerings cancelled
-	# None needed, already runs in 0.0s
-	
-	# Index for offerings cancelled global
-	'CREATE INDEX idx_bt_os_oid ON new_regs(business_type, offering_status, offering_id);',
+	# Index for top 5 classifications
+	'CREATE INDEX idx_cc_rs_lc ON new_regs(course_code, reg_status, learner_classif);',
 	
 	# Index for top 5 departments
 	'CREATE INDEX idx_cc_rs_bdnen ON new_regs(course_code, reg_status, billing_dept_name_en);',
 	'CREATE INDEX idx_cc_rs_bdnfr ON new_regs(course_code, reg_status, billing_dept_name_fr);',
 	
-	# Index for top 5 classifications
-	'CREATE INDEX idx_cc_rs_lc ON new_regs(course_code, reg_status, learner_classif);',
+	# Index for unique learners
+	'CREATE INDEX idx_cc_rs_lid ON new_regs(course_code, reg_status, learner_id);',
 	
+	
+	
+	### dashboard_offering_queries.py ###
 	# Index for average class size
 	'CREATE INDEX idx_cc_rs_oid ON new_regs(course_code, reg_status, offering_id);',
 	
-	# Index for average class size global
+	# Index for	average class size global
 	'CREATE INDEX idx_rs_bt_oid ON new_regs(reg_status, business_type, offering_id);',
 	
 	# Index for average no-shows
-	# None needed, already runs in 0.0s
+	'CREATE INDEX idx_cc_os_oid ON new_regs(course_code, offering_status, offering_id);',
 	
 	# Index for average no-shows global
 	'CREATE INDEX idx_ns ON new_regs(no_show);',
-	
-	# Index for offering city counts
-	'CREATE INDEX idx_cc_os_ocen_olat_olng_oid ON new_regs(course_code, offering_status, offering_city_en, offering_lat, offering_lng, offering_id);',
-	'CREATE INDEX idx_cc_os_ocfr_olat_olng_oid ON new_regs(course_code, offering_status, offering_city_fr, offering_lat, offering_lng, offering_id);',
+	'CREATE INDEX idx_bt_os_oid ON new_regs(business_type, offering_status, offering_id);',
 	
 	# Index for learner city counts
 	'CREATE INDEX idx_cc_rs_lcen_llat_llng_lid ON new_regs(course_code, reg_status, learner_city_en, learner_lat, learner_lng, learner_id);',
 	'CREATE INDEX idx_cc_rs_lcfr_llat_llng_lid ON new_regs(course_code, reg_status, learner_city_fr, learner_lat, learner_lng, learner_id);',
 	
-	# Index for regs per month
-	'CREATE INDEX idx_cc_rs_mnen ON new_regs(course_code, reg_status, month_en);',
-	'CREATE INDEX idx_cc_rs_mnfr ON new_regs(course_code, reg_status, month_fr);',
 	
-	# Index for REGISTHOR: learner_city and learner_province
+	
+	### REGISTHOR ###
+	# learner_city and learner_province
 	'CREATE INDEX idx_lcen_lpen ON new_regs(learner_city_en, learner_province_en);',
 	'CREATE INDEX idx_lcfr_lpfr ON new_regs(learner_city_fr, learner_province_fr);',
 	
-	# Index for REGISTHOR: learner_classif
+	# learner_classif
 	'CREATE INDEX idx_lclassif ON new_regs(learner_classif);',
 	
-	# Index for REGISTHOR: billing_dept_name
+	# billing_dept_name
 	'CREATE INDEX idx_bdnen ON new_regs(billing_dept_name_en);',
 	'CREATE INDEX idx_bdnfr ON new_regs(billing_dept_name_fr);',
 	
-	# Index for REGISTHOR: load_training_locations
-	'CREATE INDEX idx_bdc_rs_ocen ON new_regs(billing_dept_code, reg_status, offering_city_en);',
-	'CREATE INDEX idx_bdc_rs_ocfr ON new_regs(billing_dept_code, reg_status, offering_city_fr);'
+	# load_training_locations
+	'CREATE INDEX idx_bdc_rs_ocen_olat_olng ON new_regs(billing_dept_code, reg_status, offering_city_en, offering_lat, offering_lng);',
+	'CREATE INDEX idx_bdc_rs_ocfr_olat_olng ON new_regs(billing_dept_code, reg_status, offering_city_fr, offering_lat, offering_lng);'
 ]
+
 
 # Rename tables in a single atomic transaction
 # Ensures clean switchover + no downtime
