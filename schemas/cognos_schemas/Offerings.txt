@@ -1,4 +1,4 @@
-OfferingStartDateDwKey between 20180400 and 20200400
+OfferingStartDateDwKey between 20180400 and 20210400
 OfferingDeliveryType_EN excludes [
 	Documentation
 	Online - Scheduled (VOID)

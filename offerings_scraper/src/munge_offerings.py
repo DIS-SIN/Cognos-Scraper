@@ -26,7 +26,7 @@ logger.debug('1/4: Data imported.')
 # Ensure column 'course_code' is uppercase
 df['course_code'] = df['course_code'].astype(str).str.upper()
 
-# Remove whitespace from column 'fiscal_year' and switch format from '2019-2020' to
+# Remove whitespace from column 'fiscal_year' and switch format from e.g. '2019-2020' to
 # '2019-20'
 df['fiscal_year'] = df['fiscal_year'].astype(str).str.strip()
 year_pattern = re.compile(pattern=r'([-]{1}\d{2})(?=\d{2})')
